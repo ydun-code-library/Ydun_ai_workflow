@@ -1,0 +1,36 @@
+# Dependencies
+docs/node_modules/
+
+# Build output
+docs/dist/
+docs/.astro/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Template sync backups
+.template-sync-backup/
+*.backup
+
+# Temp files
+*.swp
+*.swo
+*~
+.*.tmp
+
+# Logs
+*.log
+
+# Bun
+docs/bun.lock
+
+# Internal planning docs (contain infrastructure references)
+IMPLEMENTATION-PLAN.md
+NEXT-SESSION-START-HERE.md
