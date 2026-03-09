@@ -1,0 +1,19 @@
+# Ydun AI Workflow
+
+> Production-tested templates, principles, and patterns for AI-assisted development.
+
+## Templates
+
+- [AGENTS.md Template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/core/AGENTS.md.template): AI assistant project guidelines following the agents.md standard
+- [CLAUDE.md Template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/core/CLAUDE.md.template): Quick reference for Claude instances
+- [Jimmy's Workflow](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/JIMMYS-WORKFLOW.md): Four-phase validation system (PRE-FLIGHT, IMPLEMENT, VALIDATE, CHECKPOINT)
+
+## Prompts
+
+- [Audit Framework](https://github.com/ydun-code-library/Ydun_ai_workflow/tree/main/prompts/audit): Multi-lens codebase audit system with 5 specialised templates
+- [CAP Methodology](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/prompts/methodology/cap-workflow-methodology.md): Composable, Auditable, Portable prompt design
+- [Prompt Testing](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/prompts/methodology/prompt-testing-implementation-guide.md): Validation patterns in Python, TypeScript, and Rust
+
+## Documentation
+
+- [Full Documentation](https://docs.ydun.io): Guides, research, and methodology deep-dives
