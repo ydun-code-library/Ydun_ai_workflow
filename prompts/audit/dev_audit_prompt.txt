@@ -1,0 +1,220 @@
+# DEVELOPMENT CODEBASE AUDIT - CLAUDE CODE
+## Jimmy's Workflow: Fast Iteration + Actionable Fixes
+
+## CONTEXT
+Development audit for **shipping faster with fewer bugs**. Identifies velocity blockers, suggests fixes, prioritizes by impact, focuses on "what's slowing us NOW".
+
+## DIRECTIVES
+SPEED: Fast insights > exhaustive | ACTIONABLE: Every finding = fix | PRIORITIZE: Velocity > perfection | VERIFY: Streamlined checkpoints | ITERATE: Weekly/per-feature
+
+## PHILOSOPHY
+**Production:** Quarterly risk assessment → "All problems" → You decide
+**Development:** Weekly velocity → "What's slowing you" → Fix these 3 today
+**Micro-Checkpoints:** 🔴 Scan → 🟢 Verify → 🔵 Fix (5-15min each)
+
+## PHASE 1: RECON (5min)
+
+```bash
+find . -type f -name "*.{js,ts,py}" | wc -l > /tmp/file_count.txt
+find . -name "*.test.*" | wc -l > /tmp/test_count.txt
+grep -r "console.log" src/ 2>/dev/null | wc -l > /tmp/console_count.txt
+grep -r "TODO\|FIXME" src/ 2>/dev/null | wc -l > /tmp/todo_count.txt
+echo "Files: $(cat /tmp/file_count.txt) Tests: $(cat /tmp/test_count.txt) Logs: $(cat /tmp/console_count.txt) TODOs: $(cat /tmp/todo_count.txt)"
+```
+**Assess:** Test ratio <0.3? Logs >20? TODOs >50? → Issues
+
+## PHASE 2: BLOCKERS (30min)
+
+**CRITICAL INSTRUCTION FOR LLM:**
+For each BLOCKER (0-5), you MUST:
+1. Execute the **🔴 SCAN** commands and save results to `/tmp/` files
+2. **🟢 VERIFY** by counting results and spot-checking top 3 examples from each file
+3. **🔵 GENERATE FIXES** that reference specific file:line from the `/tmp/` files with exact code changes
+4. Fixes must be concrete, traceable, and based on scan evidence (not generalized suggestions)
+5. Prioritize top 3 most severe examples per blocker for the final report
+
+Example of proper fix: ❌ "Fix type errors" → ✅ "src/auth.ts:45: Change `user: any` to `user: User | null`"
+
+### BLOCKER 0: AGENTS.md Principles (8min)
+
+**🔴 SCAN:**
+```bash
+test -f AGENTS.md || echo "❌ MISSING"
+# 1.KISS: find src/ -name "*.{js,ts}" | while read f; do LINES=$(wc -l < "$f"); [ "$LINES" -gt 200 ] && echo "$f: $LINES"; done > /tmp/kiss.txt
+# 2.TDD: npm test 2>&1 | tee /tmp/test_out.txt
+# 3.SOC: grep -rn "SELECT.*FROM" --include="*.jsx" src/ > /tmp/soc.txt
+# 4.DRY: find src/ -name "*.js" | while read f; do awk 'NR>2 {print p2; p2=p1; p1=$0}' "$f" | sort | uniq -d; done > /tmp/dry.txt
+# 5.Docs: grep "Last Updated:" AGENTS.md
+# 6.Workflow: grep -rn "🔴\|🟢\|🔵" docs/ > /tmp/wf.txt
+# 7.YAGNI: npx ts-prune | grep "used in module" > /tmp/unused.txt
+# 8.Fix: grep -rn "@ts-ignore\|TODO.*later" src/ > /tmp/suppressed.txt
+```
+
+**🟢 VERIFY:** Count results from /tmp/ files, spot-check top 3 examples
+
+**🔵 FIXES:** Generate concrete, line-level fixes from /tmp/ file evidence. For each violation found, reference specific file:line and provide exact fix. Prioritize top 3 most severe examples.
+
+**Example Fixes:**
+- AGENTS.md outdated → Update dates/status → `git commit -m "docs: update"`
+- src/auth.ts:45: Suppressed @ts-ignore (Fix Now violation) → Fix type: `user: User | null` instead of ignoring
+- src/components/UserList.tsx:12: SQL in UI (SOC violation) → Move to service: `const users = useQuery(getUsersFromDB)`
+- Failing tests → Fix before commit (TDD)
+
+### BLOCKER 1: AI Patterns (10min)
+
+**🔴 SCAN:**
+```bash
+# Fingerprints: verbose names, over-commenting >30%, console.log spam, excessive try-catch, import chaos >10, mixed naming, redundant types
+grep -rn "temporaryVariable\|helperFunction" src/ > /tmp/ai_verbose.txt
+find src/ -name "*.js" | while read f; do CODE=$(grep -cv "^[[:space:]]*//\|^[[:space:]]*\*" "$f"); COMM=$(grep -c "^[[:space:]]*//\|^[[:space:]]*\*" "$f"); [ "$CODE" -gt 0 ] && RATIO=$((COMM*100/CODE)) && [ "$RATIO" -gt 30 ] && echo "$f: $RATIO%"; done > /tmp/ai_comment.txt
+# Tangles: duplicate implementations, circular deps, unused params
+find src/ -name "*.js" | xargs grep -h "function.*validate" | sort | uniq -c | awk '$1>2' > /tmp/ai_dups.txt
+npx madge --circular src/ 2>/dev/null | grep -v "✓" > /tmp/ai_circular.txt
+```
+
+**🟢 VERIFY:** Count results, spot-check top 3 from each /tmp/ file
+
+**🔵 FIXES:** Reference counts and line numbers from /tmp/ files to generate top 3 most severe, specific fixes per pattern.
+
+**Example Fixes:**
+- src/utils/parser.js:45 (47% comments, ai_comment.txt) → Remove obvious comments, simplify to: `function parse(data) { return JSON.parse(data); }`
+- src/auth/validate.ts + src/users/validate.ts + src/api/validators.ts (ai_dups.txt) → Consolidate to `src/utils/validators.ts: export function validateEmail(email: string) {...}`, delete duplicates
+- src/auth.ts ↔ src/user.ts (ai_circular.txt) → Break cycle: Create `src/services/auth-service.ts`, both import from service
+- src/components/Dashboard.tsx:1-18 (ai_import_chaos.txt, 18 imports) → Split into Dashboard.tsx (UI, 5 imports), useDashboardData.ts (data, 3 imports), dashboardUtils.ts (helpers, 2 imports)
+
+### BLOCKER 2: Brittle Tests (5min)
+
+**🔴 SCAN:** `npm test --verbose 2>&1 | grep "[0-9]{4,} ms" > /tmp/slow.txt; grep -rn "it\|test" src/ | while read line; do FILE=$(echo "$line" | cut -d: -f1); LINE=$(echo "$line" | cut -d: -f2); sed -n "${LINE},$((LINE+10))p" "$FILE" | grep -q "expect" || echo "$line"; done > /tmp/no_assert.txt`
+
+**🟢 VERIFY:** Count slow tests, tests without assertions
+
+**🔵 FIXES:** Top 3 from /tmp/slow.txt and /tmp/no_assert.txt with file:line and specific fix.
+
+**Example Fixes:**
+- src/auth.test.ts:45 (3200ms, slow.txt) → Mock DB: `const getUser = jest.fn().mockResolvedValue({id: '123', name: 'Test'})`
+- src/api.test.ts:89 (no assertion, no_assert.txt) → Add: `expect(response.status).toBe(200); expect(response.data).toHaveProperty('id')`
+
+### BLOCKER 3: Complex Code (5min)
+
+**🔴 SCAN:** `find . -name "*.{js,ts}" | while read f; do [ $(wc -l < "$f") -gt 200 ] && echo "$f: $(wc -l < "$f") lines"; done > /tmp/large.txt; grep -rn "^\s\{12,\}" src/ > /tmp/nesting.txt`
+
+**🟢 VERIFY:** Count large files, deep nesting instances
+
+**🔵 FIXES:** Top 3 from /tmp/large.txt with split plan, top 3 from /tmp/nesting.txt with guard clause refactor.
+
+**Example Fixes:**
+- src/auth.ts (450 lines, large.txt) → Split: `auth/authentication.ts` (login/logout, 80 lines), `auth/session.ts` (tokens, 60 lines), `auth/password.ts` (reset, 70 lines)
+- src/api/users.ts:89 (4-level nesting, nesting.txt) → Guards: `if (!user) return res.status(401); if (!user.active) return res.status(403);`
+
+### BLOCKER 4: Missing Docs (5min)
+
+**🔴 SCAN:** `grep -rn "app\.\(get\|post\)" src/ | awk -F: '{print $1":"$2":"$3}' | sort > /tmp/actual_routes.txt; grep -rn "/api/" *.md | awk -F: '{print $2}' | sort > /tmp/documented_routes.txt; comm -23 /tmp/actual_routes.txt /tmp/documented_routes.txt > /tmp/undoc.txt`
+
+**🟢 VERIFY:** Count undocumented routes
+
+**🔵 FIXES:** Top 3 from /tmp/undoc.txt with full API documentation template.
+
+**Example Fixes:**
+- src/api/users.ts:45 (POST /api/users/register, undoc.txt) → Add to API.md: `### POST /api/users/register **Auth**: None **Body**: {email: string, password: string, name: string} **Response**: 201 {user: {...}, token: string} **Errors**: 400 (validation), 409 (email exists)`
+- src/api/payments.ts:89 (DELETE /api/payments/:id, undoc.txt) → Document in API.md with auth requirements and response codes
+
+### BLOCKER 5: Dependencies (5min)
+
+**🔴 SCAN:** `npm audit --json > /tmp/audit.json; npm ls 2>&1 | grep -E "lodash|underscore|ramda" > /tmp/dup_utils.txt; npx depcheck --json > /tmp/depcheck.json`
+
+**🟢 VERIFY:** Count critical/high CVEs, duplicate libraries, unused deps
+
+**🔵 FIXES:** Top 3 CVEs with update commands, duplicates with uninstall plan, unused with removal command.
+
+**Example Fixes:**
+- package.json: lodash@4.17.15 (CVE-2021-23337, audit.json) → `npm update lodash@4.17.21` then `npm test`
+- package.json: lodash + underscore + ramda (dup_utils.txt) → Pick lodash, `npm uninstall underscore ramda`, update 3 files: `src/utils/array.ts`, `src/helpers/format.ts`, `src/api/transform.ts`
+- package.json: moment (unused, depcheck.json) → `npm uninstall moment` (saves 289KB from bundle)
+
+## PHASE 3: QUICK WINS (10min optional)
+
+1. Remove logs: `find src/ -name "*.js" | xargs sed -i '/console\.log/d' && npm test`
+2. Format: `npm i -D prettier && npx prettier --write "src/**/*.js"`
+3. .gitignore: `echo -e "node_modules/\n.env\n.DS_Store" >> .gitignore`
+
+## PHASE 4: REPORT (5min)
+
+```markdown
+# DEV AUDIT REPORT
+**Date**: [YYYY-MM-DD] | **Time**: [X]min | **Methodology**: Jimmy's Workflow
+
+## 🔴 CRITICAL - TODAY
+0. **AGENTS.md Violations** - #2 TDD ([N] failing), #8 Fix Now ([N] suppressed), #3 SOC (SQL in UI) → Fix: BLOCKER 0 → 1-2h
+1. **AI Tangles** - [N] dups, [N] circular deps, over-commented → Fix: BLOCKER 1 → 2-4h
+
+## 🟡 IMPORTANT - WEEK
+[Issues from blockers 2-5]
+
+## 📊 METRICS
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| **Blockers Analyzed** | 5/5 | 5/5 | 🟢 |
+| **Fixes Generated** | [N] | >5 | 🟢/🟡 |
+| **Fixes with Evidence** | [N]/[N] | 100% | 🟢 |
+| AGENTS.md Compliance | [N]/8 | 8/8 | 🔴/🟡/🟢 |
+| Test Coverage | 73% | 80% | 🟡 |
+| Large Files | 12 | <5 | 🔴 |
+| CVEs | 2 | 0 | 🔴 |
+| AI Fingerprints | [N] | 0 | 🔴 |
+| Circular Deps | 3 | 0 | 🔴 |
+
+## 🎯 TOP 3 PRIORITIES (Actionable Fixes)
+
+### 1. Fix AGENTS.md Violations (BLOCKER 0)
+**Evidence from /tmp/ files - Top 3 most severe:**
+- src/auth.test.ts:124 (TDD, test_out.txt) → FIX: Change weak assertion `expect(user).toBeDefined()` to `expect(user.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)` (UUID validation)
+- src/utils/parser.ts:45 (@ts-ignore, suppressed.txt) → FIX: Remove `// @ts-ignore` and fix type: `function parse(data: unknown): ParsedData | null { if (!isValidData(data)) return null; ... }`
+- src/components/UserList.tsx:12 (SQL in UI, soc.txt) → FIX: Move query to service layer: Create `src/services/user-service.ts: export async function getActiveUsers() { return db.query('SELECT * FROM users WHERE active = true'); }`, import in component
+
+**Estimated Time**: 1-2h | **Validation**: All tests pass, no @ts-ignore, SQL only in services/
+
+### 2. Untangle AI Debt (BLOCKER 1)
+**Evidence from /tmp/ files - Top 3 most severe:**
+- src/auth/validate.ts + src/users/validate.ts + src/api/validators.ts (5 implementations, ai_dups.txt) → FIX: Consolidate to `src/utils/validators.ts: export const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)`, delete other 4 files, update 12 imports
+- src/auth.ts ↔ src/user.ts (circular, ai_circular.txt) → FIX: Create `src/services/auth-service.ts: export class AuthService { async isAuthenticated(token) {...} async getUser(id) {...} }`, refactor both files to import from service
+- src/components/Dashboard.tsx (18 imports, 450 lines, ai_import_chaos.txt + ai_comment.txt 42% comments) → FIX: Split into `Dashboard.tsx` (UI only, 5 imports, 120 lines), `hooks/useDashboardData.ts` (data fetching, 3 imports, 80 lines), `utils/dashboardHelpers.ts` (formatting, 2 imports, 60 lines)
+
+**Estimated Time**: 2-4h | **Validation**: No circular deps (madge), single validator source, files <200 lines
+
+### 3. Speed Up Tests (BLOCKER 2)
+**Evidence from /tmp/ files - Top 3 slowest:**
+- src/auth.test.ts:45 (3200ms, slow.txt) → FIX: Mock database: `const mockDB = { query: jest.fn().mockResolvedValue([{id: '123', email: 'test@example.com'}]) }; const getUser = getUserFactory(mockDB);` → Expect <100ms
+- src/api/payments.test.ts:89 (2800ms, slow.txt) → FIX: Mock external API: `jest.mock('stripe'); const stripe = require('stripe'); stripe.charges.create.mockResolvedValue({id: 'ch_123'});` → Expect <50ms
+- src/services/email.test.ts:124 (2100ms, slow.txt) → FIX: Mock email sending: `const mockSendEmail = jest.fn().mockResolvedValue({messageId: 'abc123'});` → Expect <10ms
+
+**Estimated Time**: 1-2h | **Validation**: All tests <500ms, total test suite <10s
+
+*Next: [+7 days]*
+```
+
+## COMPARISON
+
+| Aspect | Production | Development |
+|--------|-----------|-------------|
+| Goal | Risk | Velocity |
+| Time | 1-2h | 40-50min |
+| Output | Problems | Problems+Fixes |
+| Frequency | Quarterly | Weekly |
+| Audience | Leads | Devs |
+
+## EXECUTION
+1. Recon (5min) → 2. Blockers 0-5 (30min) → 3. Wins (10min opt) → 4. Report (5min) = **40-50min**
+
+## AUTONOMOUS
+**Auto-fix**: Logs, format, .gitignore, unused imports
+**Needs approval**: Refactor, deps, tests, APIs
+**Pause if**: Breaks tests, conflicts
+
+## REMEMBER
+🎯 Velocity + AGENTS.md | ⚡ Fast > perfect | 🔧 Every finding = fix | 🤖 Detect AI patterns | 📋 8 Principles | 📈 Track trends | 🔁 Weekly, lightweight
+
+**NOT**: Production replacement | One-time | Blame tool | AI criticism
+**IS**: Velocity optimizer | Weekly health | Action generator | Compliance checker | Pattern detector
+
+---
+**v1.0 Dev Audit** | Complement: Prod v2.0 | For: AI-assisted daily dev | Follows: AGENTS.md 8 Principles | Time: 40-50min weekly

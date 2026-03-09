@@ -1,0 +1,1017 @@
+# CODEBASE AUDIT PROMPT FOR CLAUDE CODE (OPUS 4.1)
+## Enhanced with Jimmy's Workflow: Red/Green Checkpoint System
+
+## CONTEXT
+You are performing a comprehensive codebase audit using Claude Code's capabilities with **Jimmy's Workflow validation gates**. Each analytical phase follows the ðŸ"´ RED → ðŸŸ¢ GREEN → ðŸ"µ CHECKPOINT pattern to ensure findings are verified, not hallucinated.
+
+## CORE DIRECTIVES
+- ANALYZE: Every file, every line, every configuration
+- VALIDATE: Prove every finding with executable verification
+- HONESTY: Report issues without softening - brutal transparency required
+- EVIDENCE: Every finding must include file:line reference and objective measurement
+- NO_FIXES: Identify problems only - zero solution suggestions
+- CHECKPOINT: Gate each phase - never proceed on unverified findings
+
+---
+
+## WORKFLOW PHILOSOPHY
+
+### Jimmy's Workflow Integration
+
+**The AI Hallucination Problem in Audits:**
+- AI says "found issue" ≠ Issue actually exists
+- Claims "complexity too high" ≠ Measurably verified
+- Reports "security risk" ≠ Proven with evidence
+- States "undocumented" ≠ Checked exhaustively
+
+**Solution: Mandatory Validation Gates**
+```
+ðŸ"´ RED: SCAN → ðŸŸ¢ GREEN: VERIFY → ðŸ"µ CHECKPOINT: RECORD
+```
+
+Every finding MUST pass through all three phases. No exceptions.
+
+---
+
+## PHASE 1: REPOSITORY INDEXING
+
+### ðŸ"´ IMPLEMENT: Scan Repository Structure
+```bash
+# Actions to perform
+find . -type f -name "*.{js,ts,py,java,go,rs,cpp,c,cs,rb,php,swift}" > /tmp/source_files.txt
+wc -l /tmp/source_files.txt  # Count total files
+cloc . --json > /tmp/cloc_output.json  # Line counts by language
+git rev-parse HEAD > /tmp/commit_hash.txt
+date -u +"%Y-%m-%dT%H:%M:%SZ" > /tmp/audit_start.txt
+```
+
+**Files to Create/Analyze:**
+- `/tmp/source_files.txt` - Complete file inventory
+- `/tmp/cloc_output.json` - Language statistics
+- `/tmp/commit_hash.txt` - Audit baseline commit
+- `/tmp/audit_start.txt` - Audit timestamp
+
+**Expected Outcome:**
+- Complete repository map created
+- File counts accurate
+- Primary languages identified
+- Baseline established
+
+**Complexity**: 🟢 Simple
+**Estimated Time**: 5 minutes
+
+---
+
+### ðŸŸ¢ VALIDATE: Verify Indexing Accuracy
+
+**Automated Verification:**
+```bash
+# Verify file count
+FILE_COUNT=$(wc -l < /tmp/source_files.txt)
+echo "Files indexed: $FILE_COUNT"
+[ "$FILE_COUNT" -gt 0 ] && echo "âœ… File indexing successful" || echo "âŒ Failed"
+
+# Verify cloc ran
+test -f /tmp/cloc_output.json && echo "âœ… CLOC data present" || echo "âŒ Missing"
+jq '.header.n_files' /tmp/cloc_output.json  # Should match find results
+
+# Verify commit hash captured
+test -f /tmp/commit_hash.txt && echo "âœ… Commit recorded" || echo "âŒ Missing"
+COMMIT=$(cat /tmp/commit_hash.txt)
+echo "Baseline commit: $COMMIT"
+
+# Verify timestamp format
+TIMESTAMP=$(cat /tmp/audit_start.txt)
+date -d "$TIMESTAMP" && echo "âœ… Valid ISO 8601" || echo "âŒ Invalid format"
+```
+
+**Manual Checks:**
+- Verify: `/tmp/source_files.txt` contains expected file extensions
+- Check: No binary files accidentally included
+- Confirm: Primary language matches repository purpose
+
+**Success Criteria:**
+- `FILE_COUNT > 0` âœ…
+- `cloc_output.json` is valid JSON âœ…
+- Commit hash is 40-char SHA âœ…
+- Timestamp is ISO 8601 format âœ…
+
+---
+
+### ðŸ"µ CHECKPOINT: Repository Indexed
+
+**Status**: 🔵 COMPLETE | 🟡 IN_PROGRESS | 🔴 BLOCKED
+
+**Validated**: [ISO 8601 timestamp]
+
+**Findings Summary:**
+- Total Files: [N]
+- Total Lines: [N]
+- Primary Language: [language]
+- Commit: [hash]
+
+**Evidence:**
+```
+$ cat /tmp/source_files.txt | wc -l
+247
+
+$ jq '.header.n_lines' /tmp/cloc_output.json
+18432
+
+$ cat /tmp/commit_hash.txt
+7a3b9c2d8e1f0a4b5c6d7e8f9a0b1c2d3e4f5a6b
+```
+
+**Rollback Procedure:**
+```bash
+# Clean temporary files if restart needed
+rm /tmp/source_files.txt /tmp/cloc_output.json /tmp/commit_hash.txt /tmp/audit_start.txt
+```
+
+**Dependencies Met**: None (first phase)
+
+**Blockers**: [None / List issues]
+
+**Critical Rule**: **NEVER proceed to Phase 2 until status is 🔵 COMPLETE**
+
+---
+
+## PHASE 2: ANALYTICAL LENSES (8 SEQUENTIAL CHECKPOINTS)
+
+### LENS 1: CODE COMPLEXITY & QUALITY
+
+#### ðŸ"´ IMPLEMENT: Scan for Complexity Issues
+
+**Task:**
+- Measure cyclomatic complexity per function
+- Count function lengths
+- Detect nesting depth violations
+- Find magic numbers and duplicate code
+- Identify AI-generated artifacts (console.logs, verbose code)
+
+**Commands to Execute:**
+```bash
+# Complexity analysis (example for JavaScript/TypeScript)
+npx complexity-report src/ --format json > /tmp/complexity.json 2>/dev/null || echo "Tool not available"
+
+# Find long functions (>20 lines)
+for f in $(cat /tmp/source_files.txt); do
+  awk '/^[[:space:]]*function|^[[:space:]]*const.*=.*=>|^[[:space:]]*def / {
+    start=NR; name=$0
+  } 
+  /^[[:space:]]*}/ && start {
+    len=NR-start; 
+    if(len>20) print FILENAME":"start" - "name" - "len" lines"
+    start=0
+  }' "$f"
+done > /tmp/long_functions.txt
+
+# Find console.log statements
+grep -rn "console\.log" --include="*.js" --include="*.ts" . > /tmp/console_logs.txt 2>/dev/null || touch /tmp/console_logs.txt
+
+# Find magic numbers (simple heuristic: standalone digits >1 in code)
+grep -rn "\b[2-9][0-9]*\b" --include="*.js" --include="*.ts" --include="*.py" . > /tmp/magic_numbers.txt 2>/dev/null || touch /tmp/magic_numbers.txt
+```
+
+**Files to Create:**
+- `/tmp/complexity.json` - Complexity metrics
+- `/tmp/long_functions.txt` - Functions exceeding 20 lines
+- `/tmp/console_logs.txt` - All console.log occurrences
+- `/tmp/magic_numbers.txt` - Potential magic numbers
+
+**Expected Outcome:**
+- Complexity data captured
+- Long functions identified
+- Console.logs catalogued
+- Magic numbers flagged
+
+**Complexity**: 🟡 Moderate (tool dependencies, parsing)
+**Estimated Time**: 15 minutes
+
+---
+
+#### ðŸŸ¢ VALIDATE: Verify Complexity Findings
+
+**Automated Tests:**
+```bash
+# Verify long functions file created
+test -f /tmp/long_functions.txt && echo "âœ… Long functions scanned" || echo "âŒ Failed"
+LONG_FUNC_COUNT=$(wc -l < /tmp/long_functions.txt)
+echo "Long functions found: $LONG_FUNC_COUNT"
+
+# Verify console.logs found
+test -f /tmp/console_logs.txt && echo "âœ… Console.logs scanned" || echo "âŒ Failed"
+CONSOLE_COUNT=$(wc -l < /tmp/console_logs.txt)
+echo "Console.logs found: $CONSOLE_COUNT"
+
+# Spot check: Verify one long function manually
+if [ "$LONG_FUNC_COUNT" -gt 0 ]; then
+    SAMPLE=$(head -1 /tmp/long_functions.txt)
+    FILE=$(echo "$SAMPLE" | cut -d: -f1)
+    LINE=$(echo "$SAMPLE" | cut -d: -f2 | awk '{print $1}')
+    echo "Spot check: $FILE:$LINE"
+    # Manually count lines in that function
+    # [Would require editor/manual verification in practice]
+fi
+
+# Validate magic numbers aren't just array indices or common patterns
+grep -v "\[0\]\|\[1\]\|setTimeout.*1000\|port.*3000" /tmp/magic_numbers.txt > /tmp/magic_numbers_filtered.txt
+MAGIC_COUNT=$(wc -l < /tmp/magic_numbers_filtered.txt)
+echo "Real magic numbers: $MAGIC_COUNT"
+```
+
+**Manual Verification:**
+- Spot check: Open 3 "long functions" and manually verify line count
+- Spot check: Open 3 console.log instances and verify they exist
+- Review: Sample of magic numbers - confirm they lack explanation
+
+**Code Quality:**
+- Check: No false positives in long_functions.txt
+- Check: Console.logs are actual console.log statements
+- Check: Magic numbers aren't legitimate constants
+
+**Success Criteria:**
+- `LONG_FUNC_COUNT` represents actual long functions âœ…
+- `CONSOLE_COUNT` matches real occurrences âœ…
+- Spot checks confirm findings âœ…
+
+---
+
+#### ðŸ"µ CHECKPOINT: Complexity Analysis Complete
+
+**Status**: 🔵 COMPLETE | 🟡 IN_PROGRESS | 🔴 BLOCKED
+
+**Complexity**: 🟡 Moderate
+
+**Validated**: [timestamp]
+
+**Estimated**: 15 minutes | **Actual**: [N] minutes | **Variance**: [+/-N]
+
+**Findings:**
+- Long functions (>20 lines): [N] instances
+- Console.logs in production code: [N] instances  
+- Magic numbers: [N] instances
+- Cyclomatic complexity >10: [N] functions
+
+**Evidence:**
+```
+$ wc -l /tmp/long_functions.txt
+37 /tmp/long_functions.txt
+
+$ head -3 /tmp/long_functions.txt
+src/services/auth.js:45 - function validateUser - 34 lines
+src/utils/parser.js:120 - const processData = async => - 28 lines
+src/controllers/api.js:200 - function handleRequest - 52 lines
+
+$ wc -l /tmp/console_logs.txt
+23 /tmp/console_logs.txt
+```
+
+**Rollback**:
+```bash
+# Clear findings if need to re-scan
+rm /tmp/complexity.json /tmp/long_functions.txt /tmp/console_logs.txt /tmp/magic_numbers.txt /tmp/magic_numbers_filtered.txt
+```
+
+**Dependencies**: Phase 1 (Repository Indexed) 🔵 COMPLETE
+
+**Blockers**: [None / List issues]
+
+**Lessons Learned**: [Optional - patterns observed during analysis]
+
+---
+
+### LENS 2: DOCUMENTATION VERIFICATION
+
+#### ðŸ"´ IMPLEMENT: Scan Documentation Accuracy
+
+**Task:**
+- Find all documentation files (README, API docs, comments)
+- Extract setup instructions from README
+- List documented API endpoints
+- Extract code examples from docs
+- Identify TODO/FIXME comments
+
+**Commands:**
+```bash
+# Find documentation files
+find . -name "README*" -o -name "*.md" -o -name "API*" -o -name "CHANGELOG*" > /tmp/doc_files.txt
+
+# Extract code blocks from README
+awk '/```/,/```/' README.md > /tmp/readme_code_blocks.txt 2>/dev/null || touch /tmp/readme_code_blocks.txt
+
+# Find TODO/FIXME comments
+grep -rn "TODO\|FIXME\|XXX\|HACK" --include="*.js" --include="*.ts" --include="*.py" . > /tmp/todo_comments.txt 2>/dev/null || touch /tmp/todo_comments.txt
+
+# Extract documented API routes (heuristic: lines with /api/ in docs)
+grep -rn "/api/" --include="*.md" . > /tmp/documented_routes.txt 2>/dev/null || touch /tmp/documented_routes.txt
+
+# Find actual route definitions in code (example for Express)
+grep -rn "app\.\(get\|post\|put\|delete\)\|router\.\(get\|post\|put\|delete\)" --include="*.js" --include="*.ts" . > /tmp/actual_routes.txt 2>/dev/null || touch /tmp/actual_routes.txt
+```
+
+**Expected Outcome:**
+- Documentation files inventoried
+- Code examples extracted
+- TODOs catalogued
+- Routes documented vs actual compared
+
+**Complexity**: 🟡 Moderate
+**Estimated Time**: 10 minutes
+
+---
+
+#### ðŸŸ¢ VALIDATE: Verify Documentation Claims
+
+**Automated Tests:**
+```bash
+# Verify documentation files found
+DOC_COUNT=$(wc -l < /tmp/doc_files.txt)
+echo "Documentation files: $DOC_COUNT"
+[ "$DOC_COUNT" -gt 0 ] && echo "âœ… Docs present" || echo "âš ï¸ No docs"
+
+# Verify code blocks extracted
+CODE_BLOCK_COUNT=$(grep -c '```' /tmp/readme_code_blocks.txt)
+echo "Code examples in README: $CODE_BLOCK_COUNT"
+
+# Test README setup instructions (IF safe and automated)
+# [Would require sandbox execution in practice]
+# Example: Check if commands are valid
+# grep "npm install" README.md && echo "âœ… Setup command present"
+
+# Compare documented vs actual routes
+DOCUMENTED_ROUTES=$(wc -l < /tmp/documented_routes.txt)
+ACTUAL_ROUTES=$(wc -l < /tmp/actual_routes.txt)
+echo "Documented routes: $DOCUMENTED_ROUTES"
+echo "Actual routes: $ACTUAL_ROUTES"
+[ "$DOCUMENTED_ROUTES" -eq "$ACTUAL_ROUTES" ] && echo "âœ… Routes match" || echo "âš ï¸ Route mismatch"
+```
+
+**Manual Verification:**
+- Spot check: Pick 3 code examples from README
+  - Can they be copy-pasted and run?
+  - Do they produce expected output?
+- Spot check: Pick 3 documented API endpoints
+  - Do they exist in actual code?
+  - Do parameters match?
+- Review: TODOs - do they have context or just placeholders?
+
+**Success Criteria:**
+- Code examples are executable âœ… / âŒ
+- API documentation matches implementation âœ… / âŒ
+- TODOs have sufficient context âœ… / âŒ
+
+---
+
+#### ðŸ"µ CHECKPOINT: Documentation Verification Complete
+
+**Status**: 🔵 COMPLETE | 🟡 IN_PROGRESS | 🔴 BLOCKED
+
+**Validated**: [timestamp]
+
+**Estimated**: 10 minutes | **Actual**: [N] minutes
+
+**Findings:**
+- Documentation files: [N]
+- Code examples: [N] (tested: [M] work, [K] fail)
+- TODO comments: [N] instances
+- Documentation lies detected: [N] instances
+  - Example: "API endpoint /api/users documented but not implemented"
+- Undocumented features: [N] routes without docs
+
+**Evidence:**
+```
+$ head -3 /tmp/todo_comments.txt
+src/auth.js:45:// TODO: Add rate limiting
+src/utils/email.js:120:// FIXME: This breaks with special characters
+src/api.js:200:// XXX: Temporary hack
+
+$ diff <(sort /tmp/documented_routes.txt) <(sort /tmp/actual_routes.txt)
+< README.md:45:/api/admin/delete-user
+> src/routes.js:89:router.delete('/api/users/:id')
+```
+
+**Rollback**:
+```bash
+rm /tmp/doc_files.txt /tmp/readme_code_blocks.txt /tmp/todo_comments.txt /tmp/documented_routes.txt /tmp/actual_routes.txt
+```
+
+**Dependencies**: Phase 1 🔵 COMPLETE
+
+**Blockers**: [None / List issues]
+
+---
+
+### LENS 3: TESTING INTEGRITY
+
+#### ðŸ"´ IMPLEMENT: Analyze Test Suite
+
+**Task:**
+- Run coverage tool
+- Count test files
+- Analyze test quality (assertions, naming)
+- Check for TDD evidence in git history
+- Identify untested critical paths
+
+**Commands:**
+```bash
+# Run coverage (language-specific)
+npm test -- --coverage --json > /tmp/coverage.json 2>/dev/null || echo "No coverage tool"
+pytest --cov=. --cov-report=json > /tmp/coverage.json 2>/dev/null || echo "No pytest"
+
+# Find test files
+find . -name "*.test.js" -o -name "*.spec.js" -o -name "*_test.py" -o -name "test_*.py" > /tmp/test_files.txt
+
+# Count test files vs source files
+TEST_COUNT=$(wc -l < /tmp/test_files.txt)
+SOURCE_COUNT=$(wc -l < /tmp/source_files.txt)
+echo "Test ratio: $TEST_COUNT tests / $SOURCE_COUNT source files" > /tmp/test_ratio.txt
+
+# Check for TDD evidence: tests committed before implementation?
+# (Heuristic: compare git timestamps of test files vs source files)
+git log --name-only --format="%ai" -- "*.test.*" | head -20 > /tmp/test_git_history.txt 2>/dev/null || touch /tmp/test_git_history.txt
+
+# Find functions without tests (heuristic: function names not in test files)
+# [Simplified - real implementation would need AST parsing]
+grep -rh "function \w\+" --include="*.js" . | awk '{print $2}' | sort -u > /tmp/all_functions.txt
+grep -rh "describe\|it\|test" --include="*.test.js" . | sort -u > /tmp/tested_functions.txt
+comm -23 /tmp/all_functions.txt /tmp/tested_functions.txt > /tmp/untested_functions.txt 2>/dev/null || touch /tmp/untested_functions.txt
+```
+
+**Expected Outcome:**
+- Coverage metrics captured
+- Test/source ratio calculated
+- TDD evidence assessed
+- Untested functions identified
+
+**Complexity**: 🔴 Complex (requires test execution)
+**Estimated Time**: 20 minutes
+
+---
+
+#### ðŸŸ¢ VALIDATE: Verify Test Findings
+
+**Automated Tests:**
+```bash
+# Verify coverage ran
+test -f /tmp/coverage.json && echo "âœ… Coverage data present" || echo "âŒ No coverage"
+if [ -f /tmp/coverage.json ]; then
+    COVERAGE=$(jq '.totals.percent_covered' /tmp/coverage.json 2>/dev/null || echo "N/A")
+    echo "Overall coverage: $COVERAGE%"
+fi
+
+# Verify test ratio calculated
+test -f /tmp/test_ratio.txt && cat /tmp/test_ratio.txt
+
+# Check untested functions list
+UNTESTED_COUNT=$(wc -l < /tmp/untested_functions.txt)
+echo "Potentially untested functions: $UNTESTED_COUNT"
+```
+
+**Manual Verification:**
+- Spot check: Open 3 test files
+  - Do they have meaningful test names?
+  - Do they have assertions?
+  - Are they isolated (no shared state)?
+- Spot check: Review coverage report
+  - Are critical paths (auth, payment) covered?
+- Review git history: Evidence of test-first commits?
+
+**Performance Benchmarks:**
+- Coverage >80%: 🟢 Good
+- Coverage 50-80%: 🟡 Acceptable
+- Coverage <50%: 🔴 Insufficient
+
+**Success Criteria:**
+- Coverage metrics are accurate âœ… / âŒ
+- Test quality spot checks pass âœ… / âŒ
+- Critical paths have coverage âœ… / âŒ
+
+---
+
+#### ðŸ"µ CHECKPOINT: Testing Analysis Complete
+
+**Status**: 🔵 COMPLETE | 🟡 IN_PROGRESS | 🔴 BLOCKED
+
+**Validated**: [timestamp]
+
+**Estimated**: 20 minutes | **Actual**: [N] minutes | **Variance**: [+/-N]
+
+**Findings:**
+- Overall coverage: [N]% (Status: 🟢/🟡/🔴)
+- Branch coverage: [N]%
+- Test files: [N] / Source files: [M] (ratio: [N/M])
+- Untested functions: [N] instances
+- TDD evidence: [FOUND / NOT FOUND]
+- Test quality issues:
+  - Missing assertions: [N] tests
+  - Shared state: [N] tests
+  - Unclear names: [N] tests
+
+**Evidence:**
+```
+$ jq '.totals.percent_covered' /tmp/coverage.json
+73.4
+
+$ cat /tmp/test_ratio.txt
+Test ratio: 89 tests / 247 source files
+
+$ head -5 /tmp/untested_functions.txt
+calculateDiscount
+validatePayment
+processRefund
+sendNotification
+archiveUser
+```
+
+**Rollback**:
+```bash
+rm /tmp/coverage.json /tmp/test_files.txt /tmp/test_ratio.txt /tmp/test_git_history.txt /tmp/all_functions.txt /tmp/tested_functions.txt /tmp/untested_functions.txt
+```
+
+**Dependencies**: Phase 1 🔵 COMPLETE
+
+**Blockers**: [None / List issues]
+
+**Lessons Learned**: [e.g., "Payment processing completely untested - critical gap"]
+
+---
+
+### LENS 4-8: [Similar checkpoint pattern for remaining lenses]
+
+**For brevity, applying same structure to:**
+- LENS 4: Dependency Analysis (🔴 SCAN → 🟢 VERIFY → 🔵 CHECKPOINT)
+- LENS 5: Security Scanning (🔴 SCAN → 🟢 VERIFY → 🔵 CHECKPOINT)
+- LENS 6: Architecture Evaluation (🔴 SCAN → 🟢 VERIFY → 🔵 CHECKPOINT)
+- LENS 7: Performance Analysis (🔴 SCAN → 🟢 VERIFY → 🔵 CHECKPOINT)
+- LENS 8: Codebase Hygiene (🔴 SCAN → 🟢 VERIFY → 🔵 CHECKPOINT)
+
+**Each follows identical pattern:**
+1. ðŸ"´ IMPLEMENT: Execute scans with specific commands
+2. ðŸŸ¢ VALIDATE: Verify findings with spot checks
+3. ðŸ"µ CHECKPOINT: Record verified findings with evidence
+
+---
+
+## PHASE 3: FINDING DEDUPLICATION
+
+### ðŸ"´ IMPLEMENT: Merge and Deduplicate Findings
+
+**Task:**
+- Collect findings from all 8 lens checkpoints
+- Identify duplicate findings across lenses
+- Keep highest severity for duplicates
+- Sort by severity
+
+**Commands:**
+```bash
+# Collect all findings
+cat /tmp/lens*_findings.txt > /tmp/all_findings_raw.txt 2>/dev/null || touch /tmp/all_findings_raw.txt
+
+# Deduplicate (keeping highest severity)
+sort /tmp/all_findings_raw.txt | uniq > /tmp/all_findings_unique.txt
+
+# Count by severity
+grep "CRITICAL" /tmp/all_findings_unique.txt | wc -l > /tmp/critical_count.txt
+grep "HIGH" /tmp/all_findings_unique.txt | wc -l > /tmp/high_count.txt
+grep "MEDIUM" /tmp/all_findings_unique.txt | wc -l > /tmp/medium_count.txt
+grep "LOW" /tmp/all_findings_unique.txt | wc -l > /tmp/low_count.txt
+```
+
+**Expected Outcome:**
+- Deduplicated findings list
+- Severity distribution calculated
+
+**Complexity**: 🟢 Simple
+**Estimated Time**: 5 minutes
+
+---
+
+### ðŸŸ¢ VALIDATE: Verify Deduplication
+
+**Automated Tests:**
+```bash
+# Verify unique findings
+UNIQUE_COUNT=$(wc -l < /tmp/all_findings_unique.txt)
+RAW_COUNT=$(wc -l < /tmp/all_findings_raw.txt)
+echo "Deduplicated: $RAW_COUNT → $UNIQUE_COUNT findings"
+
+# Verify severity counts sum to total
+CRITICAL=$(cat /tmp/critical_count.txt)
+HIGH=$(cat /tmp/high_count.txt)
+MEDIUM=$(cat /tmp/medium_count.txt)
+LOW=$(cat /tmp/low_count.txt)
+TOTAL=$((CRITICAL + HIGH + MEDIUM + LOW))
+echo "Severity totals: $TOTAL"
+[ "$TOTAL" -eq "$UNIQUE_COUNT" ] && echo "âœ… Counts match" || echo "âŒ Mismatch"
+```
+
+**Manual Checks:**
+- Spot check: Review 5 findings - no exact duplicates
+- Verify: Same issue at same location only appears once
+
+**Success Criteria:**
+- No duplicate findings âœ…
+- Severity counts accurate âœ…
+
+---
+
+### ðŸ"µ CHECKPOINT: Findings Deduplicated
+
+**Status**: 🔵 COMPLETE
+
+**Findings Summary:**
+- 🔴 CRITICAL: [N]
+- 🟠 HIGH: [N]
+- 🟡 MEDIUM: [N]
+- 🔵 LOW: [N]
+- Total unique: [N]
+
+**Dependencies**: All 8 lenses 🔵 COMPLETE
+
+---
+
+## PHASE 4: REPORT GENERATION
+
+### ðŸ"´ IMPLEMENT: Create AUDIT_RESULTS.md + audit_log.json
+
+**Task:**
+- Generate comprehensive audit report (AUDIT_RESULTS.md)
+- Generate machine-readable audit log (audit_log.json)
+- Include all validated findings with evidence
+- Calculate metrics and trends
+- Compare to previous audit (if exists)
+
+**Commands:**
+```bash
+# Check for previous audit
+test -f AUDIT_RESULTS.md && PREV_VERSION=$(grep "Version:" AUDIT_RESULTS.md | head -1) || PREV_VERSION="v0 (initial)"
+
+# Collect all checkpoint data
+cat /tmp/checkpoint_*.json > /tmp/all_checkpoint_data.json 2>/dev/null || echo '{"checkpoints":[]}' > /tmp/all_checkpoint_data.json
+
+# Generate machine-readable log
+cat > audit_log.json <<'JSONEOF'
+{
+  "audit": {
+    "version": "2.0",
+    "methodology": "Jimmy's Workflow (Red/Green Checkpoints)",
+    "started": "$(cat /tmp/audit_start.txt)",
+    "completed": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+    "repository": "$(pwd)",
+    "commit": "$(cat /tmp/commit_hash.txt)",
+    "model": "Claude Opus 4.1",
+    "status": "COMPLETE"
+  },
+  "phases": {
+    "phase_1": {
+      "name": "Repository Indexing",
+      "status": "COMPLETE",
+      "files_indexed": $(cat /tmp/source_files.txt | wc -l),
+      "total_lines": $(jq '.header.n_lines' /tmp/cloc_output.json),
+      "primary_language": "$(jq -r '.header.primary_language' /tmp/cloc_output.json 2>/dev/null || echo 'unknown')"
+    },
+    "phase_2": {
+      "name": "8 Analytical Lenses",
+      "status": "COMPLETE",
+      "lenses_completed": 8,
+      "total_findings": $(cat /tmp/all_findings_raw.txt | wc -l)
+    },
+    "phase_3": {
+      "name": "Finding Deduplication",
+      "status": "COMPLETE",
+      "raw_findings": $(cat /tmp/all_findings_raw.txt | wc -l),
+      "unique_findings": $(cat /tmp/all_findings_unique.txt | wc -l),
+      "duplicates_removed": $(($(cat /tmp/all_findings_raw.txt | wc -l) - $(cat /tmp/all_findings_unique.txt | wc -l)))
+    },
+    "phase_4": {
+      "name": "Report Generation",
+      "status": "COMPLETE",
+      "deliverables": ["AUDIT_RESULTS.md", "audit_log.json"]
+    }
+  },
+  "findings_summary": {
+    "critical": $(cat /tmp/critical_count.txt),
+    "high": $(cat /tmp/high_count.txt),
+    "medium": $(cat /tmp/medium_count.txt),
+    "low": $(cat /tmp/low_count.txt),
+    "total": $(cat /tmp/all_findings_unique.txt | wc -l)
+  },
+  "verification": {
+    "all_findings_verified": true,
+    "checkpoint_gates_passed": 11,
+    "verification_method": "Executable commands + manual spot checks",
+    "false_positives_removed": $(jq '.false_positives // 0' /tmp/validation_stats.json 2>/dev/null || echo 0)
+  },
+  "checkpoints": $(cat /tmp/all_checkpoint_data.json)
+}
+JSONEOF
+
+# Generate human-readable report
+cat > AUDIT_RESULTS.md <<EOF
+# CODEBASE AUDIT RESULTS
+
+**Timestamp**: $(cat /tmp/audit_start.txt)
+**Repository**: $(pwd)
+**Commit**: $(cat /tmp/commit_hash.txt)
+**Version**: [increment from $PREV_VERSION]
+**Claude Code Model**: Opus 4.1
+**Duration**: [calculate from start to now]
+**Methodology**: Jimmy's Workflow (Red/Green Checkpoints)
+
+## EXECUTIVE SUMMARY
+
+### Severity Distribution
+- 🔴 CRITICAL: $(cat /tmp/critical_count.txt)
+- 🟠 HIGH: $(cat /tmp/high_count.txt)
+- 🟡 MEDIUM: $(cat /tmp/medium_count.txt)
+- 🔵 LOW: $(cat /tmp/low_count.txt)
+
+### Top Issues Requiring Attention
+$(head -10 /tmp/all_findings_unique.txt)
+
+[... full report template from original prompt ...]
+
+## AUDIT INTEGRITY
+
+### Jimmy's Workflow Validation
+âœ… All phases completed through checkpoint gates
+âœ… Every finding verified with executable commands
+âœ… Evidence provided: file:line + objective measurement
+âœ… No hallucinated findings - all reproducible
+âœ… Rollback procedures documented for each phase
+
+### Checkpoint Summary
+$(cat /tmp/checkpoint_summary.txt)
+
+EOF
+```
+
+**Expected Outcome:**
+- Complete AUDIT_RESULTS.md generated
+- All findings included with evidence
+- Metrics calculated
+
+**Complexity**: 🟡 Moderate
+**Estimated Time**: 10 minutes
+
+---
+
+### ðŸŸ¢ VALIDATE: Verify Report Accuracy
+
+**Automated Tests:**
+```bash
+# Verify both deliverables exist
+test -f AUDIT_RESULTS.md && echo "âœ… Report generated" || echo "âŒ Failed"
+test -f audit_log.json && echo "âœ… Log generated" || echo "âŒ Failed"
+
+# Verify audit_log.json is valid JSON
+jq empty audit_log.json && echo "âœ… Valid JSON" || echo "âŒ Invalid JSON"
+
+# Verify key sections present in report
+grep -q "EXECUTIVE SUMMARY" AUDIT_RESULTS.md && echo "âœ… Summary present"
+grep -q "DETAILED FINDINGS" AUDIT_RESULTS.md && echo "âœ… Findings present"
+grep -q "AUDIT INTEGRITY" AUDIT_RESULTS.md && echo "âœ… Integrity section present"
+
+# Verify finding counts match in both deliverables
+REPORT_CRITICAL=$(grep "🔴 CRITICAL:" AUDIT_RESULTS.md | grep -o "[0-9]\+")
+LOG_CRITICAL=$(jq '.findings_summary.critical' audit_log.json)
+[ "$REPORT_CRITICAL" -eq "$LOG_CRITICAL" ] && echo "âœ… Critical count matches across deliverables"
+
+# Verify checkpoint data included in log
+CHECKPOINT_COUNT=$(jq '.checkpoints | length' audit_log.json 2>/dev/null || echo 0)
+[ "$CHECKPOINT_COUNT" -ge 11 ] && echo "âœ… All checkpoints logged" || echo "âš ï¸ Missing checkpoint data"
+```
+
+**Manual Verification:**
+- Review: Report is readable and well-formatted
+- Spot check: 5 findings have file:line evidence
+- Verify: No findings without proof
+- Check: Previous audit comparison (if applicable)
+
+**Success Criteria:**
+- Report complete and accurate âœ…
+- All findings have evidence âœ…
+- Counts match deduplication âœ…
+
+---
+
+### ðŸ"µ CHECKPOINT: Audit Report Complete
+
+**Status**: 🔵 COMPLETE
+
+**Validated**: [timestamp]
+
+**Report Details:**
+- Human-readable: AUDIT_RESULTS.md ([N] lines, [K] KB)
+- Machine-readable: audit_log.json ([M] KB)
+- Findings: [N] total across [M] categories
+- Evidence provided: âœ… 100% of findings
+- Checkpoint data: âœ… All 11 phases logged
+
+**Evidence:**
+```bash
+$ wc -l AUDIT_RESULTS.md
+1847 AUDIT_RESULTS.md
+
+$ jq '.verification.checkpoint_gates_passed' audit_log.json
+11
+
+$ grep -c "file:line" AUDIT_RESULTS.md
+142
+```
+
+**Rollback**: 
+```bash
+# Restore previous audit if needed
+git checkout AUDIT_RESULTS.md audit_log.json
+```
+
+**Dependencies**: Phases 1, 2, 3 🔵 COMPLETE
+
+---
+
+## FINAL VALIDATION CHECKPOINT
+
+### ðŸ"µ CHECKPOINT: Complete Audit with Jimmy's Workflow
+
+**All Phases Status:**
+- 🔵 Phase 1: Repository Indexed (COMPLETE)
+- 🔵 Phase 2: All 8 Lenses Analyzed (COMPLETE)
+  - 🔵 Lens 1: Complexity (COMPLETE)
+  - 🔵 Lens 2: Documentation (COMPLETE)
+  - 🔵 Lens 3: Testing (COMPLETE)
+  - 🔵 Lens 4: Dependencies (COMPLETE)
+  - 🔵 Lens 5: Security (COMPLETE)
+  - 🔵 Lens 6: Architecture (COMPLETE)
+  - 🔵 Lens 7: Performance (COMPLETE)
+  - 🔵 Lens 8: Hygiene (COMPLETE)
+- 🔵 Phase 3: Findings Deduplicated (COMPLETE)
+- 🔵 Phase 4: Report Generated (COMPLETE)
+
+**Validation Summary:**
+- Total checkpoints: 11
+- All checkpoints: 🔵 COMPLETE
+- Verification rate: 100%
+- Hallucinated findings: 0 (all verified)
+
+**Audit Quality Metrics:**
+- Findings with evidence: [N]/[N] (100%)
+- Executable verifications: [N] commands run
+- Manual spot checks: [N] performed
+- False positives removed: [N]
+
+**Total Duration:**
+- Estimated: [sum of estimates] minutes
+- Actual: [total elapsed] minutes
+- Variance: [percentage]
+
+**Deliverables:**
+- âœ… AUDIT_RESULTS.md (complete)
+- âœ… audit_log.json (machine-readable log)
+- âœ… All checkpoint evidence preserved in /tmp/
+- âœ… Rollback procedures documented
+- âœ… Version control ready
+
+**Success**: âœ… All checkpoints passed - Audit complete
+
+---
+
+## AUTONOMOUS EXECUTION MODE
+
+### Checkpoint-Based Automation
+
+**Autonomous Execution Rules:**
+- Proceed automatically if: All 🟢 GREEN validations pass
+- PAUSE for human if: Any validation fails after 2 retries
+- PAUSE for human if: Unexpected error occurs
+- PAUSE for human if: Checkpoint blocked by external dependency
+- REPORT progress: After each 🔵 CHECKPOINT completion
+
+**Progress Tracking:**
+```json
+{
+  "audit": {
+    "started": "[timestamp]",
+    "status": "IN_PROGRESS",
+    "current_phase": 2,
+    "total_phases": 4
+  },
+  "checkpoints": [
+    {
+      "phase": 1,
+      "name": "Repository Indexed",
+      "status": "COMPLETE",
+      "validated": "[timestamp]",
+      "findings": 0
+    },
+    {
+      "phase": 2.1,
+      "name": "Lens 1: Complexity",
+      "status": "COMPLETE",
+      "validated": "[timestamp]",
+      "findings": 37
+    }
+  ]
+}
+```
+
+---
+
+## SEVERITY CLASSIFICATION WITH VERIFICATION
+
+```python
+def classify_severity(finding, verification_status):
+    # Only classify if verification passed
+    if verification_status != "VERIFIED":
+        return "UNVERIFIED"  # Blocked from report
+    
+    if any([
+        "exposed_password" in finding,
+        "sql_injection" in finding,
+        "security_vulnerability" in finding,
+        "production_break" in finding
+    ]):
+        return "CRITICAL"
+    
+    elif any([
+        finding.complexity > 15,
+        "SOLID_violation" in finding,
+        finding.coverage < 20,
+        "data_leak" in finding
+    ]):
+        return "HIGH"
+    
+    elif any([
+        finding.duplication > 20,
+        "missing_documentation" in finding,
+        finding.outdated_major_version
+    ]):
+        return "MEDIUM"
+    
+    elif any([
+        "formatting" in finding,
+        "naming_inconsistency" in finding
+    ]):
+        return "LOW"
+    
+    else:
+        return "INFO"
+```
+
+---
+
+## KEY ENHANCEMENTS FROM JIMMY'S WORKFLOW
+
+### 1. Validation Gates Prevent Hallucination
+- Every finding must be verified with executable command
+- Manual spot checks for subjective findings
+- Blocked progression if verification fails
+
+### 2. Explicit Evidence Required
+- File:line references mandatory
+- Commands that reproduce finding
+- Before/after states for claims
+
+### 3. Rollback Procedures
+- Every phase can be reverted
+- Temporary files cleaned on restart
+- Audit state recoverable
+
+### 4. Checkpoint Tracking
+- Machine-readable status (🔵/🟡/🔴)
+- Estimated vs actual time tracking
+- Lessons learned captured
+
+### 5. No Unverified Claims
+- "Issue found" must be proven
+- "Complexity high" must be measured
+- "Documentation wrong" must be tested
+
+---
+
+## REMEMBER
+
+**Core Philosophy:**
+- 🔴 RED: SCAN (find potential issues)
+- 🟢 GREEN: VERIFY (prove they're real)
+- 🔵 CHECKPOINT: RECORD (only verified findings)
+
+**Critical Rules:**
+- ❌ NEVER proceed past checkpoint until 🔵 COMPLETE
+- ❌ NEVER report unverified findings
+- ❌ NEVER skip validation steps
+- âœ… ALWAYS provide file:line evidence
+- âœ… ALWAYS include executable verification
+- âœ… ALWAYS document rollback procedures
+
+**Quality Over Speed:**
+- An audit with 10 verified findings > audit with 100 unverified claims
+- Brutal honesty + proof > optimistic hallucination
+- Evidence-based reporting > assumption-based findings
+
+---
+
+**Audit Framework Version**: 2.0 (Enhanced with Jimmy's Workflow)
+**Methodology**: Red/Green Checkpoint System
+**Zero Hallucination Guarantee**: All findings executable-verified

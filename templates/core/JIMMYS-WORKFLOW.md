@@ -862,8 +862,8 @@ templates/tools/check-version.sh
 **If out of date:**
 - Your copy: v1.1 (example)
 - Master version: v2.1
-- What's new: See CHANGELOG.md in the templates repo
-- To update: Replace this file with the latest from the [Ydun AI Workflow repo](https://github.com/ydun-code-library/Ydun_ai_workflow)
+- What's new: See templates/CHANGELOG.md
+- To update: Replace this file with latest from templates/core/JIMMYS-WORKFLOW.md
 
 **If you REFERENCE this file** (e.g., `../JIMMYS-WORKFLOW.md`):
 - ✅ Always up to date automatically

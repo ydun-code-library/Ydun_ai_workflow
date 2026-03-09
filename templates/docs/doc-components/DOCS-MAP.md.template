@@ -1,0 +1,139 @@
+# Documentation Map
+
+**Purpose**: Master navigation for all project documentation
+**Last Updated**: [FILL: YYYY-MM-DD]
+**Status**: Active
+
+<!-- AI NAVIGATION -->
+**For AI Assistants**:
+- **Read this when**: User asks "where is X documented?" or needs to find specific documentation
+- **Parent context**: [AGENTS.md](./AGENTS.md) - This is the master index of all documentation
+- **Use for**: Finding the right documentation file for any topic
+- **Don't use for**: Actual implementation details (navigate to specific files)
+- **Navigation**: You are here! This is the navigation map.
+
+---
+
+## How to Use This Map
+
+- 📍 **You are here** markers show current location
+- ⚡ **High Priority** - Read first when starting a session
+- 📋 **Planning** - Strategic decisions and roadmaps
+- 🔧 **Execution** - Implementation guides and how-tos
+- 🎯 **Current Work** - Active development areas
+- 📚 **Reference** - Technical specifications and API docs
+- 🏛️ **Historical** - Decision records and past context
+
+---
+
+## Root Documentation (⚡ High Priority)
+
+**Read these first when starting a new session**:
+
+| File | Purpose | Read When | Size |
+|------|---------|-----------|------|
+| [AGENTS.md](./AGENTS.md) | Main AI context & guidelines | Starting any task | [FILL: ~20KB] |
+| [CLAUDE.md](./CLAUDE.md) | Quick reference summary | Need quick command lookup | [FILL: ~2KB] |
+| [STATUS.md](./STATUS.md) | Current project state | Session start | [FILL: ~10KB] |
+| [NEXT-SESSION-START-HERE.md](./NEXT-SESSION-START-HERE.md) | Immediate context | Every session | [FILL: ~3KB] |
+| [JIMMYS-WORKFLOW.md](./JIMMYS-WORKFLOW.md) | Validation system | Before any commit | ~45KB |
+
+---
+
+## Strategic Documentation (📋 Planning)
+
+**High-level plans, roadmaps, and business context**:
+
+| File | Purpose | Read When |
+|------|---------|-----------|
+| [FILL: e.g., docs/plans/ROADMAP.md] | [FILL: Product roadmap] | [FILL: Planning new features] |
+| [FILL: e.g., docs/plans/BUSINESS-MODEL.md] | [FILL: Business model] | [FILL: Understanding project goals] |
+
+---
+
+## Implementation Guides (🔧 Execution)
+
+**Step-by-step guides for common tasks**:
+
+| File | Purpose | Read When |
+|------|---------|-----------|
+| [FILL: e.g., docs/guides/SETUP.md] | [FILL: Development environment setup] | [FILL: First-time setup] |
+| [FILL: e.g., docs/guides/DEPLOYMENT.md] | [FILL: Deployment procedures] | [FILL: Deploying to production] |
+| [FILL: e.g., docs/guides/TESTING.md] | [FILL: Testing guidelines] | [FILL: Writing or running tests] |
+
+---
+
+## Architecture & Decisions (🏛️ Historical)
+
+**Architecture Decision Records (ADRs) and design docs**:
+
+| File | Purpose | Read When |
+|------|---------|-----------|
+| [FILL: e.g., docs/decisions/001-*.md] | [FILL: Architecture decision] | [FILL: Understanding why X was chosen] |
+| [FILL: e.g., docs/ARCHITECTURE.md] | [FILL: System architecture] | [FILL: Understanding system design] |
+
+---
+
+## Technical Reference (📚 Reference)
+
+**API documentation, technical specs, and reference materials**:
+
+| File | Purpose | Read When |
+|------|---------|-----------|
+| [FILL: e.g., docs/api/API-REFERENCE.md] | [FILL: API endpoints] | [FILL: Integrating with API] |
+| [FILL: e.g., docs/DATABASE-SCHEMA.md] | [FILL: Database structure] | [FILL: Understanding data model] |
+
+---
+
+## Active Workspace (🎯 Current Work)
+
+**Current sprint/week/phase directories**:
+
+[FILL: Current work areas, e.g.:]
+- `learning/week-1/` - Week 1 learning activities
+- `sprint-3/` - Current sprint work
+- `feature-auth/` - Authentication feature branch
+
+---
+
+## Navigation Shortcuts
+
+### By Context Level
+- **Main**: [AGENTS.md](./AGENTS.md) (complete guidelines)
+- **Quick Reference**: [CLAUDE.md](./CLAUDE.md) (summary)
+- **Deep Dive**: docs/guides/* (implementation details)
+- **Historical**: docs/decisions/* (why decisions were made)
+
+### By Audience
+- **AI Assistants**: Start with [AGENTS.md](./AGENTS.md), use [CLAUDE.md](./CLAUDE.md) for quick tasks
+- **Developers**: Start with DOCS-MAP.md (you are here! 📍) → relevant guide
+- **New Contributors**: [AGENTS.md](./AGENTS.md) → [JIMMYS-WORKFLOW.md](./JIMMYS-WORKFLOW.md) → docs/guides/SETUP.md
+
+### By Task Type
+- **Starting new feature**: [AGENTS.md](./AGENTS.md) → docs/guides/DEVELOPMENT.md → [JIMMYS-WORKFLOW.md](./JIMMYS-WORKFLOW.md)
+- **Fixing bug**: [CLAUDE.md](./CLAUDE.md) → relevant technical reference
+- **Deploying**: docs/guides/DEPLOYMENT.md
+- **Understanding architecture**: docs/ARCHITECTURE.md → docs/decisions/*
+
+---
+
+## Documentation Health
+
+**Last Full Audit**: [FILL: YYYY-MM-DD]
+**Total Documentation Files**: [FILL: count]
+**Documentation Coverage**: [FILL: e.g., "All major systems documented"]
+
+**Known Gaps**:
+- [FILL: e.g., "API authentication not yet documented"]
+- [FILL: e.g., "Performance testing guide needed"]
+
+**Upcoming Documentation**:
+- [FILL: e.g., "Week 5: Add infrastructure guide"]
+
+---
+
+**Template Version**: 1.5.1
+**Last Validated**: [FILL: YYYY-MM-DD]
+**Next Review**: [FILL: YYYY-MM-DD]
+
+<!-- END OF DOCS-MAP.md -->

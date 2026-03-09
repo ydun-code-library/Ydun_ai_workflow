@@ -1,0 +1,10 @@
+<!-- AI NAVIGATION -->
+**For AI Assistants**:
+- **Read this when**: [FILL: Specific trigger condition - e.g., "User asks about deployment procedures"]
+- **Parent context**: [FILL: Link to parent document - e.g., [AGENTS.md](./AGENTS.md) - Main project guidelines]
+- **Related docs**: [FILL: Sibling/child documents - e.g., [ARCHITECTURE.md](./docs/ARCHITECTURE.md)]
+- **Use for**: [FILL: Primary use case - e.g., "Understanding the deployment pipeline"]
+- **Don't use for**: [FILL: Anti-use cases - e.g., "Architecture decisions (see docs/decisions/)"]
+- **Navigation**: See [DOCS-MAP.md](./DOCS-MAP.md)
+
+---
