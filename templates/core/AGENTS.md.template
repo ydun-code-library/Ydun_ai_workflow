@@ -4,8 +4,8 @@
 TEMPLATE_VERSION: 1.7.0
 TEMPLATE_SOURCE: templates/core/AGENTS.md.template
 LAST_SYNC: [YYYY-MM-DD]
-SYNC_CHECK: Run ./templates/tools/check-version.sh to verify you have the latest template version
-AUTO_SYNC: Run ./templates/tools/sync-templates.sh to update (preserves your customizations)
+SYNC_CHECK: Run check-version.sh from your Ydun_ai_workflow clone to verify you have the latest template version
+AUTO_SYNC: Run sync-templates.sh from your Ydun_ai_workflow clone to update (preserves your customizations)
 CHANGELOG: See CHANGELOG.md for version history
 -->
 
@@ -101,14 +101,14 @@ npm run db:test-connection
 
 **New in v1.5.1**: Comprehensive documentation standards and templates
 
-**Complete Standards**: See [templates/docs/DOCUMENTATION-STANDARDS.md](templates/docs/DOCUMENTATION-STANDARDS.md) for comprehensive guidelines, best practices, and anti-patterns.
+**Complete Standards**: See [DOCUMENTATION-STANDARDS.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/DOCUMENTATION-STANDARDS.md) for comprehensive guidelines, best practices, and anti-patterns.
 
 **Quick Start** (for projects with >5 documentation files):
 
 1. **Add AI Navigation Headers** to core documentation:
    ```bash
-   # Copy template
-   cat templates/docs/doc-components/AI-NAVIGATION-HEADER.template
+   # Download the template
+   curl -sO https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template
    # Add to top of AGENTS.md, CLAUDE.md, major guides
    # Fill all [FILL: ...] placeholders
    ```
@@ -116,23 +116,22 @@ npm run db:test-connection
 2. **Create Master Navigation Map**:
    ```bash
    # If project has >5 documentation files
-   cp templates/docs/doc-components/DOCS-MAP.md.template ./DOCS-MAP.md
-   # List all documentation files with priorities (⚡📋🔧🎯📚🏛️)
+   curl -so DOCS-MAP.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/DOCS-MAP.md.template
+   # List all documentation files with priorities
    ```
 
 3. **Document Architecture Decisions**:
    ```bash
    # Create ADR directory
    mkdir -p docs/decisions
-   # Use template for each significant decision
-   cp templates/docs/doc-components/ADR-TEMPLATE.md ./docs/decisions/001-decision-name.md
+   curl -so docs/decisions/001-decision-name.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/ADR-TEMPLATE.md
    ```
 
-**Available Templates**:
-- [templates/docs/doc-components/AI-NAVIGATION-HEADER.template](templates/docs/doc-components/AI-NAVIGATION-HEADER.template) - Help AI know when to read files
-- [templates/docs/doc-components/DOCS-MAP.md.template](templates/docs/doc-components/DOCS-MAP.md.template) - Master documentation index
-- [templates/docs/doc-components/ADR-TEMPLATE.md](templates/docs/doc-components/ADR-TEMPLATE.md) - Architecture Decision Records
-- [templates/docs/doc-components/METADATA-BLOCK.template](templates/docs/doc-components/METADATA-BLOCK.template) - Machine-readable metadata
+**Available Templates** (from [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow/tree/main/templates/docs/doc-components)):
+- [AI-NAVIGATION-HEADER.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template) - Help AI know when to read files
+- [DOCS-MAP.md.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/DOCS-MAP.md.template) - Master documentation index
+- [ADR-TEMPLATE.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/ADR-TEMPLATE.md) - Architecture Decision Records
+- [METADATA-BLOCK.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/METADATA-BLOCK.template) - Machine-readable metadata
 
 **When to Apply**:
 - ✅ Projects with >5 documentation files (use full standards)
@@ -140,10 +139,11 @@ npm run db:test-connection
 - ✅ Long-lived projects >3 months (worth the investment)
 - ⚠️ Optional for simple scripts (lightweight approach fine)
 
-**Validation**:
+**Validation** (requires [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow) clone):
 ```bash
 # Check documentation quality (optional Check #8)
-./templates/tools/audit-project.sh --full
+# Run from inside your Ydun_ai_workflow clone:
+path/to/Ydun_ai_workflow/templates/tools/audit-project.sh --full
 ```
 
 All documentation follows these principles to maximize AI assistant effectiveness.
@@ -563,12 +563,18 @@ gh release view [tag]               # View release details
 
 **Current Template Version**: See `<!-- TEMPLATE_VERSION -->` comment at top of this file
 
-**This project uses versioned templates** from `templates/`
+**This project uses versioned templates** from the [Ydun AI Workflow](https://github.com/ydun-code-library/Ydun_ai_workflow) repository.
+
+> **Note:** The tool scripts below live in the templates repo, not in your project. Clone it once and keep it alongside your projects:
+> ```bash
+> git clone https://github.com/ydun-code-library/Ydun_ai_workflow.git
+> ```
 
 ### Check if Templates are Up to Date
 
 ```bash
-./templates/tools/check-version.sh
+# Run from your Ydun_ai_workflow clone:
+Ydun_ai_workflow/templates/tools/check-version.sh
 ```
 
 **What it does:**
@@ -579,7 +585,8 @@ gh release view [tag]               # View release details
 ### View Template Changelog
 
 ```bash
-cat CHANGELOG.md
+# In the Ydun_ai_workflow clone:
+cat Ydun_ai_workflow/CHANGELOG.md
 ```
 
 See what's new in each version and migration instructions.
@@ -587,9 +594,10 @@ See what's new in each version and migration instructions.
 ### Sync to Latest Version (Manual for now)
 
 ```bash
-./templates/tools/sync-templates.sh --dry-run   # Preview changes
-./templates/tools/sync-templates.sh             # Apply changes (with confirmation)
-./templates/tools/sync-templates.sh --auto      # Auto-apply without confirmation
+# Run from your Ydun_ai_workflow clone:
+Ydun_ai_workflow/templates/tools/sync-templates.sh --dry-run   # Preview changes
+Ydun_ai_workflow/templates/tools/sync-templates.sh             # Apply changes (with confirmation)
+Ydun_ai_workflow/templates/tools/sync-templates.sh --auto      # Auto-apply without confirmation
 ```
 
 **What gets preserved during sync:**
@@ -613,23 +621,23 @@ See what's new in each version and migration instructions.
 ### Template Compliance Checking
 
 **AI Assistant Behavior**: When user asks "check templates" or "are we up to date?", automatically:
-1. Run: `./templates/tools/audit-project.sh` OR manually execute checks
+1. Run the audit script from the Ydun_ai_workflow clone OR manually execute checks
 2. Generate compliance report
 3. Offer remediation based on findings
 
-**User can also run manually:**
+**User can also run manually** (from the Ydun_ai_workflow clone):
 ```bash
-./templates/tools/audit-project.sh          # Full audit
-./templates/tools/audit-project.sh --quick  # Quick check
+Ydun_ai_workflow/templates/tools/audit-project.sh          # Full audit
+Ydun_ai_workflow/templates/tools/audit-project.sh --quick  # Quick check
 ```
 
 **Quick Manual Check:**
 ```bash
 # Are we up to date?
-./templates/tools/check-version.sh
+Ydun_ai_workflow/templates/tools/check-version.sh
 
 # What's new?
-cat CHANGELOG.md
+cat Ydun_ai_workflow/CHANGELOG.md
 ```
 
 ## Important Reminders for AI Assistants
