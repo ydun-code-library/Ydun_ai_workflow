@@ -1,7 +1,7 @@
 # [PROJECT_NAME] - [SERVICE_DESCRIPTION]
 
 <!--
-TEMPLATE_VERSION: 2.1.3
+TEMPLATE_VERSION: 2.1.4
 TEMPLATE_SOURCE: templates/core/AGENTS.md.template
 LAST_SYNC: [YYYY-MM-DD]
 SYNC_CHECK: Run check-version.sh from your Ydun_ai_workflow clone to verify you have the latest template version
@@ -561,5 +561,5 @@ git -C path/to/Ydun_ai_workflow log --oneline -- templates/core/
 
 **This document follows the [agents.md](https://agents.md/) standard for AI coding assistants.**
 
-**Template Version**: 2.1.3
+**Template Version**: 2.1.4
 **Last Updated**: [YYYY-MM-DD]

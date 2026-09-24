@@ -108,7 +108,7 @@ Docs that describe old/superseded functionality move to `docs/archive/`. Don't d
 
 ```bash
 # Find broken internal links
-grep -roh '\[.*\](.*\.md)' --include="*.md" . | grep -oP '\(.*?\)' | tr -d '()' | sort -u | while read f; do
+grep -roh '\[.*\](.*\.md)' --include="*.md" . | grep -oE '\([^)]*\)' | tr -d '()' | sort -u | while read f; do
   [ ! -f "$f" ] && echo "BROKEN: $f"
 done
 ```
