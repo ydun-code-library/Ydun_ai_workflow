@@ -41,7 +41,7 @@ Traditional SEO optimizes for search engine crawlers that index keywords and bac
 - **AI Overviews**: Google's AI-generated summaries at top of search results
 - **LLM-Powered Search**: Bing Copilot, Perplexity, and others that synthesize answers
 
-**Key Insight**: LLMs don't match keywords—they interpret meaning. Structure and clarity matter more than keyword density.
+**Key Insight**: LLMs don't match keywords. They interpret meaning. Structure and clarity matter more than keyword density.
 
 ### What This Guide Covers
 
@@ -96,7 +96,7 @@ Make it crystal clear who you are and what you do:
 <meta name="description" content="We help businesses grow">
 
 <!-- Good: Entity-clear -->
-<meta name="description" content="Ydun – Applied R&D consultancy specializing in decentralised architecture, local-first design, and AI workflows. Founded by James Barclay in Sweden.">
+<meta name="description" content="Ydun – Applied R&D practice specializing in decentralised architecture, local-first design, and AI workflows. Founded by James Barclay in Sweden.">
 ```
 
 **Implementation**:

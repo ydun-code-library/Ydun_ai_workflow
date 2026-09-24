@@ -3,13 +3,13 @@
 **Version**: 1.5.1
 **Status**: Active
 **Last Updated**: 2025-11-14
-**Parent Context**: Core Development Principles (Principle 5.5)
+**Parent Context**: Core Development Principles (the documentation standard)
 
 <!-- AI NAVIGATION -->
 **For AI Assistants**:
 - **Read this when**: User asks about documentation quality, structure, or how to make documentation AI-friendly
-- **Parent context**: [AGENTS.md.template](./AGENTS.md.template) - See Principle 5 (Documentation Standards) and 5.5 (AI-Optimized Documentation)
-- **Related docs**: [doc-components/README.md](./doc-components/README.md), [init-project.md](./init-project.md)
+- **Parent context**: [AGENTS.md.template](../core/AGENTS.md.template) - See the documentation standard under Core Development Principles
+- **Related docs**: [doc-components/README.md](./doc-components/README.md), [init-project.md](../init/init-project.md)
 - **Use for**: Understanding how to create documentation that both humans and AI can effectively use
 - **Don't use for**: Project-specific documentation (apply these standards to project docs)
 - **Navigation**: This is a comprehensive reference guide
@@ -1424,7 +1424,7 @@ templates/tools/audit-project.sh --full
 
 - [doc-components/README.md](./doc-components/README.md) - How to use documentation templates
 - [AGENTS-TEMPLATE-GUIDE.md](./AGENTS-TEMPLATE-GUIDE.md) - Template usage guide
-- [init-project.md](./init-project.md) - Project initialization (see Step 13.5)
+- [init-project.md](../init/init-project.md) - Project initialization (see Step 13.5)
 - [tools/audit-project.sh](./tools/audit-project.sh) - Compliance auditing (Check #8)
 - [JIMMYS-WORKFLOW.md](./JIMMYS-WORKFLOW.md) - Validation workflow (RED/GREEN/CHECKPOINT)
 

@@ -8,7 +8,7 @@
 **For AI Assistants**:
 - **Read this when**: User asks how to use documentation templates or improve documentation quality
 - **Parent context**: [../DOCUMENTATION-STANDARDS.md](../DOCUMENTATION-STANDARDS.md) - Complete documentation standards
-- **Related docs**: [../init-project.md](../init-project.md) - See Step 13.5 for usage in new projects
+- **Related docs**: [../../init/init-project.md](../../init/init-project.md) - See Step 13.5 for usage in new projects
 - **Use for**: Understanding how to apply documentation templates
 - **Don't use for**: Documentation standards themselves (see DOCUMENTATION-STANDARDS.md)
 
@@ -16,7 +16,7 @@
 
 ## Overview
 
-This directory contains reusable templates for creating AI-optimized documentation. These templates implement the standards defined in [DOCUMENTATION-STANDARDS.md](../DOCUMENTATION-STANDARDS.md) and support Principle 5.5 (AI-Optimized Documentation).
+This directory contains reusable templates for creating AI-optimized documentation. These templates implement the standards defined in [DOCUMENTATION-STANDARDS.md](../DOCUMENTATION-STANDARDS.md) and support the documentation standard in the core principles.
 
 **When to Use**: Projects with >5 documentation files, multi-service platforms, or long-lived projects (>3 months)
 
@@ -495,9 +495,9 @@ done
 ## Related Documentation
 
 - [../DOCUMENTATION-STANDARDS.md](../DOCUMENTATION-STANDARDS.md) - Complete documentation standards
-- [../AGENTS-TEMPLATE-GUIDE.md](../AGENTS-TEMPLATE-GUIDE.md) - Template usage guide
-- [../init-project.md](../init-project.md) - Project initialization (see Step 13.5)
-- [../tools/audit-project.sh](../tools/audit-project.sh) - Compliance auditing (Check #8)
+- [../../init/AGENTS-TEMPLATE-GUIDE.md](../../init/AGENTS-TEMPLATE-GUIDE.md) - Template usage guide
+- [../../init/init-project.md](../../init/init-project.md) - Project initialization (see Step 13.5)
+- [../../tools/audit-project.sh](../../tools/audit-project.sh) - Compliance auditing (Check #8)
 
 ---
 
