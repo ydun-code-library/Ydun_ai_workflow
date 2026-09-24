@@ -1,5 +1,11 @@
 # Ydun AI Workflow — Templates, Prompts, and Patterns for AI-Assisted Development
 
+<!--
+TEMPLATE_VERSION: 1.0.0
+TEMPLATE_SOURCE: ~/templates/projects/core/AGENTS.md.template
+LAST_SYNC: 2026-09-24
+-->
+
 **Version**: 3.0.0
 **Last Updated**: 2026-03-09
 
