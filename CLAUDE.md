@@ -21,7 +21,7 @@ The eight principles are in `AGENTS.md`. Keep them and your global rules in `~/.
 
 ```bash
 grep -rn "$(printf '\342\200\224')" --exclude-dir=.git .            # em dashes (must be none in anything touched)
-grep -rniE "blockchain|consultancy" --exclude-dir=.git .            # house wording
+grep -rniE "block[c]hain|consult[a]ncy" --exclude-dir=.git .   # house wording; bracketed so it does not match itself
 grep -rnE "~/[^.]|/home/|/Users/|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" templates/core   # local paths, IPs
 ```
 
@@ -32,7 +32,7 @@ grep -rnE "~/[^.]|/home/|/Users/|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" templates/core 
 - **Everything is public.** No local paths, machine names, hostnames, IPs, usernames, employer names or secrets. House rules apply to every file.
 - Template bodies come from the private source templates. Publishing changes only paths and private references (rules in `AGENTS.md`, "Publishing a template release").
 - `TEMPLATE_SOURCE` in published templates is repo-relative (`templates/core/<file>`).
-- Say decentralised systems, verifiable systems or smart contracts, not "blockchain". Ydun.io is an R&D practice, not a consultancy.
+- Say decentralised systems, verifiable systems or smart contracts; never the protocol-brand word. Ydun.io is an R&D practice; never the services-firm word.
 
 ## Gotchas
 

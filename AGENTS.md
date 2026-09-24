@@ -269,8 +269,8 @@ There is nothing to build. Before committing, run the publication checks:
 # No em dashes in anything touched
 grep -rn "$(printf '\342\200\224')" --exclude-dir=.git .
 
-# House wording: no "blockchain" or "consultancy" in visible text
-grep -rniE "blockchain|consultancy" --exclude-dir=.git .
+# House wording: the protocol-brand word and the services-firm word must not appear in visible text
+grep -rniE "block[c]hain|consult[a]ncy" --exclude-dir=.git .   # bracketed so this line does not match itself
 
 # No local paths or private hosts in published templates (~/.claude/ is fine: it is Claude Code's standard location)
 grep -rnE "~/[^.]|/home/|/Users/|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" templates/core
@@ -355,7 +355,7 @@ Recorded 2026-09-24.
 4. Some pages on docs.ydun.io describe the earlier multi-agent practice.
 
 ### 📝 Technical Debt
-1. House wording: "blockchain" in `prompts/methodology/audit-map-execution-patterns.md` (lines 66, 106, 607, 612); "consultancy" in `templates/docs/AI-DRIVEN-SEO-BEST-PRACTICES.md:99`.
+1. House wording: the protocol-brand word in `prompts/methodology/audit-map-execution-patterns.md` (lines 66, 106, 607, 612); the services-firm word in `templates/docs/AI-DRIVEN-SEO-BEST-PRACTICES.md:99`.
 2. Em dashes remain in `prompts/` and in the READMEs under `templates/init/`, `templates/docs/` and `templates/tools/`.
 3. `llms.txt` still says "Production-tested".
 4. No DOCS-MAP.md; each folder has its own README instead.
@@ -366,8 +366,8 @@ Recorded 2026-09-24.
 <!-- PROJECT_SPECIFIC START: PROJECT_SPECIFIC_GUIDELINES -->
 ### Public output rules
 - Short sentences. No em dashes. No filler. No marketing language ("production-ready", "battle-tested", "world-class").
-- Say decentralised systems, verifiable systems or smart contracts, not "blockchain".
-- Ydun.io is an R&D practice, not a consultancy.
+- Say decentralised systems, verifiable systems or smart contracts. Never the protocol-brand word.
+- Ydun.io is an R&D practice. Never the services-firm word.
 - Date every statement of status.
 
 ### Publishing a template release
