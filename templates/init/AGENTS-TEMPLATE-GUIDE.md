@@ -1,7 +1,7 @@
 # AGENTS.md Template System - Usage Guide
 
 **Created**: 2025-10-02
-**Version**: 1.0
+**Version**: 2.0 (2026-09-21)
 **Purpose**: Guide for using the AGENTS.md template system across all projects
 
 ---
@@ -46,7 +46,7 @@
 - Project type-specific variants
 
 **Standards:**
-- 11 Core Development Principles (KISS, TDD, SOC, DRY, Documentation, Jimmy's Workflow v2.1, YAGNI, Fix Now, Measure Twice, No Shortcuts, Rules Persist)
+- 8 Core Development Principles (Measure twice, cut once; Jimmy's Workflow; Test-driven, always; Don't over-engineer; Clean, annotated code; YAGNIY; Self-healing; No shortcuts). Decided 2026-09-21; they replaced the eleven of v1.x
 - Jimmy's Workflow v2.1 with PRE-FLIGHT, Confidence Levels, COI Disclosure
 - GitHub CLI (`gh`) for all GitHub operations
 - Consistent structure across all projects
@@ -114,16 +114,18 @@ git commit -m "docs: add AI assistant guidelines"
 
 **Purpose**: Quick reference card for Claude (and other AI assistants)
 
-**What It Contains:**
-- Reference to AGENTS.md (single source of truth)
-- Quick reference for 8 core principles
-- Jimmy's Workflow overview
-- Critical rules
-- Common commands
+**What It Contains (2.0.0):**
+- Pointer to AGENTS.md (project context, read on demand; Claude Code does not auto-load it when CLAUDE.md exists)
+- Project-specific only: commands Claude cannot guess, conventions that differ from defaults, gotchas
+- Profile line: personal, or work in a separate Claude Code profile
+- Jimmy's Workflow one-liner; the eight principles live in AGENTS.md and, for Claude, in `~/.claude/rules/principles.md`, not here
+- "Where things go" table: CLAUDE.md vs `.claude/rules/` vs `.claude/skills/` vs `.claude/agents/` vs hooks vs AGENTS.md
+
+**Rule**: under 200 lines. It loads every turn.
 
 **When to Use**: Every project, placed in root directory
 
-**Customization Level**: Low - mainly just update commands
+**Customization Level**: Medium - fill the project block, commands, conventions, gotchas
 
 ---
 
@@ -154,7 +156,7 @@ git commit -m "docs: add AI assistant guidelines"
 - ✅ Version tracked (currently v2.1)
 - ✅ Auto-sync supported (simple replacement, no customizations)
 - ⚠️ If you copied this file, run check-version.sh to ensure you have latest
-- ⚠️ v2.1 is a major update from v1.1 - review CHANGELOG.md for migration notes
+- ⚠️ v2.1 is a major update from v1.1 - review the commit history of `templates/core/` for migration notes
 
 ---
 
@@ -706,7 +708,7 @@ pip install -r requirements.txt
 
 **Master Templates**: This repository (single source of truth)
 **Current Version**: See `VERSION` in repo root
-**Changelog**: `CHANGELOG.md` in repo root
+**Changelog**: the commit history of `templates/core/`
 
 ### Keeping Projects Up to Date
 
@@ -771,7 +773,7 @@ templates/tools/sync-templates.sh --auto      # Auto-apply
 - When new principles added (e.g., v1.3 added YAGNI)
 - When critical tools added (e.g., GitHub CLI)
 - When template structure improves
-- After reviewing CHANGELOG.md
+- After reviewing the commit history of `templates/core/`
 
 ### Integration with AI Assistants
 
@@ -783,7 +785,7 @@ templates/tools/sync-templates.sh --auto      # Auto-apply
 
 **AI will:**
 - Run version check automatically (if prompted)
-- Review CHANGELOG.md for breaking changes
+- Review the commit history of `templates/core/` for breaking changes
 - Execute sync with validation checkpoints
 - Preserve all your customizations
 
@@ -801,9 +803,11 @@ templates/tools/sync-templates.sh --auto      # Auto-apply
 
 ## Template Version History
 
-**Current Version**: 1.7.0 (see VERSION in repo root)
+**Current Version**: 2.1.4 (see VERSION in repo root)
 
 **Major Versions:**
+- **v2.0.0** (2026-09-21) - Eight principles replace the eleven; CLAUDE.md template 2.0.0, under 200 lines
+- **v1.8.0** (2026-04-06) - HOUSEKEEPING.md template
 - **v1.7.0** - Major Jimmy's Workflow update (v1.1 → v2.1): PRE-FLIGHT check, confidence levels, COI disclosure, validity conditions
 - **v1.6.0** - Added principles 9, 10, 11 (Measure Twice, No Shortcuts, Rules Persist)
 - **v1.5.1** - AI-Optimized Documentation standards and templates
@@ -814,10 +818,10 @@ templates/tools/sync-templates.sh --auto      # Auto-apply
 - **v1.1** - Removed project-specific examples
 - **v1.0** - Initial release
 
-**See full changelog**: `CHANGELOG.md` in repo root
+**See full changelog**: the commit history of `templates/core/`
 
 ---
 
-**Template System Version**: 1.7.0
-**Last Updated**: 2026-01-19
+**Template System Version**: 2.1.4
+**Last Updated**: 2026-09-24
 **Maintained By**: Jimmy + AI Coding Assistants

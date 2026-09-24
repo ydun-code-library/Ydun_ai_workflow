@@ -2,9 +2,9 @@
 
 **Purpose**: Step-by-step checklist for initializing new projects with AI assistant guidelines
 
-**Template Version**: 1.7.0
-**Last Updated**: 2026-01-22
-**Changelog**: v1.7.0 - Added Jimmy's Workflow execution requirement, updated to workflow v2.1 (4-phase), added DOCUMENTATION-STANDARDS.md reference, added principles 9-11
+**Template Version**: 2.0.0
+**Last Updated**: 2026-09-24
+**Changelog**: v2.0.0 - Eight principles replace the eleven. v1.8.0 - Added HOUSEKEEPING.md.template to core templates and init checklist
 
 ---
 
@@ -107,6 +107,15 @@ Run explicit validation commands. Document:
   ```
   **Purpose**: Provide quick context and next steps for session continuity
   **Benefits**: Never lose context between sessions, immediate orientation on session start
+
+### Housekeeping Checklist (Recommended for All Projects)
+
+- [ ] Copy `HOUSEKEEPING.md.template` to project root as `HOUSEKEEPING.md`
+  ```bash
+  cp templates/core/HOUSEKEEPING.md.template /path/to/project/HOUSEKEEPING.md
+  ```
+  **Purpose**: Structured checklist for keeping the repo clean: tests, docs accuracy, stale files, dependency audits
+  **Benefits**: Consistent quality maintenance across sessions. "Let's do housekeeping" becomes a repeatable process, not ad-hoc guesswork
 
 ### Optional Files
 
@@ -469,6 +478,11 @@ Run explicit validation commands. Document:
   ls -la NEXT-SESSION-START-HERE.md
   ```
 
+- [ ] Confirm `HOUSEKEEPING.md` exists (recommended)
+  ```bash
+  ls -la HOUSEKEEPING.md
+  ```
+
 ### Check File Sizes
 
 - [ ] Verify AGENTS.md is substantial (200+ lines)
@@ -507,10 +521,8 @@ Run explicit validation commands. Document:
 
 - [ ] Ask: "Please read AGENTS.md and summarize this project"
 - [ ] Verify summary is accurate based on your customizations
-- [ ] Check that all 11 core principles are recognized:
-  - 1-6: KISS, TDD, SOC, DRY, Documentation Standards, Jimmy's Workflow
-  - 7-8: YAGNI, Fix Now
-  - 9-11: Measure Twice Cut Once, No Shortcuts, Rules Persist
+- [ ] Check that all 8 core principles are recognized (same block as `templates/core/AGENTS.md.template`):
+  - 1-8: Measure twice cut once; Jimmy's Workflow; Test-driven always; Don't over-engineer; Clean annotated code; YAGNIY; Self-healing; No shortcuts
 
 ### Test Jimmy's Workflow v2.1
 
@@ -532,7 +544,7 @@ Run explicit validation commands. Document:
 
 - [ ] Stage template files
   ```bash
-  git add AGENTS.md CLAUDE.md JIMMYS-WORKFLOW.md STATUS.md NEXT-SESSION-START-HERE.md
+  git add AGENTS.md CLAUDE.md JIMMYS-WORKFLOW.md STATUS.md NEXT-SESSION-START-HERE.md HOUSEKEEPING.md
   ```
 
 ### Create Commit
@@ -659,6 +671,7 @@ Run explicit validation commands. Document:
 - [ ] JIMMYS-WORKFLOW.md is accessible
 - [ ] STATUS.md tracks current progress
 - [ ] NEXT-SESSION-START-HERE.md provides session context
+- [ ] **HOUSEKEEPING.md customised** with project-specific commands and file map [v1.8.0]
 - [ ] All placeholders replaced
 - [ ] Commands are correct for this project
 - [ ] Environment variables documented
@@ -768,12 +781,13 @@ cp templates/core/frontend-service.agents.md ./AGENTS.md
 2. [ ] Copy CLAUDE.md.template → CLAUDE.md
 3. [ ] Copy STATUS.md.template → STATUS.md
 4. [ ] Copy NEXT-SESSION-START-HERE.md.template → NEXT-SESSION-START-HERE.md
-5. [ ] Copy JIMMYS-WORKFLOW.md
-6. [ ] Replace in all files: PROJECT_NAME, GITHUB_URL, LOCAL_PATH, dates
-7. [ ] Replace command placeholders
-8. [ ] Add 2-3 sentence service overview
-9. [ ] Add current phase and 1-2 next steps
-10. [ ] Commit
+5. [ ] Copy HOUSEKEEPING.md.template → HOUSEKEEPING.md
+6. [ ] Copy JIMMYS-WORKFLOW.md
+7. [ ] Replace in all files: PROJECT_NAME, GITHUB_URL, LOCAL_PATH, dates
+8. [ ] Replace command placeholders (including HOUSEKEEPING test/security commands)
+9. [ ] Add 2-3 sentence service overview
+10. [ ] Fill "Where Things Live" in HOUSEKEEPING.md
+11. [ ] Commit
 
 **Everything else can be filled in later!**
 
@@ -796,6 +810,6 @@ cp templates/core/frontend-service.agents.md ./AGENTS.md
 
 ---
 
-**Checklist Version**: 1.7.0
-**Template System Version**: 1.7.0
-**Last Updated**: 2026-01-22
+**Checklist Version**: 2.0.0
+**Template System Version**: 2.1.4
+**Last Updated**: 2026-09-24
