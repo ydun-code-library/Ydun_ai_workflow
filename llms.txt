@@ -1,6 +1,6 @@
 # Ydun AI Workflow
 
-> Production-tested templates, principles, and patterns for AI-assisted development.
+> Templates, principles, and patterns for AI-assisted development. Eight principles and Jimmy's Workflow, versioned, with tools to check and sync a project.
 
 ## Templates
 
