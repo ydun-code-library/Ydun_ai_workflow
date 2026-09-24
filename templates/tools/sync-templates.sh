@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # sync-templates.sh - Intelligently sync templates while preserving customizations
+# Version: 1.1.0 (2026-09-23: --dry-run writes nothing, not even the backup; help names the real tool path;
+#                  guard fixture tools/tests/sync-templates.test.sh pins that an existing CLAUDE.md is never touched)
 # Usage: Run from project root directory
 # Exit codes: 0 = success, 1 = cancelled, 2 = error
 
@@ -13,16 +15,16 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0;0m'
 
-# Resolve paths relative to this script
+# Paths
+# Paths resolve from this script, so the tools run from any clone of Ydun_ai_workflow.
+# Layout: <repo>/VERSION, <repo>/templates/core/, <repo>/templates/docs/, <repo>/templates/tools/ (this file).
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-
-# Paths
 TEMPLATE_DIR="$REPO_ROOT"
 MASTER_VERSION_FILE="$TEMPLATE_DIR/VERSION"
-MASTER_AGENTS_TEMPLATE="$TEMPLATE_DIR/projects/core/AGENTS.md.template"
-MASTER_CLAUDE_TEMPLATE="$TEMPLATE_DIR/projects/core/CLAUDE.md.template"
-MASTER_WORKFLOW_FILE="$TEMPLATE_DIR/projects/core/JIMMYS-WORKFLOW.md"
+MASTER_AGENTS_TEMPLATE="$TEMPLATE_DIR/templates/core/AGENTS.md.template"
+MASTER_CLAUDE_TEMPLATE="$TEMPLATE_DIR/templates/core/CLAUDE.md.template"
+MASTER_WORKFLOW_FILE="$TEMPLATE_DIR/templates/core/JIMMYS-WORKFLOW.md"
 PROJECT_AGENTS_FILE="./AGENTS.md"
 PROJECT_CLAUDE_FILE="./CLAUDE.md"
 PROJECT_WORKFLOW_FILE="./JIMMYS-WORKFLOW.md"
@@ -37,7 +39,7 @@ show_usage() {
     echo "  --dry-run     Show what would change without applying"
     echo "  --help, -h    Show this help"
     echo ""
-    echo "Run from project root directory"
+    echo "Run from project root directory (tool lives in templates/tools/ of your Ydun_ai_workflow clone)"
 }
 
 # Parse arguments
@@ -100,10 +102,11 @@ fi
 echo -e "${YELLOW}⚠️  Templates are out of date${NC}"
 echo ""
 echo "What's new in v$MASTER_VERSION:"
-grep -A 20 "## Version $MASTER_VERSION" "$TEMPLATE_DIR/CHANGELOG.md" | head -20
+git --no-pager -C "$REPO_ROOT" log --oneline -10 -- templates/core/ 2>/dev/null || echo "  (see the commit history of templates/core/)"
 echo ""
 
-# Create backup
+# Create backup (skipped on --dry-run: a dry run writes nothing, not even the backup)
+if [ "$DRY_RUN" = false ]; then
 echo -e "${BLUE}Creating backup...${NC}"
 mkdir -p "$BACKUP_DIR"
 BACKUP_TIMESTAMP=$(date +%Y%m%d-%H%M%S)
@@ -116,6 +119,7 @@ if [ -f "$PROJECT_WORKFLOW_FILE" ]; then
 fi
 echo "✅ Backup created in $BACKUP_DIR"
 echo ""
+fi
 
 # Extract protected sections from current AGENTS.md
 echo -e "${BLUE}Extracting protected sections...${NC}"
@@ -203,7 +207,7 @@ echo "📄 AGENTS.md: Smart merge not yet implemented (Phase 2)"
 echo "⚠️  Manual sync required for AGENTS.md"
 echo ""
 echo "Manual sync instructions for AGENTS.md:"
-echo "1. Review: cat $TEMPLATE_DIR/CHANGELOG.md"
+echo "1. Review: git -C $REPO_ROOT log --oneline -- templates/core/"
 echo "2. Compare: diff $PROJECT_AGENTS_FILE $MASTER_AGENTS_TEMPLATE"
 echo "3. Manually update Core Development Principles section"
 echo "4. Update TEMPLATE_VERSION to $MASTER_VERSION"
