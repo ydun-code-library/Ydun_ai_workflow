@@ -1,7 +1,7 @@
 # Ydun AI Workflow - Public templates, prompts and patterns for AI-assisted development
 
 <!--
-TEMPLATE_VERSION: 2.1.3
+TEMPLATE_VERSION: 2.1.4
 TEMPLATE_SOURCE: templates/core/AGENTS.md.template
 LAST_SYNC: 2026-09-24
 SYNC_CHECK: This repo publishes the templates. Its own AGENTS.md follows templates/core/AGENTS.md.template
@@ -508,5 +508,5 @@ git -C path/to/Ydun_ai_workflow log --oneline -- templates/core/
 
 **This document follows the [agents.md](https://agents.md/) standard for AI coding assistants.**
 
-**Template Version**: 2.1.3
+**Template Version**: 2.1.4
 **Last Updated**: 2026-09-24
