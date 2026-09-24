@@ -1,12 +1,12 @@
 # [PROJECT_NAME] - [SERVICE_DESCRIPTION]
 
 <!--
-TEMPLATE_VERSION: 1.7.0
+TEMPLATE_VERSION: 2.1.3
 TEMPLATE_SOURCE: templates/core/AGENTS.md.template
 LAST_SYNC: [YYYY-MM-DD]
 SYNC_CHECK: Run check-version.sh from your Ydun_ai_workflow clone to verify you have the latest template version
 AUTO_SYNC: Run sync-templates.sh from your Ydun_ai_workflow clone to update (preserves your customizations)
-CHANGELOG: See CHANGELOG.md for version history
+CHANGELOG: See the Ydun_ai_workflow commit history for version history
 -->
 
 **STATUS: [IN DEVELOPMENT / READY FOR TESTING / PRODUCTION]** - Last Updated: [YYYY-MM-DD]
@@ -22,133 +22,41 @@ CHANGELOG: See CHANGELOG.md for version history
 [PROJECT_SPECIFIC_CONTEXT - Replace with relevant background, history, or critical information about this project/service]
 <!-- PROJECT_SPECIFIC END: IMPORTANT_CONTEXT -->
 
-## Core Development Principles (MANDATORY)
+## Core Principles (MANDATORY)
 
-### 1. KISS (Keep It Simple, Stupid)
-- Avoid over-complication and over-engineering
-- Choose simple solutions over complex ones
-- Question every abstraction layer
-- If a feature seems complex, ask: "Is there a simpler way?"
+Eight principles, one list, three readers. Claude can load them every turn from `~/.claude/rules/principles.md`; Codex, Gemini and humans read this block. Keep the two copies identical. Decided 2026-09-21 (replaced the eleven of v1.x).
 
-### 2. TDD (Test-Driven Development)
-- Write tests first
-- Run tests to ensure they fail (Red phase)
-- Write minimal code to pass tests (Green phase)
-- Refactor while keeping tests green
-- Never commit code without tests
+### 1. Measure twice, cut once
+Read before editing. Verify the path, the command, the assumption. Plan before content and editorial work too.
 
-### 3. Separation of Concerns (SOC)
-- Each module/component has a single, well-defined responsibility
-- Clear boundaries between different parts of the system
-- Services should be loosely coupled
-- Avoid mixing business logic with UI or data access code
+### 2. Jimmy's Workflow
+PRE-FLIGHT → IMPLEMENT → VALIDATE → CHECKPOINT, for all work. VALIDATE names the test, build or screenshot it ran; a stated confidence with no runnable check is MEDIUM at best. HIGH proceeds, MEDIUM pauses for a human spot-check, LOW stops. Full system below.
 
-### 4. DRY (Don't Repeat Yourself)
-- Eliminate code duplication
-- Extract common functionality into reusable components
-- Use configuration files for repeated settings
-- Create shared libraries for common operations
+### 3. Test-driven, always
+RED then GREEN. Never "tests later".
 
-### 5. Documentation Standards
-- Always include the actual date when writing documentation
-- Use objective, factual language only
-- Avoid marketing terms like "production-ready", "world-class", "highly sophisticated", "cutting-edge", etc.
-- State current development status clearly
-- Document what IS, not what WILL BE
+### 4. Don't over-engineer
+Simplest thing that works. Question every layer.
 
-### 5.5. AI-Optimized Documentation
-**CRITICAL**: Documentation is structured data for both humans AND AI consumption
+### 5. Clean, annotated code
+Readable, with good notes for the next session. Private repos annotate freely.
 
-**Added**: v1.5.0 | **Enhanced**: v1.5.1
+### 6. YAGNIY: you ain't gonna need it yet
+Don't build it now. Write it down (STATUS, ADR) so it is queued, not lost.
 
-**Purpose**: Enable AI assistants to effectively help during:
-- **Development** (now) - Building the system
-- **Deployment** (later) - Setting up and configuring
-- **Operations** (ongoing) - Monitoring, troubleshooting
-- **User Support** (ongoing) - Helping users use the system
+### 7. Self-healing
+Build things that recover: retries with backoff, health checks, safe restarts, nothing that can loop forever. When something breaks, fix the cause so it cannot recur.
 
-**The 7 Principles**:
-1. **Structured Data Over Prose** - Use tables, JSON, YAML instead of paragraphs
-2. **Explicit Context** - Never assume prior knowledge
-3. **Cause-Effect Relationships** - Clear "if X then Y" statements
-4. **Machine-Readable Formats** - Consistent, parseable metadata (dates, versions, status)
-5. **Searchable Content** - Keywords, anchors, consistent terminology
-6. **Version-Stamped** - Date all documentation updates
-7. **Cross-Referenced** - Explicit links between related docs
+### 8. No shortcuts
+Finish it. Fix it now. Quality over speed.
 
-**Example** (Good AI-optimized documentation):
-```markdown
-## Database Configuration
-
-**Required Environment Variables**:
-| Variable | Format | Example | Required |
-|----------|--------|---------|----------|
-| DATABASE_URL | postgresql://... | postgresql://postgres:secret@localhost:5432/db | Yes |
-
-**Validation**:
-\```bash
-npm run db:test-connection
-# Expected output: "✅ Connected successfully"
-\```
-```
-
-**Documentation Layers**:
-- **Layer 1**: Development Phase (AGENTS.md, Architecture docs, Phase plans)
-- **Layer 2**: Deployment Phase (DEPLOYMENT-GUIDE.md, OPERATIONS.md, API-REFERENCE.md)
-- **Layer 3**: User Phase (USER-GUIDE.md, TROUBLESHOOTING.md, Configuration patterns)
+**Documentation standard:** dated, factual, structured for humans and AI. No marketing language.
+**Voice standard:** short sentences, bullets over prose, no filler, no AI tells. The author's own phrases, not rewrites of them.
+**When they clash:** security, then measure twice, then Jimmy's Workflow, then no shortcuts, then the rest.
 
 ---
 
-**New in v1.5.1**: Comprehensive documentation standards and templates
-
-**Complete Standards**: See [DOCUMENTATION-STANDARDS.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/DOCUMENTATION-STANDARDS.md) for comprehensive guidelines, best practices, and anti-patterns.
-
-**Quick Start** (for projects with >5 documentation files):
-
-1. **Add AI Navigation Headers** to core documentation:
-   ```bash
-   # Download the template
-   curl -sO https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template
-   # Add to top of AGENTS.md, CLAUDE.md, major guides
-   # Fill all [FILL: ...] placeholders
-   ```
-
-2. **Create Master Navigation Map**:
-   ```bash
-   # If project has >5 documentation files
-   curl -so DOCS-MAP.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/DOCS-MAP.md.template
-   # List all documentation files with priorities
-   ```
-
-3. **Document Architecture Decisions**:
-   ```bash
-   # Create ADR directory
-   mkdir -p docs/decisions
-   curl -so docs/decisions/001-decision-name.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/ADR-TEMPLATE.md
-   ```
-
-**Available Templates** (from [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow/tree/main/templates/docs/doc-components)):
-- [AI-NAVIGATION-HEADER.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template) - Help AI know when to read files
-- [DOCS-MAP.md.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/DOCS-MAP.md.template) - Master documentation index
-- [ADR-TEMPLATE.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/ADR-TEMPLATE.md) - Architecture Decision Records
-- [METADATA-BLOCK.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/METADATA-BLOCK.template) - Machine-readable metadata
-
-**When to Apply**:
-- ✅ Projects with >5 documentation files (use full standards)
-- ✅ Multi-service platforms (essential for navigation)
-- ✅ Long-lived projects >3 months (worth the investment)
-- ⚠️ Optional for simple scripts (lightweight approach fine)
-
-**Validation** (requires [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow) clone):
-```bash
-# Check documentation quality (optional Check #8)
-# Run from inside your Ydun_ai_workflow clone:
-path/to/Ydun_ai_workflow/templates/tools/audit-project.sh --full
-```
-
-All documentation follows these principles to maximize AI assistant effectiveness.
-
-### 6. Jimmy's Workflow v2.1 (Red/Green Checkpoints)
+## Jimmy's Workflow v2.1 (Red/Green Checkpoints)
 **MANDATORY for all implementation tasks**
 
 Use the four-phase checkpoint system to prevent AI hallucination and ensure robust implementation:
@@ -159,7 +67,7 @@ Use the four-phase checkpoint system to prevent AI hallucination and ensure robu
 
 - 🔴 **PRE-FLIGHT**: Verify context - do I have all files, requirements, dependencies?
 - 🔴 **IMPLEMENT**: Write code, build features, make changes
-- 🟢 **VALIDATE**: Run explicit validation with documented reasoning and confidence level
+- 🟢 **VALIDATE**: Run explicit validation with documented reasoning and confidence level. Name the runnable check (test, build, screenshot); a stated confidence with no runnable check is MEDIUM at best
 - 🔵 **CHECKPOINT**: Mark completion with confidence level and validity conditions
 
 **Critical Rules:**
@@ -188,91 +96,82 @@ Use the four-phase checkpoint system to prevent AI hallucination and ensure robu
 - COI disclosure acknowledges AI blind spots
 - Provides clear rollback paths with validity conditions
 
-### 7. YAGNI (You Ain't Gonna Need It)
-- Don't implement features until they're actually needed
-- Resist the urge to "future-proof" or add "might be useful later" code
-- Build for current requirements, not hypothetical future ones
-- Question every feature: "Do we need this NOW?"
-- Refactor when requirements change, don't pre-optimize
-- Every line of code is a liability - only write what's necessary
 
-**Why This Matters:**
-- Prevents scope creep and over-engineering
-- Reduces technical debt (unused code is still debt)
-- Speeds up development (focus on actual requirements)
-- Forces clear prioritization of features
+---
 
-**AI Assistant Reminder:** Don't add "helpful" features like caching, abstraction layers, or config systems unless explicitly required by current needs.
+## Claude Code Setup (what goes where)
 
-### 8. Fix Now, Not Later
-- Fix vulnerabilities immediately when discovered (npm audit, security warnings)
-- Fix warnings immediately (don't suppress or accumulate)
-- Fix failing tests immediately (understand root cause, don't skip)
-- Fix linter errors immediately (don't disable rules without reason)
-- Address build errors and deprecation warnings as they appear
-- Don't use suppressions (@ts-ignore, eslint-disable, etc.) without documented justification
+| Need | Put it in | Loads |
+|------|-----------|-------|
+| A convention or command Claude got wrong twice | `CLAUDE.md` (project) | every turn, keep under 200 lines |
+| A rule scoped to some files | `.claude/rules/<topic>.md` with `paths:` | only when those files are touched |
+| A playbook you paste for the third time | `.claude/skills/<name>/SKILL.md` | description every turn, body on use |
+| A worker you keep spawning with the same brief | `.claude/agents/<name>.md` | on delegation |
+| Something that must happen every time | a hook in `.claude/settings.json` | zero context |
+| Project background, stack, commands, status | this file (`AGENTS.md`) | read on demand; Claude Code does not auto-load it when a CLAUDE.md exists |
 
-**Exception Clause:**
-- If you MUST defer or bypass an issue:
-  1. Investigate the root cause thoroughly
-  2. Weigh multiple solution options
-  3. Make an explicit decision
-  4. DOCUMENT why (in code comments, KNOWN_ISSUES.md, or technical debt tracker)
-  5. Create a tracking issue/ticket
+Employer or client projects can run in a separate Claude Code profile with its own rules.
 
-**Why This Matters:**
-- Prevents technical debt accumulation
-- Keeps codebase healthy and maintainable
-- Vulnerabilities don't ship to production
-- Warnings don't become noise
-- Tests remain meaningful
+---
 
-**AI Assistant Reminder:** Never suggest "we'll fix this later" or "skip for now". Always investigate root cause and fix immediately. If deferring is necessary, document comprehensively.
+## Documentation Standards
 
-### 9. Measure Twice, Cut Once
-- Always verify your understanding before executing
-- Double-check file paths, command syntax, and target locations
-- Review the plan before implementation begins
-- Confirm assumptions with explicit checks (read the file, run the test)
-- When in doubt, investigate first - don't guess
 
-**Why This Matters:**
-- Prevents "oops, wrong file" disasters
-- Catches misunderstandings before they become bugs
-- Saves time by avoiding rework
-- Builds confidence in changes
+**Documentation Layers**:
+- **Layer 1**: Development Phase (AGENTS.md, Architecture docs, Phase plans)
+- **Layer 2**: Deployment Phase (DEPLOYMENT-GUIDE.md, OPERATIONS.md, API-REFERENCE.md)
+- **Layer 3**: User Phase (USER-GUIDE.md, TROUBLESHOOTING.md, Configuration patterns)
 
-**AI Assistant Reminder:** Before making changes, explicitly verify: Is this the right file? Is this the right approach? Did I understand the requirement correctly? Run verification commands, don't assume.
+---
 
-### 10. No Shortcuts (Do It Right)
-- Complete the job properly - no half-arsed work
-- Don't skip steps to save time
-- Implement the full solution, not a "good enough" hack
-- If something needs 5 steps, do all 5 steps
-- Quality over speed - cutting corners creates debt
+**Documentation standards**: Comprehensive documentation standards and templates
 
-**Why This Matters:**
-- Half-finished work creates more work later
-- Shortcuts compound into technical debt
-- "Quick fixes" become permanent problems
-- Professional work means complete work
+**Complete Standards**: See [DOCUMENTATION-STANDARDS.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/DOCUMENTATION-STANDARDS.md) for comprehensive guidelines, best practices, and anti-patterns.
 
-**AI Assistant Reminder:** Never say "we can skip this for now" or "this should be good enough". Complete the task fully. If scope needs reducing, discuss with user first - don't silently cut corners.
+**Quick Start** (for projects with >5 documentation files):
 
-### 11. Rules Persist (Context Compression Immunity)
-- **ALL rules remain in effect after auto-compact/context summarization**
-- Core principles are NEVER optional, regardless of context length
-- If you can't remember a rule, re-read AGENTS.md
-- Summarization does not equal permission to skip validation
-- Jimmy's Workflow gates apply to EVERY task, not just "important" ones
+1. **Add AI Navigation Headers** to core documentation:
+   ```bash
+   # Download the template
+   curl -sO https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template
+   # Add to top of AGENTS.md, CLAUDE.md, major guides
+   # Fill all [FILL: ...] placeholders
+   ```
 
-**Why This Matters:**
-- Context compression can cause AI to "forget" constraints
-- Long sessions drift from initial guidelines
-- Rules exist for good reasons - they don't expire
-- Consistency requires explicit reinforcement
+2. **Create Master Navigation Map**:
+   ```bash
+   # If project has >5 documentation files
+   curl -so DOCS-MAP.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/DOCS-MAP.md.template
+   # List all documentation files with priorities (⚡📋🔧🎯📚🏛️)
+   ```
 
-**AI Assistant Reminder:** After context summarization, you may feel "freer" - this is an illusion. Re-read AGENTS.md if uncertain. All 11 principles apply with full force regardless of conversation length. NEVER skip Jimmy's Workflow checkpoints just because "we've been doing this for a while".
+3. **Document Architecture Decisions**:
+   ```bash
+   # Create ADR directory
+   mkdir -p docs/decisions
+   # Use the template for each significant decision
+   curl -so docs/decisions/001-decision-name.md https://raw.githubusercontent.com/ydun-code-library/Ydun_ai_workflow/main/templates/docs/doc-components/ADR-TEMPLATE.md
+   ```
+
+**Available Templates** (from [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow/tree/main/templates/docs/doc-components)):
+- [AI-NAVIGATION-HEADER.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/AI-NAVIGATION-HEADER.template) - Help AI know when to read files
+- [DOCS-MAP.md.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/DOCS-MAP.md.template) - Master documentation index
+- [ADR-TEMPLATE.md](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/ADR-TEMPLATE.md) - Architecture Decision Records
+- [METADATA-BLOCK.template](https://github.com/ydun-code-library/Ydun_ai_workflow/blob/main/templates/docs/doc-components/METADATA-BLOCK.template) - Machine-readable metadata
+
+**When to Apply**:
+- ✅ Projects with >5 documentation files (use full standards)
+- ✅ Multi-service platforms (essential for navigation)
+- ✅ Long-lived projects >3 months (worth the investment)
+- ⚠️ Optional for simple scripts (lightweight approach fine)
+
+**Validation** (requires a [Ydun_ai_workflow](https://github.com/ydun-code-library/Ydun_ai_workflow) clone):
+```bash
+# Check documentation quality (optional Check #8), from your project directory
+path/to/Ydun_ai_workflow/templates/tools/audit-project.sh --full
+```
+
+All documentation follows these principles to maximize AI assistant effectiveness.
 
 ## GitHub Workflow
 
@@ -437,6 +336,9 @@ gh release view [tag]               # View release details
 6. Implement minimal code to pass tests
 7. Refactor while maintaining green tests
 
+### Housekeeping
+When someone says "let's do housekeeping", read **HOUSEKEEPING.md** and follow the checklist. It covers: tests passing, documentation accuracy, stale files, git state, security checks, and more. Every check is a PRE-FLIGHT → VALIDATE → CHECKPOINT cycle.
+
 ### Before Committing Code
 1. Run all tests: `[TEST_COMMAND]`
 2. Check types: `[TYPECHECK_COMMAND]`
@@ -569,12 +471,12 @@ gh release view [tag]               # View release details
 > ```bash
 > git clone https://github.com/ydun-code-library/Ydun_ai_workflow.git
 > ```
+> Run the scripts from your project directory.
 
 ### Check if Templates are Up to Date
 
 ```bash
-# Run from your Ydun_ai_workflow clone:
-Ydun_ai_workflow/templates/tools/check-version.sh
+path/to/Ydun_ai_workflow/templates/tools/check-version.sh
 ```
 
 **What it does:**
@@ -585,8 +487,7 @@ Ydun_ai_workflow/templates/tools/check-version.sh
 ### View Template Changelog
 
 ```bash
-# In the Ydun_ai_workflow clone:
-cat Ydun_ai_workflow/CHANGELOG.md
+git -C path/to/Ydun_ai_workflow log --oneline -- templates/core/
 ```
 
 See what's new in each version and migration instructions.
@@ -594,10 +495,9 @@ See what's new in each version and migration instructions.
 ### Sync to Latest Version (Manual for now)
 
 ```bash
-# Run from your Ydun_ai_workflow clone:
-Ydun_ai_workflow/templates/tools/sync-templates.sh --dry-run   # Preview changes
-Ydun_ai_workflow/templates/tools/sync-templates.sh             # Apply changes (with confirmation)
-Ydun_ai_workflow/templates/tools/sync-templates.sh --auto      # Auto-apply without confirmation
+path/to/Ydun_ai_workflow/templates/tools/sync-templates.sh --dry-run   # Preview changes
+path/to/Ydun_ai_workflow/templates/tools/sync-templates.sh             # Apply changes (with confirmation)
+path/to/Ydun_ai_workflow/templates/tools/sync-templates.sh --auto      # Auto-apply without confirmation
 ```
 
 **What gets preserved during sync:**
@@ -621,30 +521,30 @@ Ydun_ai_workflow/templates/tools/sync-templates.sh --auto      # Auto-apply with
 ### Template Compliance Checking
 
 **AI Assistant Behavior**: When user asks "check templates" or "are we up to date?", automatically:
-1. Run the audit script from the Ydun_ai_workflow clone OR manually execute checks
+1. Run: `path/to/Ydun_ai_workflow/templates/tools/audit-project.sh` OR manually execute checks
 2. Generate compliance report
 3. Offer remediation based on findings
 
-**User can also run manually** (from the Ydun_ai_workflow clone):
+**User can also run manually:**
 ```bash
-Ydun_ai_workflow/templates/tools/audit-project.sh          # Full audit
-Ydun_ai_workflow/templates/tools/audit-project.sh --quick  # Quick check
+path/to/Ydun_ai_workflow/templates/tools/audit-project.sh          # Full audit
+path/to/Ydun_ai_workflow/templates/tools/audit-project.sh --quick  # Quick check
 ```
 
 **Quick Manual Check:**
 ```bash
 # Are we up to date?
-Ydun_ai_workflow/templates/tools/check-version.sh
+path/to/Ydun_ai_workflow/templates/tools/check-version.sh
 
 # What's new?
-cat Ydun_ai_workflow/CHANGELOG.md
+git -C path/to/Ydun_ai_workflow log --oneline -- templates/core/
 ```
 
 ## Important Reminders for AI Assistants
 
 1. **Always use Jimmy's Workflow** for implementation tasks
 2. **Follow TDD** - Write tests before implementation
-3. **Keep it KISS** - Simplicity over complexity
+3. **Don't over-engineer** - Simplest thing that works. Question every layer
 4. **Apply YAGNI** - Only implement what's needed now, not future "might need" features
 5. **Use GitHub CLI** - Use `gh` for all GitHub operations (PRs, issues, CI/CD monitoring)
 6. **Fix Now** - Never defer fixes for vulnerabilities, warnings, or test failures. No suppressions without documented justification
@@ -654,11 +554,12 @@ cat Ydun_ai_workflow/CHANGELOG.md
 10. **Update this file** - Keep AGENTS.md current as project evolves
 11. **Measure Twice, Cut Once** - Verify before executing. Double-check paths, commands, and assumptions
 12. **No Shortcuts** - Complete the job properly. No half-arsed work or "good enough" hacks
-13. **Rules Persist** - ALL principles remain in effect after auto-compact. Re-read AGENTS.md if uncertain
+13. **Principles persist** - The eight principles remain in effect after auto-compact. Re-read this file if uncertain
+14. **Housekeeping** - When asked for "housekeeping", read HOUSEKEEPING.md and follow the checklist. Don't improvise. Use the defined process
 
 ---
 
 **This document follows the [agents.md](https://agents.md/) standard for AI coding assistants.**
 
-**Template Version**: 1.7.0
+**Template Version**: 2.1.3
 **Last Updated**: [YYYY-MM-DD]

@@ -1,0 +1,198 @@
+# [PROJECT_NAME] - Housekeeping
+
+When someone says "let's do housekeeping", run through this checklist using Jimmy's Workflow. Every check is a PRE-FLIGHT → VALIDATE → CHECKPOINT cycle. The more often it's done, the less there is to do.
+
+**Last housekeeping:** [YYYY-MM-DD]
+**Last spring clean:** [YYYY-MM-DD]
+
+---
+
+## Quick Housekeeping (every feature / every session)
+
+### 1. Tests pass
+
+**PRE-FLIGHT:** Do all tests compile and pass?
+
+```bash
+[TEST_COMMANDS]
+```
+
+**VALIDATE:** Record the count. If it doesn't match the docs, update the docs.
+
+**CHECKPOINT:** Tests: ___ total. All green: YES / NO.
+
+### 2. Numbers match documentation
+
+**PRE-FLIGHT:** Every doc that states a number must agree with reality.
+
+**VALIDATE:** Run this and fix every mismatch:
+```bash
+[COUNT_COMMANDS]
+```
+
+Files that state test counts (ALL must agree):
+- `README.md`
+- `STATUS.md`
+- `NEXT-SESSION-START-HERE.md`
+- `CLAUDE.md`
+- [ADD_PROJECT_SPECIFIC_FILES]
+
+**CHECKPOINT:** All docs show same numbers: YES / NO.
+
+### 3. Documentation accuracy (CRITICAL - not just numbers)
+
+**PRE-FLIGHT:** Docs must not claim features that don't exist, or miss features that do.
+
+**VALIDATE:** For each active doc, check:
+- Does every "built" / "tested" / "working" claim match the code?
+- Does any doc say "not built" / "future" / "PLANNED" for something that IS built?
+- Are architecture diagrams current?
+- Do "what's in the box" sections list all components?
+
+Common traps:
+- Feature added but docs still say "PLANNED" or "not implemented"
+- Test count changed but only some docs updated
+- New module/directory not added to DOCS-MAP or HOUSEKEEPING
+- Claims about security properties that aren't implemented (NEVER acceptable)
+
+**CHECKPOINT:** Every claim verified: YES / NO. Issues found: ___.
+
+### 4. No stale files in root
+
+Root should contain ONLY:
+```
+README.md                 CLAUDE.md
+AGENTS.md                 STATUS.md
+NEXT-SESSION-START-HERE.md   HOUSEKEEPING.md
+DOCS-MAP.md               JIMMYS-WORKFLOW.md
+[ADD_PROJECT_SPECIFIC_ROOT_FILES]
+```
+
+Anything else → move it or delete it.
+
+### 5. Git is clean and pushed
+
+```bash
+git status                    # Should be clean
+git log --oneline -1          # Verify last commit makes sense
+git push                      # Origin up to date
+```
+
+### 6. Security checks pass
+
+```bash
+[SECURITY_CHECK_COMMANDS]
+```
+
+**CHECKPOINT:** Security checks clean: YES / NO.
+
+---
+
+## Spring Clean (after major sprints / before milestones)
+
+Everything in quick housekeeping, PLUS:
+
+### 7. Read every root markdown file
+
+Open each file. Read it. Check every number, every claim, every diagram. Fix what's wrong. This cannot be automated - it requires reading. Use Jimmy's Workflow: PRE-FLIGHT (open the file), VALIDATE (is every statement true?), CHECKPOINT (mark reviewed).
+
+### 8. Read every docs/ file
+
+Same as above but for `docs/`. Check dates. If a doc is >2 weeks old and the code it describes changed, it needs review. If a doc describes something that no longer exists, archive it.
+
+### 9. Archive stale docs
+
+Docs that describe old/superseded functionality move to `docs/archive/`. Don't delete - someone might need the history. Add a note at the top: `> **ARCHIVED:** This document describes [PROJECT_NAME] before [change]. See [current doc] instead.`
+
+### 10. Cross-reference audit
+
+```bash
+# Find broken internal links
+grep -roh '\[.*\](.*\.md)' --include="*.md" . | grep -oP '\(.*?\)' | tr -d '()' | sort -u | while read f; do
+  [ ! -f "$f" ] && echo "BROKEN: $f"
+done
+```
+
+### 11. Dependency audit
+
+```bash
+[DEPENDENCY_AUDIT_COMMANDS]
+```
+
+Compare dep count with documented count. If different, investigate and update.
+
+### 12. Memory sync
+
+Check `.claude/projects/*/memory/MEMORY.md` - are memories current? Any stale entries? Do test counts match reality?
+
+### 13. MCP re-index
+
+If the project has a knowledge server (a RAG or MCP index), re-index it after significant code changes. The command usually runs on your build server:
+```bash
+[REINDEX_COMMAND]
+```
+
+### 14. Update website metadata
+
+If the project publishes a metadata sidecar for a website (`.ydun.yml` or similar), check that highlights, tech stack, and test counts match current state.
+
+---
+
+## Where Things Live
+
+### Root (project-facing)
+
+| What | Where | Why |
+|------|-------|-----|
+| Developer entry point | `README.md` | First thing anyone reads |
+| AI instructions | `CLAUDE.md` | AI assistant context |
+| Development guide | `AGENTS.md` | Principles, security, testing rules |
+| Project progress | `STATUS.md` | Metrics, session history, current state |
+| Session start | `NEXT-SESSION-START-HERE.md` | What to do first, what changed last |
+| Doc navigation | `DOCS-MAP.md` | Find any document |
+| This checklist | `HOUSEKEEPING.md` | How we keep the repo clean |
+| Workflow system | `JIMMYS-WORKFLOW.md` | PRE-FLIGHT → IMPLEMENT → VALIDATE → CHECKPOINT |
+[ADD_PROJECT_SPECIFIC_ROOT_FILES_TABLE]
+
+### Source Code
+
+| What | Where | Contents |
+|------|-------|----------|
+[FILL_SOURCE_CODE_TABLE]
+
+### Documentation
+
+| What | Where | Contents |
+|------|-------|----------|
+[FILL_DOCUMENTATION_TABLE]
+
+### Testing
+
+| What | Where | Contents |
+|------|-------|----------|
+[FILL_TESTING_TABLE]
+
+### Infrastructure
+
+| What | Where | Contents |
+|------|-------|----------|
+[FILL_INFRASTRUCTURE_TABLE]
+
+---
+
+## File Naming
+
+| Type | Convention | Example |
+|------|-----------|---------|
+| Root project docs | `UPPERCASE.md` | `STATUS.md`, `AGENTS.md` |
+[FILL_NAMING_CONVENTIONS]
+
+---
+
+## When Documentation Is Wrong
+
+Documentation that claims a security property which isn't implemented is not a documentation bug. It's a **security defect**. False claims about encryption, authentication, access control, or data handling are unacceptable. They must be fixed immediately - either implement the feature or remove the claim. There is no third option.
+
+---
+
+*When in doubt about where something goes, check this file. When this file is wrong, fix it first.*

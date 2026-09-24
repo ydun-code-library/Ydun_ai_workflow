@@ -1,0 +1,137 @@
+<!-- README TEMPLATE
+     Optional companion file: a website metadata sidecar (for example .ydun.yml)
+
+     IMPORTANT:
+     - Do NOT put YAML frontmatter in READMEs. GitHub renders it as a visible table.
+     - Website metadata goes in the sidecar file (same repo root), not here.
+     - Do NOT use Mermaid diagrams. Use SVG or PNG images instead.
+       Mermaid renders inconsistently across GitHub, editors, and the website.
+       Commit diagram images to assets/ and reference them with <img> tags.
+-->
+
+<p align="center">
+  <img src="assets/{PROJECT_SLUG}.svg" alt="{PROJECT_NAME}" width="400">
+</p>
+
+<p align="center">
+  <strong>{PROJECT_TAGLINE}</strong>
+</p>
+
+<p align="center">
+  <em>{ONE_SENTENCE_HOOK}</em>
+</p>
+
+<p align="center">
+  <img src="assets/{ARCHITECTURE_DIAGRAM}.svg" alt="{DIAGRAM_ALT_TEXT}" width="600">
+</p>
+
+---
+
+## Why?
+
+{DIRECT_PUNCHY_BULLETS}
+
+- **{Bold lead}.** {Short explanation.}
+- **{Bold lead}.** {Short explanation.}
+- **{Bold lead}.** {Short explanation.}
+
+---
+
+## The Vision
+
+{PAINT_THE_SCENARIOS}
+
+**{Scenario category 1}:**
+- {Real use case}
+- {Real use case}
+
+**{Scenario category 2}:**
+- {Real use case}
+- {Real use case}
+
+---
+
+## Built With {CORE_TECH}
+
+{SHORT_NO_BS_TECH_DESCRIPTION}
+
+- **{Benefit}** - {why it matters}
+- **{Benefit}** - {why it matters}
+
+---
+
+## Who's This For?
+
+**For {audience 1}:**
+{Speak directly to them. "You need...", "You want..."}
+
+**For {audience 2}:**
+{Speak directly to them.}
+
+---
+
+## Quick Start
+
+{DOCKER_CLI_OR_LIBRARY_WHATEVER_APPLIES}
+
+---
+
+## Architecture
+
+<!-- Use SVG or PNG diagrams. No Mermaid. -->
+<p align="center">
+  <img src="assets/{ARCHITECTURE_DETAIL}.svg" alt="{DIAGRAM_ALT_TEXT}" width="700">
+</p>
+
+| Module | Purpose |
+|--------|---------|
+| {module} | {what it does} |
+
+---
+
+## What This Is (and Isn't)
+
+**Is:**
+- {honest item}
+- {honest item}
+
+**Isn't:**
+- {honest item}
+- {honest item}
+
+---
+
+## Status
+
+| What | Status |
+|------|--------|
+| {feature} | ✅ / 🔜 / 📋 |
+
+{TEST_COUNTS_AUDIT_STATUS_REAL_NUMBERS}
+
+---
+
+## Documentation
+
+| Doc | What's in it |
+|-----|-------------|
+| {doc} | {description} |
+
+---
+
+## Contributing
+
+PRs welcome. See [AGENTS.md](AGENTS.md) for development guidelines.
+
+---
+
+## License
+
+MIT OR Apache-2.0 (your choice).
+
+---
+
+<p align="center">
+  <img src="assets/{PROJECT_SLUG}.svg" alt="{PROJECT_NAME}" width="120"><br>
+  <em>{CLOSING_ONE_LINER}</em>
+</p>
