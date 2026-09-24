@@ -36,8 +36,8 @@ grep -rnE "~/[^.]|/home/|/Users/|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" templates/core 
 
 ## Gotchas
 
-- `VERSION` (3.0.0) is read by the tools as the master template version; it does not match the templates (2.1.3). Known issue, recorded in `AGENTS.md`.
-- The tools look for `projects/core/`; this repo uses `templates/core/`.
+- `VERSION` (2.1.4) is read by the tools as the master template version. Bump it with the `TEMPLATE_VERSION` in `templates/core/AGENTS.md.template`, or every project reads out of date.
+- The tools in `templates/tools/` resolve the repo from their own location (`templates/core/`, root `VERSION`). Keep that layout.
 - `templates/core/AGENTS.md.template` links doc components by raw GitHub URL. Moving `templates/docs/doc-components/` breaks them.
 - `templates/init/` still describes the 1.x templates.
 

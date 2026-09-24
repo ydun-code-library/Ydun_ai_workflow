@@ -344,13 +344,13 @@ This repo has no HOUSEKEEPING.md of its own yet. Until it does, housekeeping her
 Recorded 2026-09-24.
 
 ### 🔴 Critical Issues
-1. **`VERSION` says 3.0.0; the templates are 2.1.3.** `check-version.sh` and `sync-templates.sh` compare a project's `TEMPLATE_VERSION` with this file, so a project built from the current templates reads "out of date (2.1.3 → 3.0.0)".
-2. **The tools look for `projects/core/`, which does not exist here** (the templates are in `templates/core/`). `check-version.sh` cannot compare JIMMYS-WORKFLOW.md; `sync-templates.sh` cannot find the master templates.
-3. **The tools and templates point at a `CHANGELOG.md` this repo does not have.**
+None open. Resolved 2026-09-24: `VERSION` now 2.1.4, matching `templates/core/AGENTS.md.template`; the tools were republished (audit-project.sh 1.5.2, check-version.sh 1.0.1, sync-templates.sh 1.1.0) with paths for `templates/core/` and the commit history in place of a `CHANGELOG.md`.
+
+1. `templates/core/JIMMYS-WORKFLOW.md` still says "What's new: See templates/CHANGELOG.md", a file this repo does not have.
 
 ### 🟡 Important Issues
-1. `templates/tools/audit-project.sh` (1.5.1) needs bash 4 or later. macOS ships bash 3.2; run it with a newer bash (`brew install bash`).
-2. `templates/init/init-project.md` and `templates/init/AGENTS-TEMPLATE-GUIDE.md` still describe the 1.x templates (eleven principles).
+1. `templates/tools/audit-project.sh` needs bash 4 or later. Since 1.5.2 it re-runs itself under Homebrew bash on macOS; without it, `brew install bash`.
+2. `templates/init/AGENTS-TEMPLATE-GUIDE.md` names eight principles now, but other sections still describe 1.x (project-type files that do not exist here, `Phase 2` auto-sync).
 3. `templates/docs/AI-DRIVEN-SEO-BEST-PRACTICES.md` is January 2026 guidance and has not been reviewed since.
 4. Some pages on docs.ydun.io describe the earlier multi-agent practice.
 
