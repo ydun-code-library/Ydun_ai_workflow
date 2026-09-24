@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # check-version.sh - Check if project templates are up to date
+# Version: 1.0.1 (2026-09-23: recommendations name the real tool path)
 # Usage: Run from project root directory
 # Exit codes: 0 = up to date, 1 = out of date, 2 = error
 
@@ -12,16 +13,16 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Resolve paths relative to this script
+# Paths
+# Paths resolve from this script, so the tools run from any clone of Ydun_ai_workflow.
+# Layout: <repo>/VERSION, <repo>/templates/core/, <repo>/templates/docs/, <repo>/templates/tools/ (this file).
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-
-# Paths
 TEMPLATE_DIR="$REPO_ROOT"
 MASTER_VERSION_FILE="$TEMPLATE_DIR/VERSION"
 PROJECT_AGENTS_FILE="./AGENTS.md"
 PROJECT_WORKFLOW_FILE="./JIMMYS-WORKFLOW.md"
-MASTER_WORKFLOW_FILE="$TEMPLATE_DIR/projects/core/JIMMYS-WORKFLOW.md"
+MASTER_WORKFLOW_FILE="$TEMPLATE_DIR/templates/core/JIMMYS-WORKFLOW.md"
 
 # Check if we're in a project directory
 if [ ! -f "$PROJECT_AGENTS_FILE" ]; then
@@ -105,12 +106,12 @@ else
     echo -e "${YELLOW}⚠️  Some templates are OUT OF DATE${NC}"
     echo ""
     echo "What's new in v$MASTER_VERSION:"
-    echo "  - See: $TEMPLATE_DIR/CHANGELOG.md"
+    echo "  - See: git -C $REPO_ROOT log --oneline -- templates/core/"
     echo ""
     echo "To update (preserves your customizations):"
     echo "  $SCRIPT_DIR/sync-templates.sh"
     echo ""
     echo "To view changelog:"
-    echo "  cat $REPO_ROOT/CHANGELOG.md"
+    echo "  git -C $REPO_ROOT log --oneline -- templates/core/"
     exit 1
 fi
