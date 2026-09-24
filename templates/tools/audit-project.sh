@@ -1,8 +1,16 @@
 #!/bin/bash
 # audit-project.sh - Comprehensive template compliance audit
-# Version: 1.5.1
+# Version: 1.5.2 (2026-09-21: re-exec on bash>=4; macOS bash 3.2 lacks declare -A)
 # Usage: Run from project root directory
 # Exit codes: 0 = compliant, 1 = issues, 2 = critical
+
+# macOS ships bash 3.2; this script needs associative arrays (bash >= 4). Re-exec on a newer bash if present.
+if [ -z "${BASH_VERSINFO:-}" ] || [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+  for _b in /opt/homebrew/bin/bash /usr/local/bin/bash; do
+    [ -x "$_b" ] && exec "$_b" "$0" "$@"
+  done
+  echo "audit-project.sh needs bash >= 4 (brew install bash)" >&2; exit 2
+fi
 
 set -e
 
@@ -13,13 +21,13 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Resolve paths relative to this script
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-
 # Configuration
 MODE="full"
 OUTPUT_FORMAT="text"
+# Paths resolve from this script, so the tools run from any clone of Ydun_ai_workflow.
+# Layout: <repo>/VERSION, <repo>/templates/core/, <repo>/templates/docs/, <repo>/templates/tools/ (this file).
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TEMPLATES_DIR="$REPO_ROOT"
 PROJECT_AGENTS_FILE="./AGENTS.md"
 PROJECT_CLAUDE_FILE="./CLAUDE.md"
@@ -66,7 +74,7 @@ done
 # Check if we're in a project directory (not the templates directory itself)
 if [[ "$(pwd)" == "$TEMPLATES_DIR" ]]; then
     echo -e "${RED}❌ ERROR: Cannot audit the templates directory itself${NC}"
-    echo "This script should be run from a project directory, not the templates directory itself"
+    echo "This script should be run from a project directory, not the templates repo itself"
     exit 2
 fi
 
@@ -336,9 +344,9 @@ else
 
     if [[ $exit_code -eq 2 ]]; then
         echo "1. Initialize project with templates:"
-        echo "   cp $REPO_ROOT/projects/core/AGENTS.md.template ./AGENTS.md"
-        echo "   cp $REPO_ROOT/projects/core/CLAUDE.md.template ./CLAUDE.md"
-        echo "   cp $REPO_ROOT/projects/core/JIMMYS-WORKFLOW.md ./JIMMYS-WORKFLOW.md"
+        echo "   cp $REPO_ROOT/templates/core/AGENTS.md.template ./AGENTS.md"
+        echo "   cp $REPO_ROOT/templates/core/CLAUDE.md.template ./CLAUDE.md"
+        echo "   cp $REPO_ROOT/templates/core/JIMMYS-WORKFLOW.md ./JIMMYS-WORKFLOW.md"
         echo ""
         echo "2. Fill in project-specific placeholders in AGENTS.md"
         echo ""
@@ -350,7 +358,7 @@ else
             echo "   (Your customizations will be preserved)"
             echo ""
             echo "2. Review what's new:"
-            echo "   cat $REPO_ROOT/CHANGELOG.md"
+            echo "   git -C $REPO_ROOT log --oneline -- templates/core/"
             echo ""
         fi
 
@@ -362,13 +370,13 @@ else
 
         if [[ "${checks[claude_md]}" == "warn" ]]; then
             echo "4. Add CLAUDE.md quick reference:"
-            echo "   cp $REPO_ROOT/projects/core/CLAUDE.md.template ./CLAUDE.md"
+            echo "   cp $REPO_ROOT/templates/core/CLAUDE.md.template ./CLAUDE.md"
             echo ""
         fi
 
         if [[ "${checks[workflow]}" == "warn" ]]; then
             echo "5. Add Jimmy's Workflow documentation:"
-            echo "   cp $REPO_ROOT/projects/core/JIMMYS-WORKFLOW.md ./"
+            echo "   cp $REPO_ROOT/templates/core/JIMMYS-WORKFLOW.md ./"
             echo ""
         fi
 
@@ -379,23 +387,23 @@ else
             echo ""
             if [[ ! -f "./DOCS-MAP.md" ]]; then
                 echo "   • Create master documentation map:"
-                echo "     cp $REPO_ROOT/projects/docs/doc-components/DOCS-MAP.md.template ./DOCS-MAP.md"
+                echo "     cp $REPO_ROOT/templates/docs/doc-components/DOCS-MAP.md.template ./DOCS-MAP.md"
                 echo ""
             fi
             if [[ -f "./AGENTS.md" ]] && ! grep -q "<!-- AI NAVIGATION -->" "./AGENTS.md"; then
                 echo "   • Add AI Navigation Headers to documentation:"
-                echo "     cat $REPO_ROOT/projects/docs/doc-components/AI-NAVIGATION-HEADER.template"
+                echo "     cat $REPO_ROOT/templates/docs/doc-components/AI-NAVIGATION-HEADER.template"
                 echo ""
             fi
             if [[ -d "./docs/decisions" ]]; then
                 adr_count=$(find ./docs/decisions -name "*.md" 2>/dev/null | wc -l)
                 if [[ $adr_count -eq 0 ]]; then
                     echo "   • Document architecture decisions:"
-                    echo "     cp $REPO_ROOT/projects/docs/doc-components/ADR-TEMPLATE.md ./docs/decisions/001-decision.md"
+                    echo "     cp $REPO_ROOT/templates/docs/doc-components/ADR-TEMPLATE.md ./docs/decisions/001-decision.md"
                     echo ""
                 fi
             fi
-            echo "   💡 See $REPO_ROOT/projects/docs/DOCUMENTATION-STANDARDS.md for complete guidelines"
+            echo "   💡 See $REPO_ROOT/templates/docs/DOCUMENTATION-STANDARDS.md for complete guidelines"
             echo ""
         fi
     else
