@@ -1,6 +1,6 @@
 ---
 document_type: audit_orchestrator
-name: "[PROJECT_NAME] — Multi-Pass Audit Orchestrator"
+name: "[PROJECT_NAME]: Multi-Pass Audit Orchestrator"
 version: "1.0"
 generated: "[YYYY-MM-DD]"
 target_model: "[MODEL_ID]"
@@ -30,9 +30,9 @@ checkpoint_dir: "checkpoints/"
 methodology_ref: "methodology/audit-map-execution-patterns.md"
 ---
 
-# [PROJECT_NAME] — Multi-Pass Audit Orchestrator
+# [PROJECT_NAME]: Multi-Pass Audit Orchestrator
 
-**READ THIS FIRST — Before opening any pass MAP.**
+**READ THIS FIRST: Before opening any pass MAP.**
 
 **Generated**: [YYYY-MM-DD] | **Model**: [MODEL_ID]
 **Methodology**: MAP/CAP v2.2 | **Execution**: Jimmy's Workflow v2.1
@@ -41,7 +41,7 @@ methodology_ref: "methodology/audit-map-execution-patterns.md"
 
 ## Why Multi-Pass?
 
-This audit covers [N] lenses across [describe scope — e.g., "multiple crates/packages, cross-language boundaries, complex domain logic"]. A single-pass audit risks context window exhaustion, which degrades verification quality on later lenses and forces the agent to inherit its own earlier findings from summaries rather than fresh evidence.
+This audit covers [N] lenses across [describe scope, e.g., "multiple crates/packages, cross-language boundaries, complex domain logic"]. A single-pass audit risks context window exhaustion, which degrades verification quality on later lenses and forces the agent to inherit its own earlier findings from summaries rather than fresh evidence.
 
 **The fix: [N] focused passes, each self-contained, each producing its own checkpoint.**
 
@@ -60,7 +60,7 @@ Reference: `methodology/audit-map-execution-patterns.md` -- "When To Split"
 
 ### Statement
 
-This audit is performed by an AI system ([MODEL_ID]) reviewing [PROJECT_NAME]. [Describe the COI context — relationship between auditor and codebase, AI-assisted development history, domain-specific COI factors.]
+This audit is performed by an AI system ([MODEL_ID]) reviewing [PROJECT_NAME]. [Describe the COI context: relationship between auditor and codebase, AI-assisted development history, domain-specific COI factors.]
 
 ### Why This COI Matters
 
@@ -77,7 +77,7 @@ This audit is performed by an AI system ([MODEL_ID]) reviewing [PROJECT_NAME]. [
 - Confidence calibration with domain-specific guards
 - Multi-pass execution prevents context exhaustion
 - Validation that quotes evidence, not checkbox theater
-- **[HUMAN_GATE_IF_REQUIRED]** — [describe required human review gate, if any]
+- **[HUMAN_GATE_IF_REQUIRED]**: [describe required human review gate, if any]
 
 ### Human Review Gate (if applicable)
 
@@ -141,7 +141,7 @@ SYNTHESIS (this document)                              Cross-pass analysis
 
 | Pass | Rationale |
 |------|-----------|
-| **Pass 1** | [Why these lenses are grouped — shared files, coupled reasoning, same domain] |
+| **Pass 1** | [Why these lenses are grouped: shared files, coupled reasoning, same domain] |
 | **Pass 2** | [Why these lenses are grouped] |
 | **Pass 3** (if applicable) | [Why these lenses are grouped] |
 
@@ -150,7 +150,7 @@ SYNTHESIS (this document)                              Cross-pass analysis
 ```
 Pass 1 ([PASS_1_NAME])
   |
-  |  No dependencies — executes first, standalone
+  |  No dependencies: executes first, standalone
   |
   v
 Pass 2 ([PASS_2_NAME])
@@ -160,7 +160,7 @@ Pass 2 ([PASS_2_NAME])
   |  Carry forward: Pass 1 checkpoint file (read-only reference)
   |
   v
-Pass 3 ([PASS_3_NAME]) — if applicable
+Pass 3 ([PASS_3_NAME]) (if applicable)
   |
   |  [OPTIONAL | REQUIRED] dependency on Pass 1 + Pass 2:
   |  [Describe what Pass 3 might need from prior checkpoints]
@@ -176,11 +176,11 @@ Synthesis (This Document)
 ### Session Flow
 
 ```
-Session 0: 00-recon.md             — Discover tools, verify paths, update pass MAPs
-Session 1: 01-pass1-[NAME].md      — Execute Pass 1. Write checkpoint.
-Session 2: 02-pass2-[NAME].md      — Execute Pass 2. Read Pass 1 checkpoint (optional). Write checkpoint.
-Session 3: 03-pass3-[NAME].md      — Execute Pass 3 (if applicable). Write checkpoint.
-Session N: This orchestrator       — Read all checkpoints. Synthesis. Final report.
+Session 0: 00-recon.md             → Discover tools, verify paths, update pass MAPs
+Session 1: 01-pass1-[NAME].md      → Execute Pass 1. Write checkpoint.
+Session 2: 02-pass2-[NAME].md      → Execute Pass 2. Read Pass 1 checkpoint (optional). Write checkpoint.
+Session 3: 03-pass3-[NAME].md      → Execute Pass 3 (if applicable). Write checkpoint.
+Session N: This orchestrator       → Read all checkpoints. Synthesis. Final report.
 ```
 
 **Do NOT run multiple passes in the same session.** Fresh context per pass is the entire point.
@@ -194,12 +194,12 @@ Session N: This orchestrator       — Read all checkpoints. Synthesis. Final re
 
 Each pass MAP includes its own:
 - Pre-flight check (scoped to that pass's files and domains)
-- Finding Contract (identical across all passes — consistency for synthesis)
+- Finding Contract (identical across all passes: consistency for synthesis)
 - Only the lenses for that pass
 - Validation and checkpoint template
 - Output filename for the checkpoint
 
-The agent executing Pass 2 does NOT need to read the Pass 1 MAP — only the Pass 1 checkpoint (optionally, for cross-references).
+The agent executing Pass 2 does NOT need to read the Pass 1 MAP, only the Pass 1 checkpoint (optionally, for cross-references).
 
 ### Rule 2: Finding Carry-Forward Protocol
 
@@ -213,13 +213,13 @@ CARRY-FORWARD RULES
    via codebase tool. If you cannot, apply confidence penalty:
    HIGH -> MEDIUM, MEDIUM -> LOW, LOW -> stays LOW
 3. Do NOT copy finding text from the checkpoint as your own
-   evidence — re-verify independently.
+   evidence: re-verify independently.
 4. If you discover the earlier finding was WRONG, note it:
-   "Contradicts [FINDING-ID] from Pass N — re-assessment needed"
+   "Contradicts [FINDING-ID] from Pass N: re-assessment needed"
 5. Cross-references use format: "See Pass 1: [FINDING-ID]"
 
 Tag inherited findings:
-"Inherited from Pass N — not re-verified in this session"
+"Inherited from Pass N: not re-verified in this session"
 ```
 
 ### Rule 3: Depth Budget by Lens Priority
@@ -241,7 +241,7 @@ If the executing agent has runtime access:
 | [GREP_COMMAND] | [Which pass/lens] | [Which findings get upgraded] |
 | [LINT_COMMAND] | Pre-flight of every pass | Catches lint-level issues |
 
-**If available, RUN THEM.** If unavailable, note it — the MAP still works as static analysis.
+**If available, RUN THEM.** If unavailable, note it. The MAP still works as static analysis.
 
 ### Rule 5: Checkpoint File Format
 
@@ -294,9 +294,9 @@ Read all findings from all passes. Identify duplicates:
 
 | Duplicate Type | Action |
 |----------------|--------|
-| Same file + same line + same issue across passes | Merge — keep the finding with strongest evidence and highest confidence |
-| Same root cause, different manifestations | Keep both, link them — they become the root cause group |
-| Contradictory findings across passes | Flag for human review — "Pass N says X, Pass M says Y" |
+| Same file + same line + same issue across passes | Merge: keep the finding with strongest evidence and highest confidence |
+| Same root cause, different manifestations | Keep both, link them. They become the root cause group |
+| Contradictory findings across passes | Flag for human review: "Pass N says X, Pass M says Y" |
 
 ### 3.2 Root Cause Analysis
 
@@ -384,7 +384,7 @@ LOW severity        BACKLOG            BACKLOG              IGNORE
 Write `checkpoints/final-audit-report.md`:
 
 ```markdown
-# [PROJECT_NAME] — Final Audit Report
+# [PROJECT_NAME]: Final Audit Report
 
 ## Audit Summary
 | Metric | Value |
@@ -412,15 +412,15 @@ Write `checkpoints/final-audit-report.md`:
 | LOW | |
 
 ## Top Findings
-1. [ID] — [decision] — [severity] — [confidence]
-2. [ID] — [decision] — [severity] — [confidence]
-3. [ID] — [decision] — [severity] — [confidence]
+1. [ID] | [decision] | [severity] | [confidence]
+2. [ID] | [decision] | [severity] | [confidence]
+3. [ID] | [decision] | [severity] | [confidence]
 
 ## Root Causes
-1. RC-1: [name] — affects [N] findings — single fix: [description]
+1. RC-1: [name], affects [N] findings, single fix: [description]
 
 ## Attack Chains
-1. CHAIN-1: [name] — [severity] — combines [FINDING-IDs]
+1. CHAIN-1: [name], [severity], combines [FINDING-IDs]
 
 ## Contradictions Resolved
 [List or "None"]
@@ -434,9 +434,9 @@ Status: [PENDING HUMAN REVIEW | COMPLETE]
 
 ## Validity Conditions
 This audit remains valid UNTIL:
-- [ ] [Condition that invalidates the audit — e.g., major dependency update]
+- [ ] [Condition that invalidates the audit, e.g., major dependency update]
 - [ ] [Another invalidation condition]
-- [ ] [Time-based expiry — e.g., 90 days elapsed]
+- [ ] [Time-based expiry, e.g., 90 days elapsed]
 ```
 
 ### 3.8 JSON Sidecar for Final Report
@@ -490,7 +490,7 @@ Write `checkpoints/final-audit-report.json`:
 CHECKPOINT DIR: checkpoints/
 
 [ ] 1. Read this orchestrator document
-[ ] 2. SESSION 0: Run 00-recon.md — tools discovered, paths verified
+[ ] 2. SESSION 0: Run 00-recon.md (tools discovered, paths verified)
 [ ] 3. VERIFY: Pass MAPs updated with correct paths
 [ ] 4. SESSION 1: Run [01-pass1-NAME.md] in fresh session
 [ ] 5. Agent writes: checkpoints/pass1-checkpoint.md (incremental)
@@ -499,7 +499,7 @@ CHECKPOINT DIR: checkpoints/
 [ ] 8. Agent writes: checkpoints/pass2-checkpoint.md
 [ ] 9. VERIFY: Open checkpoint, confirm all lenses marked complete
      # Add steps for additional passes as needed
-[ ] N. SESSION N: Run this orchestrator — "Execute Section 3: Synthesis"
+[ ] N. SESSION N: Run this orchestrator: "Execute Section 3: Synthesis"
 [ ] N+1. Agent reads all checkpoints, executes synthesis
 [ ] N+2. Agent writes: checkpoints/final-audit-report.md + .json sidecar
 [ ] N+3. Human reviews final report

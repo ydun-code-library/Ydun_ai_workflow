@@ -1,6 +1,6 @@
 ---
 document_type: audit_map_pass
-name: "[PROJECT_NAME] — Pass [N]: [PASS_NAME]"
+name: "[PROJECT_NAME] Pass [N]: [PASS_NAME]"
 version: "1.0"
 generated: "[YYYY-MM-DD]"
 target_model: "[MODEL_ID]"
@@ -20,7 +20,7 @@ output_files:
 methodology_ref: "methodology/audit-map-execution-patterns.md"
 ---
 
-# [PROJECT_NAME] — Pass [N]: [PASS_NAME]
+# [PROJECT_NAME] Pass [N]: [PASS_NAME]
 
 **Lenses**: [LENS_1: NAME], [LENS_2: NAME], [LENS_3: NAME]
 
@@ -35,7 +35,7 @@ Full disclosure in orchestrator. Key points for this pass:
 
 - [COI point relevant to this pass's domain]
 - [COI point relevant to this pass's lenses]
-- **Depth budget: [PRIORITY]** — [depth expectation for this priority level]
+- **Depth budget: [PRIORITY]**: [depth expectation for this priority level]
 - [Any human gate relevant to this pass]
 
 ---
@@ -59,10 +59,10 @@ Discover tools that cover THESE specific domains for Pass [N]:
 
 ```
 Core domains for this pass covered?
-  NO  -> BLOCKED — Cannot verify [critical aspect]. STOP.
+  NO  -> BLOCKED: Cannot verify [critical aspect]. STOP.
   YES -> Check remaining domains
          5+ of N -> CLEAR
-         3-4 of N -> DEGRADED — note gaps, cap affected confidence at MEDIUM
+         3-4 of N -> DEGRADED: note gaps, cap affected confidence at MEDIUM
          Core only -> DEGRADED (proceed cautiously)
 ```
 
@@ -72,7 +72,7 @@ Read these files to verify codebase access works for this pass:
 
 ```
 VERIFICATION 1: Read [src/path/to/file.ext]
-  Expected: [what you expect to find — module purpose, key functions]
+  Expected: [what you expect to find: module purpose, key functions]
   Result: ✅ / ❌
 
 VERIFICATION 2: Read [src/path/to/another-file.ext]
@@ -90,13 +90,13 @@ If you have access to run commands:
 
 ```bash
 # Adapt to project and this pass's scope:
-[TEST_COMMAND — scoped to this pass's crates/packages]
+[TEST_COMMAND: scoped to this pass's crates/packages]
 
 # Check for issues specific to this pass's domain
-[GREP_COMMAND — e.g., grep for patterns this pass cares about]
+[GREP_COMMAND, e.g., grep for patterns this pass cares about]
 
 # Verify dependency versions relevant to this pass
-[VERSION_COMMAND — e.g., grep specific deps from lockfile]
+[VERSION_COMMAND, e.g., grep specific deps from lockfile]
 ```
 
 **If these run, record results. They upgrade confidence on specific findings.**
@@ -112,37 +112,37 @@ Pass-specific domains: __________ (tools covering this pass's required domains)
 Dynamic tests: RAN / NOT AVAILABLE
 Exact dependency versions: [from lockfile or "not available"]
 
-CLEAR    — Codebase + required domains verified.
-DEGRADED — Some domains uncovered. Note gaps.
-BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
+CLEAR:    Codebase + required domains verified.
+DEGRADED: Some domains uncovered. Note gaps.
+BLOCKED:  Codebase failed OR critical domains uncovered. STOP.
 ```
 
 ---
 
 ## FINDING CONTRACT
 
-> **Identical across all passes — ensures consistency for synthesis.**
+> **Identical across all passes: ensures consistency for synthesis.**
 
 ### Required Fields
 
 ```json
 {
-  "id": "string — [PREFIX]-NNN (unique within this pass)",
-  "lens": "string — which lens produced this finding",
-  "decision": "string — clear statement of what is wrong",
+  "id": "string: [PREFIX]-NNN (unique within this pass)",
+  "lens": "string: which lens produced this finding",
+  "decision": "string: clear statement of what is wrong",
   "severity": "CRITICAL | HIGH | MEDIUM | LOW",
   "confidence": "HIGH | MEDIUM | LOW",
   "reasoning": ["string (minimum 2 points)"],
   "alternatives_rejected": [{"alternative": "string", "rejection_reason": "string"}],
   "weaknesses_acknowledged": ["string (minimum 1)"],
   "evidence": {
-    "file": "string — FROM CODEBASE TOOL, not from memory",
-    "line": "number — exact, FROM CODEBASE TOOL",
-    "snippet": "string — max 10 lines, COPIED FROM CODEBASE TOOL"
+    "file": "string: FROM CODEBASE TOOL, not from memory",
+    "line": "number: exact, FROM CODEBASE TOOL",
+    "snippet": "string: max 10 lines, COPIED FROM CODEBASE TOOL"
   },
-  "remediation_hint": "string — direction for fix, not implementation",
+  "remediation_hint": "string: direction for fix, not implementation",
   "verified_by": {
-    "codebase_tool": "string — tool name used",
+    "codebase_tool": "string: tool name used",
     "external_tool": "string or 'none available'",
     "dynamic_test": "string or 'not available'"
   }
@@ -164,7 +164,7 @@ BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
 - **HIGH** requires: code evidence from codebase tool + API/behavior verification from external knowledge
 - **MEDIUM**: code seen, API not fully verified or inconclusive
 - **LOW**: pattern suspected, cannot confirm
-- **[PRIORITY] lens depth budget**: [Depth expectation — e.g., "exhaust all verification paths before settling on MEDIUM" for CRITICAL]
+- **[PRIORITY] lens depth budget**: [Depth expectation, e.g., "exhaust all verification paths before settling on MEDIUM" for CRITICAL]
 - Domain knowledge gaps cap confidence at MEDIUM
 
 ---
@@ -185,7 +185,7 @@ BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
 
 | File | Focus |
 |------|-------|
-| `[src/path/to/file.ext]` | [What to examine in this file — specific functions, patterns, data flows] |
+| `[src/path/to/file.ext]` | [What to examine in this file: specific functions, patterns, data flows] |
 | `[src/path/to/another.ext]` | [What to examine] |
 | `[src/path/to/third.ext]` | [What to examine] |
 
@@ -211,7 +211,7 @@ BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
 
 #### Positive Observations To Check
 
-- [ ] [Something the project claims to do correctly — verify with evidence]
+- [ ] [Something the project claims to do correctly: verify with evidence]
 - [ ] [Another positive claim to verify]
 
 ---
@@ -292,14 +292,14 @@ Execute each lens in order. For each finding:
 2. **QUERY** external knowledge for API/behavior verification
 3. **RUN** dynamic tests if available
 4. **ASSESS** against detection criteria
-5. **RECORD** using Finding Contract — all fields, no exceptions
-6. **CHECK** positive observations — file genuine confirmations with evidence
+5. **RECORD** using Finding Contract: all fields, no exceptions
+6. **CHECK** positive observations: file genuine confirmations with evidence
 7. **WRITE** finding to checkpoint file immediately (incremental checkpoint)
 8. **DEPTH BUDGET**: Respect the priority level. CRITICAL = exhaust all paths.
 
 ### VALIDATE
 
-> **Validation must QUOTE EVIDENCE — not checkbox theater.**
+> **Validation must QUOTE EVIDENCE, not checkbox theater.**
 
 ```markdown
 VALIDATE (Pass [N]):
@@ -351,7 +351,7 @@ VALIDATE (Pass [N]):
 Write `checkpoints/pass[N]-checkpoint.md`:
 
 ```markdown
-# [PROJECT_NAME] — Pass [N] Checkpoint
+# [PROJECT_NAME] Pass [N] Checkpoint
 
 ## Pass Info
 Pass: [N] of [TOTAL]
@@ -367,10 +367,10 @@ External knowledge: [tools, domains covered]
 Dynamic tests run: [list or "none available"]
 
 ## Findings
-[Full findings in Finding Contract format — one per finding]
+[Full findings in Finding Contract format: one per finding]
 
 ## Positive Observations
-[Things verified as correctly implemented — with evidence]
+[Things verified as correctly implemented: with evidence]
 
 ## Confidence Distribution
 | Level | Count | Percentage |

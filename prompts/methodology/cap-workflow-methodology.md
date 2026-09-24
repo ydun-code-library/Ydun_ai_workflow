@@ -673,7 +673,7 @@ class PromptEngineeringIDE:
 
 The God Prompt (MAP) methodology offers a radically simpler architecture for complex LLM applications. The Composable Agentic Prompt (CAP) workflow provides the engineering discipline required to make it scalable, maintainable, and enterprise-ready.
 
-By treating prompts as source code—with libraries, tests, versioning, and a build process—we move beyond ad-hoc prompt editing. This combined methodology allows organizations to harness the full power of frontier models by managing complexity where it belongs: in a structured, test-driven, and collaborative development workflow that produces a simple, reliable, and auditable monolithic artifact.
+By treating prompts as source code, with libraries, tests, versioning, and a build process, we move beyond ad-hoc prompt editing. This combined methodology allows organizations to harness the full power of frontier models by managing complexity where it belongs: in a structured, test-driven, and collaborative development workflow that produces a simple, reliable, and auditable monolithic artifact.
 
 The transformation is complete:
 
@@ -686,7 +686,7 @@ The transformation is complete:
 | Deployment | Copy-paste | Compiled artifacts |
 | Debugging | Guesswork | Audit log + component tests |
 
-**The future of LLM applications isn't more complex orchestration—it's better prompt engineering.**
+**The future of LLM applications isn't more complex orchestration. It's better prompt engineering.**
 
 ---
 

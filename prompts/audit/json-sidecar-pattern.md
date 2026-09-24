@@ -30,7 +30,7 @@ The AI writes both during the same task. No post-processing needed.
 
 ## Why People Don't Know About This
 
-Most people treat AI output as "the response" — whatever appears in the conversation. They don't realise you can instruct the AI to:
+Most people treat AI output as "the response": whatever appears in the conversation. They don't realise you can instruct the AI to:
 
 - Write structured data to a file while also explaining it in prose
 - Append JSON objects to a growing file as it works through a task
@@ -76,7 +76,7 @@ Write the JSON file as an array of objects. Start with `[` on first finding, add
     "No parameterised query or ORM abstraction in this code path"
   ],
   "alternatives_rejected": [
-    "Considered whether ORM might sanitise — confirmed raw SQL usage via db.query()"
+    "Considered whether ORM might sanitise; confirmed raw SQL usage via db.query()"
   ],
   "weaknesses": [
     "Only tested GET endpoint; POST endpoint uses same pattern but untested"
@@ -99,7 +99,7 @@ Write the JSON file as an array of objects. Start with `[` on first finding, add
 | `pass` | number | Which audit pass (1, 2, 3...) |
 | `severity` | enum | CRITICAL, HIGH, MEDIUM, LOW |
 | `confidence` | enum | HIGH, MEDIUM, LOW |
-| `decision` | string | What is wrong — one sentence |
+| `decision` | string | What is wrong: one sentence |
 | `file` | string | File path where the issue exists |
 | `line` | number | Line number (0 if not applicable) |
 | `evidence` | string | Code snippet or observable evidence |
@@ -163,7 +163,7 @@ The JSON sidecar pattern works for any AI task that produces structured findings
 {
   "id": "GDPR-001",
   "regulation": "GDPR",
-  "article": "Art. 17 — Right to erasure",
+  "article": "Art. 17: Right to erasure",
   "status": "NON_COMPLIANT",
   "evidence": "No deletion endpoint exists for user data",
   "file": "src/api/users.ts",
@@ -226,7 +226,7 @@ The JSON sidecar pattern works for any AI task that produces structured findings
   "target_version": "5.0.0",
   "breaking_changes": [
     "req.host no longer includes port",
-    "app.del() removed — use app.delete()"
+    "app.del() removed; use app.delete()"
   ],
   "files_affected": ["src/server.ts", "src/middleware/cors.ts"],
   "estimated_effort": "LOW"
@@ -253,7 +253,7 @@ When adding JSON sidecar to an audit MAP:
 
 - **Tell the AI explicitly**: "Write each finding as a JSON object to findings.json AND as markdown to checkpoint.md"
 - **Incremental writes**: "Append after each finding" prevents data loss on context compaction
-- **Schema enforcement**: Include the schema in the prompt — the AI follows it consistently
+- **Schema enforcement**: Include the schema in the prompt: the AI follows it consistently
 - **Validation**: After the audit, you can validate JSON with `jq . findings.json` or any JSON validator
 - **Aggregation**: For multi-pass audits, combine: `jq -s 'add' pass1-findings.json pass2-findings.json > all-findings.json`
 

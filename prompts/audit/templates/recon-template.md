@@ -1,6 +1,6 @@
 ---
 document_type: audit_recon
-name: "[PROJECT_NAME] — Session 0: Reconnaissance"
+name: "[PROJECT_NAME] Session 0: Reconnaissance"
 version: "1.0"
 generated: "[YYYY-MM-DD]"
 target_model: "[MODEL_ID]"
@@ -20,7 +20,7 @@ related_files:
   methodology: "methodology/audit-map-execution-patterns.md"
 ---
 
-# [PROJECT_NAME] — Session 0: Reconnaissance
+# [PROJECT_NAME] Session 0: Reconnaissance
 
 **This is infrastructure, not auditing. Read everything. Judge nothing.**
 
@@ -37,7 +37,7 @@ related_files:
 | **File structure** | `find . -name "*.[EXT]" -type f` or equivalent | Actual file paths replace approximate paths in pass MAPs |
 | **Dependency versions** | Read lockfiles (`Cargo.lock`, `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`, etc.) | Exact versions in pass MAPs |
 | **Existence verification** | Attempt to read each file referenced in pass MAPs | Non-existent files flagged with NOTE, alternatives identified |
-| **Domain coverage** | Test which external knowledge domains are available | Coverage gate pre-filled — passes know their status before starting |
+| **Domain coverage** | Test which external knowledge domains are available | Coverage gate pre-filled: passes know their status before starting |
 
 ## What Recon Does NOT Do
 
@@ -158,7 +158,7 @@ For each pass MAP file listed in the frontmatter:
 
 - Verify each file path exists in the actual file structure (Step 3 output)
 - If the path is WRONG: find the correct path and update in place
-- If the file does NOT EXIST: add a `NOTE: File does not exist. Nearest equivalent: [path]` warning — do NOT silently remove it (the absence may be a finding)
+- If the file does NOT EXIST: add a `NOTE: File does not exist. Nearest equivalent: [path]` warning. Do NOT silently remove it (the absence may be a finding)
 - If a new relevant file was discovered that is NOT in the MAP: add it to the appropriate lens table
 
 ### 5.3 For each "Codebase Verification" section:
@@ -189,7 +189,7 @@ For each pass MAP file listed in the frontmatter:
 
 ## STEP 6: Verification Summary
 
-After updating all pass MAPs, produce this summary (do NOT write it as a checkpoint — recon does not produce checkpoints):
+After updating all pass MAPs, produce this summary (do NOT write it as a checkpoint; recon does not produce checkpoints):
 
 ```
 RECON SUMMARY
@@ -200,7 +200,7 @@ Date: [ISO date]
 Recon agent: [model identifier]
 
 TOOLS DISCOVERED:
-  Codebase: [tool name] — ✅
+  Codebase: [tool name] ✅
   External knowledge: [list tools and domains]
   Runtime: [available / not available]
 
@@ -218,7 +218,7 @@ PASS MAPs UPDATED:
   [list each file updated]
 
 ISSUES FOR HUMAN REVIEW:
-  [list anything unusual — missing expected files, version mismatches, etc.]
+  [list anything unusual: missing expected files, version mismatches, etc.]
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 document_type: audit_map_single_pass
-name: "[PROJECT_NAME] — Single-Pass Audit"
+name: "[PROJECT_NAME]: Single-Pass Audit"
 version: "1.0"
 generated: "[YYYY-MM-DD]"
 target_model: "[MODEL_ID]"
@@ -9,7 +9,7 @@ repository: "[REPOSITORY_URL]"
 methodology: MAP/CAP v2.2
 workflow: Jimmy's Workflow v2.1
 audit_type: comprehensive_source_code
-audit_context: "[DOMAIN_CONTEXT — e.g., web_application, mobile_app, api_service]"
+audit_context: "[DOMAIN_CONTEXT, e.g., web_application, mobile_app, api_service]"
 
 lenses:
   - "[LENS_1_ID]"
@@ -26,7 +26,7 @@ output_files:
 methodology_ref: "methodology/audit-map-execution-patterns.md"
 ---
 
-# [PROJECT_NAME] — Single-Pass Audit
+# [PROJECT_NAME]: Single-Pass Audit
 
 **Lenses**: [LENS_1: NAME], [LENS_2: NAME], [LENS_3: NAME]
 **Generated**: [YYYY-MM-DD] | **Model**: [MODEL_ID]
@@ -38,7 +38,7 @@ methodology_ref: "methodology/audit-map-execution-patterns.md"
 
 ### Statement
 
-This audit is performed by an AI system ([MODEL_ID]) reviewing source code for [PROJECT_NAME]. [Describe the COI context — e.g., "The codebase was developed with AI coding assistance" or "The auditor has no prior relationship with this codebase."]
+This audit is performed by an AI system ([MODEL_ID]) reviewing source code for [PROJECT_NAME]. [Describe the COI context, e.g., "The codebase was developed with AI coding assistance" or "The auditor has no prior relationship with this codebase."]
 
 ### Why This COI Matters
 
@@ -54,7 +54,7 @@ This audit is performed by an AI system ([MODEL_ID]) reviewing source code for [
 - Dual verification (codebase tool + external knowledge tool) where available
 - Confidence calibration with domain-specific guards
 - Validation that quotes evidence, not checkbox theater
-- **[HUMAN_GATE_IF_REQUIRED]** — [e.g., "HUMAN REVIEW REQUIRED" for regulated domains]
+- **[HUMAN_GATE_IF_REQUIRED]**: [e.g., "HUMAN REVIEW REQUIRED" for regulated domains]
 
 ---
 
@@ -65,7 +65,7 @@ This audit is performed by an AI system ([MODEL_ID]) reviewing source code for [
 
 ### 1.1 Tool & MCP Discovery
 
-Discover what tools are available for this audit. Do NOT hardcode tool names — discover them.
+Discover what tools are available for this audit. Do NOT hardcode tool names. Discover them.
 
 **Required capabilities:**
 
@@ -81,8 +81,8 @@ Discover what tools are available for this audit. Do NOT hardcode tool names —
 ```
 Core domains covered?
   YES (all required) → CLEAR
-  PARTIAL (some missing) → DEGRADED — note gaps, cap confidence at MEDIUM for affected lenses
-  NO (codebase access failed) → BLOCKED — STOP
+  PARTIAL (some missing) → DEGRADED: note gaps, cap confidence at MEDIUM for affected lenses
+  NO (codebase access failed) → BLOCKED: STOP
 ```
 
 ### 1.2 Codebase Verification
@@ -91,7 +91,7 @@ Read these files to verify codebase access works:
 
 ```
 VERIFICATION 1: Read [src/path/to/file.ext]
-  Expected: [what you expect to find — module purpose, key functions]
+  Expected: [what you expect to find: module purpose, key functions]
   Result: ✅ / ❌
 
 VERIFICATION 2: Read [src/path/to/another-file.ext]
@@ -108,18 +108,18 @@ VERIFICATION 3: Read [src/path/to/third-file.ext]
 If you have access to run commands:
 
 ```bash
-# Adapt to project — examples:
+# Adapt to project. Examples:
 # Run test suite
-[TEST_COMMAND — e.g., cargo test, npm test, pytest]
+[TEST_COMMAND, e.g., cargo test, npm test, pytest]
 
 # Check dependency versions
-[VERSION_COMMAND — e.g., grep -A1 "dependency" Cargo.lock]
+[VERSION_COMMAND, e.g., grep -A1 "dependency" Cargo.lock]
 
 # Check for common issues
-[GREP_COMMAND — e.g., grep -rn "TODO\|FIXME\|HACK" src/]
+[GREP_COMMAND, e.g., grep -rn "TODO\|FIXME\|HACK" src/]
 
 # Run linter
-[LINT_COMMAND — e.g., cargo clippy, eslint, pylint]
+[LINT_COMMAND, e.g., cargo clippy, eslint, pylint]
 ```
 
 **If these run, record results. They upgrade confidence on specific findings.**
@@ -135,9 +135,9 @@ Knowledge domains: __________ (tools covering required domains)
 Dynamic tests: RAN / NOT AVAILABLE
 Exact dependency versions: [from lockfile or "not available"]
 
-CLEAR    — Codebase + required domains verified. Dynamic tests ran.
-DEGRADED — Some domains uncovered. Static analysis only.
-BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
+CLEAR:    Codebase + required domains verified. Dynamic tests ran.
+DEGRADED: Some domains uncovered. Static analysis only.
+BLOCKED:  Codebase failed OR critical domains uncovered. STOP.
 ```
 
 ---
@@ -150,22 +150,22 @@ BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
 
 ```json
 {
-  "id": "string — [PREFIX]-NNN (e.g., SEC-001, AUTH-001)",
-  "lens": "string — which lens produced this finding",
-  "decision": "string — clear statement of what is wrong",
+  "id": "string: [PREFIX]-NNN (e.g., SEC-001, AUTH-001)",
+  "lens": "string: which lens produced this finding",
+  "decision": "string: clear statement of what is wrong",
   "severity": "CRITICAL | HIGH | MEDIUM | LOW",
   "confidence": "HIGH | MEDIUM | LOW",
   "reasoning": ["string (minimum 2 points)"],
   "alternatives_rejected": [{"alternative": "string", "rejection_reason": "string"}],
   "weaknesses_acknowledged": ["string (minimum 1)"],
   "evidence": {
-    "file": "string — FROM CODEBASE TOOL, not from memory",
-    "line": "number — exact, FROM CODEBASE TOOL",
-    "snippet": "string — max 10 lines, COPIED FROM CODEBASE TOOL"
+    "file": "string: FROM CODEBASE TOOL, not from memory",
+    "line": "number: exact, FROM CODEBASE TOOL",
+    "snippet": "string: max 10 lines, COPIED FROM CODEBASE TOOL"
   },
-  "remediation_hint": "string — direction for fix, not implementation",
+  "remediation_hint": "string: direction for fix, not implementation",
   "verified_by": {
-    "codebase_tool": "string — tool name used",
+    "codebase_tool": "string: tool name used",
     "external_tool": "string or 'none available'",
     "dynamic_test": "string or 'not available'"
   }
@@ -174,7 +174,7 @@ BLOCKED  — Codebase failed OR critical domains uncovered. STOP.
 
 ### Severity Uplift Table
 
-> **Adapt this table to the project's risk domain. Examples below — replace with domain-appropriate uplifts.**
+> **Adapt this table to the project's risk domain. Examples below: replace with domain-appropriate uplifts.**
 
 | Finding Category | Standard Severity | Uplifted Severity |
 |-----------------|-------------------|-------------------|
@@ -241,7 +241,7 @@ Deployment context: **[DEPLOYMENT_CONTEXT]**
 
 #### Positive Observations To Check
 
-- [ ] [Something the project claims to do correctly — verify with evidence]
+- [ ] [Something the project claims to do correctly: verify with evidence]
 - [ ] [Another positive claim to verify]
 
 ---
@@ -321,13 +321,13 @@ Execute each lens in order (Lens 1 through Lens N). For each finding:
 2. **QUERY** external knowledge for API/behavior verification
 3. **RUN** dynamic tests if available
 4. **ASSESS** against detection criteria
-5. **RECORD** using Finding Contract — all fields, no exceptions
-6. **CHECK** positive observations — file genuine confirmations with evidence
+5. **RECORD** using Finding Contract: all fields, no exceptions
+6. **CHECK** positive observations: file genuine confirmations with evidence
 7. **WRITE** finding to checkpoint file immediately (incremental checkpoint)
 
 ### VALIDATE
 
-> **Validation must QUOTE EVIDENCE — not checkbox theater.**
+> **Validation must QUOTE EVIDENCE, not checkbox theater.**
 > **For each check, cite a specific finding that demonstrates the check passes.**
 
 ```markdown
@@ -379,7 +379,7 @@ VALIDATE:
 Write `checkpoints/audit-checkpoint.md` in the following format:
 
 ```markdown
-# [PROJECT_NAME] — Audit Checkpoint
+# [PROJECT_NAME]: Audit Checkpoint
 
 ## Audit Info
 Lenses executed: [list]
@@ -394,10 +394,10 @@ External knowledge: [tools, domains covered]
 Dynamic tests run: [list or "none available"]
 
 ## Findings
-[Full findings in Finding Contract JSON format — one per finding]
+[Full findings in Finding Contract JSON format: one per finding]
 
 ## Positive Observations
-[Things verified as correctly implemented — with evidence]
+[Things verified as correctly implemented: with evidence]
 
 ## Confidence Distribution
 | Level | Count | Percentage |

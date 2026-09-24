@@ -63,7 +63,7 @@ evidence_base:
       lenses: 7
       pass_structure: single
     - name: Project C
-      domain: financial_blockchain
+      domain: financial_smart_contracts
       lenses: 6
       pass_structure: single (context compaction observed)
     - name: Project D
@@ -73,13 +73,13 @@ evidence_base:
 
 changelog:
   v1.1:
-    - "Recon-First Session Architecture — Session 0 discovers tools, verifies paths, updates pass MAPs in place"
-    - "Audit Folder Structure — standardized folder layout with numbered files"
-    - "Context Compaction Handling — recovery protocol when agent hits compaction mid-pass"
-    - "File Path Accuracy rewritten — recon replaces accept-and-correct approach"
-    - "Session flow updated — recon → passes → synthesis as distinct sessions"
+    - "Recon-First Session Architecture: Session 0 discovers tools, verifies paths, updates pass MAPs in place"
+    - "Audit Folder Structure: standardized folder layout with numbered files"
+    - "Context Compaction Handling: recovery protocol when agent hits compaction mid-pass"
+    - "File Path Accuracy rewritten: recon replaces accept-and-correct approach"
+    - "Session flow updated: recon → passes → synthesis as distinct sessions"
   v1.0:
-    - "Initial document — field-tested patterns from 4 audits"
+    - "Initial document: field-tested patterns from 4 audits"
     - "Multi-pass architecture with orchestrator"
     - "Finding carry-forward confidence penalty"
     - "Validation rigor gates"
@@ -93,7 +93,7 @@ changelog:
 ## *Field-Tested Rules for Running Source Code Audits*
 
 **Version 1.1** | February 2026 | Claude Opus 4.5
-**Primary Focus**: Operational knowledge for executing audit MAPs — what works, what breaks, and what the methodology docs don't cover until you've run real audits.
+**Primary Focus**: Operational knowledge for executing audit MAPs: what works, what breaks, and what the methodology docs don't cover until you've run real audits.
 
 ---
 
@@ -103,18 +103,18 @@ changelog:
 
 Part 1 teaches you how to design audit MAPs. Part 2 teaches you how to build component libraries. Jimmy's Workflow gives you execution discipline. This document fills the gap between designing an audit and executing one well.
 
-It contains patterns discovered by running 4 real audits across 4 different risk domains (health, children's education, financial/blockchain, cryptographic protocol) and incorporating honest self-assessment feedback from the executing agents.
+It contains patterns discovered by running 4 real audits across 4 different risk domains (health, children's education, financial/smart contracts, cryptographic protocol) and incorporating honest self-assessment feedback from the executing agents.
 
 **Why does this exist?**
 
 Because every audit we ran surfaced execution problems the design methodology didn't anticipate:
 
 - An 8-lens crypto audit exceeded the context window, and the agent inherited findings it couldn't re-verify
-- A 6-lens financial audit had its VALIDATE phase treated as a formality — the agent ticked boxes without re-reading findings
+- A 6-lens financial audit had its VALIDATE phase treated as a formality. The agent ticked boxes without re-reading findings
 - Confidence levels clustered at 100% HIGH, which is unrealistic and a signal of insufficient self-assessment
 - Deployment context (private network, preprod) should have modified severity downward, but the MAP only had upward modifiers
 - Combined findings created exploit chains more severe than any individual finding, but synthesis didn't surface them
-- File paths written from tech stack docs were wrong in 22+ places — agents spent time in every pass hunting for correct paths instead of auditing
+- File paths written from tech stack docs were wrong in 22+ places. Agents spent time in every pass hunting for correct paths instead of auditing
 
 These are operational lessons. They belong in a document that auditors read before execution, not buried in design theory.
 
@@ -130,7 +130,7 @@ These are operational lessons. They belong in a document that auditors read befo
 
 ### The Problem
 
-The Project D auditor corrected 22+ file paths in Pass 1 alone, with more in Passes 2 and 3. Every pass repeated the same work: discover tools, map MCP servers, verify file existence. MAPs written from tech stack documentation have approximate paths — good enough for a starting point, wrong enough to waste audit time.
+The Project D auditor corrected 22+ file paths in Pass 1 alone, with more in Passes 2 and 3. Every pass repeated the same work: discover tools, map MCP servers, verify file existence. MAPs written from tech stack documentation have approximate paths: good enough for a starting point, wrong enough to waste audit time.
 
 The Project C auditor hit context compaction partly because the agent was doing path discovery AND auditing in the same context window.
 
@@ -146,7 +146,7 @@ Session 0: RECON
   ├── Map real file paths to each lens's "What To Read" tables
   ├── Verify which files exist and which don't
   ├── UPDATE pass MAPs in place with correct details
-  └── Output: pass MAPs are no longer templates — they're verified
+  └── Output: pass MAPs are no longer templates. They're verified
 
 Session 1: Execute Pass 1 (paths are correct, tools are known)
 Session 2: Execute Pass 2
@@ -162,7 +162,7 @@ Session N: Synthesis (read all checkpoints, produce final report)
 | **File structure** | `find . -name "*.rs" -type f` or equivalent | Actual file paths replace approximate paths in pass MAPs |
 | **Dependency versions** | Read `Cargo.lock`, `package.json`, `package-lock.json` | Exact versions in pass MAPs (e.g., "clatter 0.1.3" not "clatter 0.1") |
 | **Existence verification** | Attempt to read each file referenced in pass MAPs | Non-existent files flagged with NOTE, alternatives identified |
-| **Domain coverage** | Test which external knowledge domains are available | Coverage gate pre-filled — passes know their status before starting |
+| **Domain coverage** | Test which external knowledge domains are available | Coverage gate pre-filled: passes know their status before starting |
 
 ### What Recon Does NOT Do
 
@@ -207,18 +207,18 @@ Every audit project gets a folder with numbered files that encode execution orde
 
 ```
 project-name/
-├── README.md                         — Points to CLAUDE.md
-├── CLAUDE.md                         — Project context, execution order, principles
-├── 00-recon.md                       — Session 0: discover, verify, update pass MAPs
-├── 01-pass1-[name].md                — Session 1: first audit pass (template → recon fills in)
-├── 02-pass2-[name].md                — Session 2: second audit pass
-├── 03-pass3-[name].md                — Session 3: third audit pass (if needed)
-├── 04-synthesis.md                   — Final session: read checkpoints, produce report
-└── checkpoints/                      — Pass outputs land here
-    ├── pass1-checkpoint.md           — Written by Session 1
-    ├── pass2-checkpoint.md           — Written by Session 2
-    ├── pass3-checkpoint.md           — Written by Session 3 (if applicable)
-    └── final-audit-report.md         — Written by synthesis session
+├── README.md                         # Points to CLAUDE.md
+├── CLAUDE.md                         # Project context, execution order, principles
+├── 00-recon.md                       # Session 0: discover, verify, update pass MAPs
+├── 01-pass1-[name].md                # Session 1: first audit pass (template → recon fills in)
+├── 02-pass2-[name].md                # Session 2: second audit pass
+├── 03-pass3-[name].md                # Session 3: third audit pass (if needed)
+├── 04-synthesis.md                   # Final session: read checkpoints, produce report
+└── checkpoints/                      # Pass outputs land here
+    ├── pass1-checkpoint.md           # Written by Session 1
+    ├── pass2-checkpoint.md           # Written by Session 2
+    ├── pass3-checkpoint.md           # Written by Session 3 (if applicable)
+    └── final-audit-report.md         # Written by synthesis session
 ```
 
 ### Naming Convention
@@ -226,7 +226,7 @@ project-name/
 - **`00-`** prefix = always recon (runs first)
 - **`01-`, `02-`, `03-`** = audit passes in execution order
 - **Last numbered file** = synthesis (reads all checkpoints)
-- **Numbering encodes dependencies** — higher numbers may reference lower numbers' checkpoints
+- **Numbering encodes dependencies**: higher numbers may reference lower numbers' checkpoints
 
 ### CLAUDE.md Content
 
@@ -238,7 +238,7 @@ The CLAUDE.md serves as the project brain for any agent entering the folder. It 
 - Where outputs go (`checkpoints/`)
 - What NOT to do (don't skip recon, don't run passes out of order)
 
-Keep it concise — under 30 instructions per the CLAUDE.md best practice of progressive disclosure. Point to methodology docs rather than inlining them.
+Keep it concise: under 30 instructions per the CLAUDE.md best practice of progressive disclosure. Point to methodology docs rather than inlining them.
 
 ### README.md Content
 
@@ -252,13 +252,13 @@ For small audits (≤5 lenses), the folder simplifies:
 project-name/
 ├── README.md
 ├── CLAUDE.md
-├── 00-recon.md                       — Still does recon (path verification is always valuable)
-├── 01-audit.md                       — Single pass, all lenses
+├── 00-recon.md                       # Still does recon (path verification is always valuable)
+├── 01-audit.md                       # Single pass, all lenses
 └── checkpoints/
     └── audit-checkpoint.md
 ```
 
-Recon is still valuable even for single-pass audits — correct paths save time and prevent wasted context on path-hunting during the audit itself.
+Recon is still valuable even for single-pass audits: correct paths save time and prevent wasted context on path-hunting during the audit itself.
 
 ---
 
@@ -269,7 +269,7 @@ Recon is still valuable even for single-pass audits — correct paths save time 
 | Lens Count | Recommendation | Reasoning |
 |-----------|----------------|-----------|
 | **1-5 lenses** | Single pass | Fits comfortably in one context window. Agent maintains fresh context for all findings. |
-| **6 lenses** | Consider multi-pass | Borderline. If the codebase is large, if lenses are CRITICAL priority, or if any lens requires deep crypto analysis — split. If the codebase is small and lenses are standard — single pass may work. |
+| **6 lenses** | Consider multi-pass | Borderline. If the codebase is large, if lenses are CRITICAL priority, or if any lens requires deep crypto analysis, split. If the codebase is small and lenses are standard, single pass may work. |
 | **7+ lenses** | Multi-pass recommended | High risk of context exhaustion. A single compaction event destroys verification ability on early lenses. |
 | **8+ lenses** | Multi-pass mandatory | Proven to exceed context in practice. The Project D 8-lens audit failed in single pass, succeeded in 3-pass. |
 
@@ -285,11 +285,11 @@ Recon is still valuable even for single-pass audits — correct paths save time 
 For multi-pass audits, the full session sequence is:
 
 ```
-Session 0: 00-recon.md        — Discover tools, verify paths, update all pass MAPs in place.
-Session 1: 01-pass1-[name].md — Execute pass 1. Paths are correct. Write checkpoint.
-Session 2: 02-pass2-[name].md — Execute pass 2. May read pass1 checkpoint. Write checkpoint.
-Session 3: 03-pass3-[name].md — Execute pass 3. May read prior checkpoints. Write checkpoint.
-Session N: NN-synthesis.md    — Read all checkpoints. Dedup, root cause, attack chains, final report.
+Session 0: 00-recon.md        → Discover tools, verify paths, update all pass MAPs in place.
+Session 1: 01-pass1-[name].md → Execute pass 1. Paths are correct. Write checkpoint.
+Session 2: 02-pass2-[name].md → Execute pass 2. May read pass1 checkpoint. Write checkpoint.
+Session 3: 03-pass3-[name].md → Execute pass 3. May read prior checkpoints. Write checkpoint.
+Session N: NN-synthesis.md    → Read all checkpoints. Dedup, root cause, attack chains, final report.
 ```
 
 **Between sessions**: human spot-checks that the checkpoint file was written and is non-empty.
@@ -310,12 +310,12 @@ Session N: NN-synthesis.md    — Read all checkpoints. Dedup, root cause, attac
 A pass MAP must include everything the agent needs without reading other pass MAPs:
 
 - Its own pre-flight check (scoped to that pass's files and domains)
-- The Finding Contract (identical across all passes — consistency for synthesis)
+- The Finding Contract (identical across all passes: consistency for synthesis)
 - Only the lenses for that pass
 - Its own validation and checkpoint template
 - An output filename for the checkpoint
 
-The agent executing Pass 2 should NOT need to read the Pass 1 MAP — only the Pass 1 checkpoint (optionally, for cross-references).
+The agent executing Pass 2 should NOT need to read the Pass 1 MAP, only the Pass 1 checkpoint (optionally, for cross-references).
 
 ---
 
@@ -323,7 +323,7 @@ The agent executing Pass 2 should NOT need to read the Pass 1 MAP — only the P
 
 ### The Problem
 
-When an agent executes a later pass and references findings from an earlier pass, it's working from a summary — not from the original evidence. Context compaction, session boundaries, and checkpoint summarization all strip nuance. The agent may be trusting conclusions it can no longer verify.
+When an agent executes a later pass and references findings from an earlier pass, it's working from a summary, not from the original evidence. Context compaction, session boundaries, and checkpoint summarization all strip nuance. The agent may be trusting conclusions it can no longer verify.
 
 Both the Project D and Project C auditors independently identified this as a quality risk.
 
@@ -339,19 +339,19 @@ If you reference a finding from a prior pass, you MUST re-read the evidence file
 | MEDIUM | → LOW |
 | LOW | → stays LOW |
 
-Tag the finding: `"⚠️ Inherited from Pass N — not re-verified in this session"`
+Tag the finding: `"⚠️ Inherited from Pass N: not re-verified in this session"`
 
 **Rule 2: Never copy finding text as your own evidence.**
 
-If you carry forward a finding, the evidence must be freshly gathered. Quoting the checkpoint summary as evidence is circular — the summary might be wrong.
+If you carry forward a finding, the evidence must be freshly gathered. Quoting the checkpoint summary as evidence is circular: the summary might be wrong.
 
 **Rule 3: Contradictions are valuable.**
 
-If Pass 3 discovers that a Pass 1 finding was incorrect, that's a feature, not a bug. Record it: `"Contradicts Pass 1: CRYPTO-003 — re-assessment needed"`. The synthesis phase resolves contradictions.
+If Pass 3 discovers that a Pass 1 finding was incorrect, that's a feature, not a bug. Record it: `"Contradicts Pass 1: CRYPTO-003, re-assessment needed"`. The synthesis phase resolves contradictions.
 
 **Rule 4: Cross-references use explicit format.**
 
-`"See Pass 1: CRYPTO-003"` — not `"as previously noted"` or `"per earlier findings"`. The synthesis phase needs to trace every reference.
+`"See Pass 1: CRYPTO-003"`, not `"as previously noted"` or `"per earlier findings"`. The synthesis phase needs to trace every reference.
 
 ---
 
@@ -359,7 +359,7 @@ If Pass 3 discovers that a Pass 1 finding was incorrect, that's a feature, not a
 
 ### The Problem
 
-The Project C auditor admitted: "I claimed 'All findings have all required fields — PASS' without actually checking. That's exactly the shortcut the MAP warns against." The VALIDATE phase was designed as a quality gate but executed as a rubber stamp.
+The Project C auditor admitted: "I claimed 'All findings have all required fields: PASS' without actually checking. That's exactly the shortcut the MAP warns against." The VALIDATE phase was designed as a quality gate but executed as a rubber stamp.
 
 ### The Fix: Validation Must Quote Evidence
 
@@ -367,12 +367,12 @@ The VALIDATE section must not be a checklist of ✅ marks. It must demonstrate t
 
 **Bad validation (theater):**
 ```
-All findings have ≥2 reasoning points — ✅ PASS
+All findings have ≥2 reasoning points: ✅ PASS
 ```
 
 **Good validation (actual gate):**
 ```
-All findings have ≥2 reasoning points — ✅ PASS
+All findings have ≥2 reasoning points: ✅ PASS
   Spot-checked: PAY-003 has 3 reasoning points (idempotency check, SQLite
   behavior, race window). VAULT-001 has 2 (env var presence, no fallback).
   CHAIN-002 has 4. Lowest count found: 2 (VAULT-001). Contract met.
@@ -386,12 +386,12 @@ The agent must spot-check at minimum:
 
 ### Hard Gates in Validation
 
-These conditions should BLOCK the checkpoint — not just be noted:
+These conditions should BLOCK the checkpoint, not just be noted:
 
 | Condition | Gate |
 |-----------|------|
 | **Confidence monoculture** | If all findings share the same confidence level (100% HIGH, or 100% MEDIUM), STOP and recalibrate. Uniform confidence is a signal of insufficient self-assessment. Real codebases have a mix. |
-| **HIGH confidence > 50%** | Suspicious. Re-examine each HIGH finding — does it truly have code evidence + API verification? |
+| **HIGH confidence > 50%** | Suspicious. Re-examine each HIGH finding. Does it truly have code evidence + API verification? |
 | **MEDIUM confidence > 60%** | Alert fatigue risk. Are you hedging because you're uncertain, or because you didn't investigate deeply enough? |
 | **Zero positive observations** | Suspicious. Did you only look for problems? A real audit finds things that are done correctly too. |
 | **Dynamic tests available but not run** | Quality gap. If `cargo test`, `npm audit`, `grep` commands are available and relevant, running them is not optional. Note: "not available" is a legitimate limitation; "available but skipped" is not. |
@@ -415,7 +415,7 @@ Tag: `"Domain knowledge limitation: [technology]. Confidence capped at MEDIUM."`
 | Lens Priority | MEDIUM Confidence Means |
 |--------------|------------------------|
 | **CRITICAL** | "I exhausted all available verification paths and still couldn't confirm." This is acceptable. |
-| **CRITICAL** | "I could have verified deeper but chose not to." This is NOT acceptable — go deeper. |
+| **CRITICAL** | "I could have verified deeper but chose not to." This is NOT acceptable. Go deeper. |
 | **HIGH** | "I queried external knowledge and got an inconclusive result." Acceptable. |
 | **MEDIUM** | "I pattern-matched without deep investigation." Acceptable for MEDIUM-priority lenses. |
 
@@ -429,18 +429,18 @@ HIGH confidence requires BOTH:
 
 If only one stream is available, confidence caps at MEDIUM.
 
-Exception: purely structural findings (e.g., "file .env committed to git") don't need external knowledge verification — the code evidence alone is sufficient.
+Exception: purely structural findings (e.g., "file .env committed to git") don't need external knowledge verification: the code evidence alone is sufficient.
 
 **Rule 4: Dynamic test results upgrade confidence.**
 
 | Situation | Confidence Impact |
 |-----------|-------------------|
 | `grep` confirms no key material in logs | Specific finding upgrades from MEDIUM to HIGH |
-| `cargo test` passes — 704 tests | General confidence in codebase stability (not specific findings) |
+| `cargo test` passes (704 tests) | General confidence in codebase stability (not specific findings) |
 | `npm audit` finds known CVE in dependency | New finding at HIGH confidence (objective evidence) |
 | `cargo clippy` flags unsafe pattern | Specific finding upgrades or new finding at HIGH |
-| Dynamic test not available | Note as limitation — no penalty, but no upgrade either |
-| Dynamic test available but not run | Quality gap — must be noted in validation. Affected findings stay at lower confidence. |
+| Dynamic test not available | Note as limitation: no penalty, but no upgrade either |
+| Dynamic test available but not run | Quality gap: must be noted in validation. Affected findings stay at lower confidence. |
 
 ---
 
@@ -513,7 +513,7 @@ After all lenses are complete (in synthesis for multi-pass, or after all lenses 
 1. Attacker does [action exploiting finding 1]
 2. This gives attacker [capability]
 3. Attacker uses [capability] to exploit [finding 2]
-4. Result: [concrete impact — "free lifetime license", "plaintext recovery", etc.]
+4. Result: [concrete impact: "free lifetime license", "plaintext recovery", etc.]
 
 **Why the chain is worse than individual findings**:
 [Explain why the combination creates impact beyond what either finding alone suggests]
@@ -523,7 +523,7 @@ After all lenses are complete (in synthesis for multi-pass, or after all lenses 
 
 ### Placement
 
-Attack chains go in the synthesis section (multi-pass: orchestrator synthesis; single-pass: after all lenses). They reference findings by ID — the findings themselves don't change.
+Attack chains go in the synthesis section (multi-pass: orchestrator synthesis; single-pass: after all lenses). They reference findings by ID: the findings themselves don't change.
 
 ---
 
@@ -531,7 +531,7 @@ Attack chains go in the synthesis section (multi-pass: orchestrator synthesis; s
 
 ### The Problem
 
-Even with multi-pass architecture, an agent may hit context compaction within a single pass — especially on CRITICAL lenses with exhaustive depth budgets, or when the codebase has many large files.
+Even with multi-pass architecture, an agent may hit context compaction within a single pass, especially on CRITICAL lenses with exhaustive depth budgets, or when the codebase has many large files.
 
 Both the Project D auditor (cross-session) and Project C auditor (within-session compaction) lost access to earlier reasoning after compaction.
 
@@ -541,7 +541,7 @@ If the agent detects context compaction (auto-compact event, lost conversation h
 
 **1. STOP immediately.** Do not continue auditing from memory.
 
-**2. Re-read the pass MAP.** The MAP is on disk — it survives compaction. Re-read it to restore instructions.
+**2. Re-read the pass MAP.** The MAP is on disk: it survives compaction. Re-read it to restore instructions.
 
 **3. Re-read the CLAUDE.md.** Restore project context and principles.
 
@@ -588,7 +588,7 @@ If compaction occurs between Lens 2 and Lens 3, Lenses 1-2 findings are safe on 
 | Audio recording without disclosure | MEDIUM → **HIGH** |
 
 **Execution notes:**
-- COPPA compliance is not optional — treat as regulatory requirement
+- COPPA compliance is not optional. Treat as regulatory requirement
 - "Children" means under 13 (COPPA) or under 16 (GDPR) depending on jurisdiction
 - Voice/audio data from children requires extra scrutiny
 - Third-party SDKs that collect data need individual assessment
@@ -604,13 +604,13 @@ If compaction occurs between Lens 2 and Lens 3, Lenses 1-2 findings are safe on 
 | Wallet/payment private key exposure | HIGH → **CRITICAL** |
 | Plaintext credentials in config | MEDIUM → **HIGH** |
 | API route without auth (payment-adjacent) | MEDIUM → **HIGH** |
-| Blockchain metadata integrity failure | MEDIUM → **HIGH** |
+| Smart contract metadata integrity failure | MEDIUM → **HIGH** |
 | Missing rate limiting on payment routes | LOW → **MEDIUM** |
 
 **Execution notes:**
 - Financial bugs = real money lost. Severity reflects financial impact, not just technical severity.
-- Blockchain transactions are irrecoverable — bugs that write bad data on-chain are effectively permanent
-- Idempotency is CRITICAL in payment flows — double-charge or double-issuance
+- Smart contract transactions are irrecoverable: bugs that write bad data on-chain are effectively permanent
+- Idempotency is CRITICAL in payment flows: double-charge or double-issuance
 - Webhook signature verification is the trust boundary for payment providers (Stripe, etc.)
 
 ### Pattern: Cryptographic Protocols (Project D)
@@ -631,11 +631,11 @@ If compaction occurs between Lens 2 and Lens 3, Lenses 1-2 findings are safe on 
 | Prior audit fix regressed | varies → **+1 severity** |
 
 **Execution notes:**
-- AI is notoriously poor at crypto reasoning — plausible-looking code is often subtly wrong
-- Niche crypto dependencies (e.g., `clatter` 0.1, `ml-kem` 0.3) have sparse training data — verify everything via external tools
+- AI is notoriously poor at crypto reasoning: plausible-looking code is often subtly wrong
+- Niche crypto dependencies (e.g., `clatter` 0.1, `ml-kem` 0.3) have sparse training data. Verify everything via external tools
 - Zero-knowledge claims require exhaustive evidence (read every relay handler path), not assumption
-- Timing side-channels cannot be confirmed by static analysis alone — flag for measurement
-- **HUMAN CRYPTOGRAPHER REQUIRED** — crypto audits are never 🔵 COMPLETE without human sign-off
+- Timing side-channels cannot be confirmed by static analysis alone. Flag for measurement
+- **HUMAN CRYPTOGRAPHER REQUIRED**: crypto audits are never 🔵 COMPLETE without human sign-off
 - Multi-pass is mandatory for 6+ lenses in crypto context (deep verification paths consume more context)
 
 ### Pattern: Health Systems (Project A)
@@ -652,10 +652,10 @@ If compaction occurs between Lens 2 and Lens 3, Lenses 1-2 findings are safe on 
 | Biometric data processing without disclosure | HIGH → **CRITICAL** |
 
 **Execution notes:**
-- Health data is special-category under GDPR — higher bar for processing justification
+- Health data is special-category under GDPR: higher bar for processing justification
 - HIPAA may apply if US users are in scope (even for non-US developers)
 - On-device ML models (ONNX) that process health data need assessment for data leakage
-- Consent must be granular — blanket consent for "health features" is insufficient
+- Consent must be granular: blanket consent for "health features" is insufficient
 
 ---
 
@@ -687,21 +687,21 @@ When designing a new audit MAP, verify these execution-readiness criteria:
 
 ### The Lesson
 
-The Project D auditor corrected 22+ file paths in Pass 1, with dozens more across Passes 2 and 3. Paths written from tech stack documentation are approximate — good starting points, but frequently wrong on exact filenames, directory nesting, or module organization.
+The Project D auditor corrected 22+ file paths in Pass 1, with dozens more across Passes 2 and 3. Paths written from tech stack documentation are approximate: good starting points, but frequently wrong on exact filenames, directory nesting, or module organization.
 
 ### The Evolution
 
 **v1.0 approach**: Accept approximate paths, rely on pre-flight verification to correct them during each pass. This worked but wasted audit context on path-hunting.
 
-**v1.1 approach (current)**: Recon session (Session 0) verifies ALL paths before any pass executes. Pass MAPs are updated in place with correct paths. Passes execute with verified paths — no path-hunting, no wasted context.
+**v1.1 approach (current)**: Recon session (Session 0) verifies ALL paths before any pass executes. Pass MAPs are updated in place with correct paths. Passes execute with verified paths: no path-hunting, no wasted context.
 
 ### The Rules
 
-1. **MAPs are written with best-available paths from tech stack documentation.** These are templates — expected to be approximate.
+1. **MAPs are written with best-available paths from tech stack documentation.** These are templates, expected to be approximate.
 
 2. **Recon verifies and corrects all paths.** Session 0 reads the actual file structure and updates every "What To Read" table, "Codebase Verification" block, and "Dynamic Tests" section in place.
 
-3. **After recon, paths should be correct.** If a pass agent discovers a wrong path post-recon, it's a recon quality issue — note it, correct it, and flag for recon improvement.
+3. **After recon, paths should be correct.** If a pass agent discovers a wrong path post-recon, it's a recon quality issue. Note it, correct it, and flag for recon improvement.
 
 4. **Non-existent files get NOTE warnings, not removal.** If a file referenced in the MAP doesn't exist, recon adds a `NOTE: File does not exist. Nearest equivalent: [path]` rather than silently removing it. The absence might be a finding (e.g., "expected security middleware doesn't exist").
 
@@ -714,11 +714,11 @@ The Project D auditor corrected 22+ file paths in Pass 1, with dozens more acros
 ### Where This Document Fits
 
 ```
-Part 1 (MAP Design)         — HOW to structure audit prompts
-Part 2 (CAP Components)     — HOW to build reusable components
-Jimmy's Workflow             — HOW to execute with discipline
-Lite MVP                     — HOW to start without tooling
-THIS DOCUMENT                — HOW to execute audits well (field-tested)
+Part 1 (MAP Design)         → HOW to structure audit prompts
+Part 2 (CAP Components)     → HOW to build reusable components
+Jimmy's Workflow             → HOW to execute with discipline
+Lite MVP                     → HOW to start without tooling
+THIS DOCUMENT                → HOW to execute audits well (field-tested)
 ```
 
 ### Cross-References
@@ -736,16 +736,16 @@ THIS DOCUMENT                — HOW to execute audits well (field-tested)
 
 | Addition | Why It's Not In Part 1/2/JW |
 |----------|---------------------------|
-| Recon-first session architecture | New pattern — separate reconnaissance from auditing for path accuracy and tool discovery. |
+| Recon-first session architecture | New pattern: separate reconnaissance from auditing for path accuracy and tool discovery. |
 | Audit folder structure | Standardized layout with numbered files encoding execution order. |
 | Multi-pass architecture | Part 1/2 design MAPs as monolithic. This doc handles execution at scale. |
-| Carry-forward protocol | New problem — only appears when audits span multiple sessions. |
+| Carry-forward protocol | New problem: only appears when audits span multiple sessions. |
 | Validation rigor gates | Jimmy's Workflow has VALIDATE but doesn't enforce re-reading findings. |
-| Context compaction handling | New problem — recovery protocol when agent loses context mid-pass. |
+| Context compaction handling | New problem: recovery protocol when agent loses context mid-pass. |
 | Deployment context modifiers | Part 2 has severity uplift but not downward adjustment. |
 | Attack chain analysis | Part 2 has synthesizers for dedup and root cause but not exploit chains. |
 | Domain-specific uplift tables | Consolidated from 4 individual MAPs into reusable patterns. |
-| Dynamic test hooks | New pattern — agents can now run commands, not just read code. |
+| Dynamic test hooks | New pattern: agents can now run commands, not just read code. |
 | Confidence field rules (domain cap, depth budget) | Extends Part 2 calibration with operational experience. |
 
 ---

@@ -1,6 +1,6 @@
 ---
 document_type: audit_synthesis
-name: "[PROJECT_NAME] — Synthesis"
+name: "[PROJECT_NAME]: Synthesis"
 version: "1.0"
 generated: "[YYYY-MM-DD]"
 target_model: "[MODEL_ID]"
@@ -20,7 +20,7 @@ output_files:
 methodology_ref: "methodology/audit-map-execution-patterns.md"
 ---
 
-# [PROJECT_NAME] — Synthesis
+# [PROJECT_NAME]: Synthesis
 
 **This is the final session. All passes are complete. Do NOT re-execute lenses.**
 
@@ -65,9 +65,9 @@ Read all findings. Identify duplicates:
 
 | Duplicate Type | Action |
 |----------------|--------|
-| Same file + same line + same issue across passes | Merge — keep the finding with strongest evidence and highest confidence |
-| Same root cause, different manifestations | Keep both, link them — they form a root cause group |
-| Contradictory findings across passes | Flag for human review — "Pass N says X, Pass M says Y" |
+| Same file + same line + same issue across passes | Merge: keep the finding with strongest evidence and highest confidence |
+| Same root cause, different manifestations | Keep both, link them. They form a root cause group |
+| Contradictory findings across passes | Flag for human review: "Pass N says X, Pass M says Y" |
 
 ### Deduplication Results
 
@@ -82,7 +82,7 @@ Findings after deduplication: _____
 
 ## STEP 2: ROOT CAUSE ANALYSIS
 
-Group findings by systemic root cause. Not every finding has a root cause group — only group when multiple findings share an underlying pattern.
+Group findings by systemic root cause. Not every finding has a root cause group: only group when multiple findings share an underlying pattern.
 
 For each root cause:
 
@@ -183,7 +183,7 @@ LOW severity        BACKLOG            BACKLOG              IGNORE
 Write `checkpoints/final-audit-report.md`:
 
 ```markdown
-# [PROJECT_NAME] — Final Audit Report
+# [PROJECT_NAME]: Final Audit Report
 
 ## Audit Summary
 | Metric | Value |
@@ -198,7 +198,7 @@ Write `checkpoints/final-audit-report.md`:
 | Contradictions | [count resolved] / [count requiring human review] |
 
 ## COI Disclosure
-[Brief — reference orchestrator for full disclosure]
+[Brief: reference orchestrator for full disclosure]
 
 ## Pass Status
 | Pass | Status | Confidence | Findings |
@@ -215,9 +215,9 @@ Write `checkpoints/final-audit-report.md`:
 | LOW | |
 
 ## Top Findings
-1. [ID] — [decision] — [severity] — [confidence]
-2. [ID] — [decision] — [severity] — [confidence]
-3. [ID] — [decision] — [severity] — [confidence]
+1. [ID] | [decision] | [severity] | [confidence]
+2. [ID] | [decision] | [severity] | [confidence]
+3. [ID] | [decision] | [severity] | [confidence]
 
 ## All Findings
 [Full deduplicated findings in Finding Contract format]
@@ -239,7 +239,7 @@ Write `checkpoints/final-audit-report.md`:
 
 ## Human Review Status
 Status: PENDING HUMAN REVIEW
-[Describe any required human sign-off — domain specialist, security team, etc.]
+[Describe any required human sign-off: domain specialist, security team, etc.]
 
 ## Validity Conditions
 This audit remains valid UNTIL:
@@ -320,15 +320,15 @@ VALIDATE (Synthesis):
 | Check | Result |
 |-------|--------|
 | All checkpoint files read | Pass/Fail |
-| All findings extracted | Pass/Fail — [count] findings from [count] passes |
-| Deduplication performed | Pass/Fail — [count] duplicates merged |
+| All findings extracted | Pass/Fail: [count] findings from [count] passes |
+| Deduplication performed | Pass/Fail: [count] duplicates merged |
 
 ## Cross-Pass Quality
 | Check | Result | Evidence |
 |-------|--------|----------|
 | Contradictions addressed | Pass/Fail | [count] resolved, [count] flagged for human |
 | Root causes identified | Pass/Fail | [count] root causes covering [count] findings |
-| Attack chains analyzed | Pass/Fail | [count] chains found (or "none — no combinable findings") |
+| Attack chains analyzed | Pass/Fail | [count] chains found (or "none: no combinable findings") |
 | Priority matrix populated | Pass/Fail | FIX NOW: [count], FIX SOON: [count] |
 | Remediation roadmap complete | Pass/Fail | All findings assigned a priority tier |
 
